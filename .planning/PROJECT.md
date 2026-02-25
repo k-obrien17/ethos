@@ -11,11 +11,12 @@ The limited answer budget turns every response into a statement of identity — 
 ## Current State
 
 **Shipped:** v1 (beta launch) — 2026-02-25
-**Status:** Code-complete, pending deployment
+**Active:** v2 (engagement & retention) — 24 requirements, 4 phases (6-9)
+**Status:** v1 pending deployment, v2 requirements and roadmap defined
 
 v1 includes: auth (Google + LinkedIn), profiles, daily questions, answer submission with three-layer budget enforcement, public feeds, expert profiles with selectivity metrics, editorial admin panel, social sharing with OG images, account deletion, legal pages.
 
-**To deploy:** Configure OAuth providers, deploy to Vercel, run Supabase migrations, promote admin user.
+v2 focus: onboarding polish, Markdown preview, edit window, queue preview, featured answers, email notifications, bookmarks.
 
 ## Requirements
 
@@ -27,9 +28,13 @@ v1 includes: auth (Google + LinkedIn), profiles, daily questions, answer submiss
 
 See [v1-REQUIREMENTS.md](milestones/v1-REQUIREMENTS.md) for full requirements archive.
 
-### Active
+### Active (v2)
 
-(None — v1 complete. Define v2 requirements with `/gsd:new-milestone`)
+See [REQUIREMENTS.md](REQUIREMENTS.md) — 24 requirements across 4 categories:
+- Onboarding & Compose Polish (5)
+- Queue Preview & Featured Answers (8)
+- Email Notifications (7)
+- Activity & Bookmarks (4)
 
 ### Out of Scope
 
@@ -67,6 +72,9 @@ See [v1-REQUIREMENTS.md](milestones/v1-REQUIREMENTS.md) for full requirements ar
 | Social login only (no email/password) | Target users live on LinkedIn — reduce friction, get real identity | Shipped v1 |
 | 3 answers/month limit | Small enough to force real selectivity — each answer is a statement | Shipped v1 — instrument and measure |
 | Calendar month reset (not rolling) | Simpler mental model, implemented via date_trunc('month', now()) | Shipped v1 |
+| Engagement before monetization | Validate retention with free users before building billing | v2 scope |
+| Resend for transactional email | Simple API, good Next.js integration, generous free tier | v2 Phase 8 |
+| 15-min edit window (not unlimited) | Preserves "permanent record" feel while allowing typo fixes | v2 Phase 6 |
 
 ---
-*Last updated: 2026-02-25 after v1 milestone completion*
+*Last updated: 2026-02-25 after v2 milestone definition*

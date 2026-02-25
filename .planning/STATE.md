@@ -5,42 +5,48 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v1 complete and archived — ready for deployment, then v2 planning
+**Current focus:** v2 — Engagement & Retention (24 requirements, 4 phases)
 
 ## Current Milestone
 
-**Milestone:** v1 (beta launch)
-**Status:** Complete — archived to `.planning/milestones/`
+**Milestone:** v2 (engagement & retention)
+**Status:** Requirements and roadmap defined — ready for `/gsd:plan-phase 6`
 
 ## Milestone History
 
 | Milestone | Status | Phases | Requirements | Archived |
 |-----------|--------|--------|-------------|----------|
 | v1 — Beta Launch | Complete | 5 phases, 15 plans | 38 (37 pass, 1 manual) | `.planning/milestones/v1-*` |
+| v2 — Engagement | Active | 4 phases (6-9) planned | 24 defined | — |
+
+## Phase History
+
+| Phase | Status | Plans |
+|-------|--------|-------|
+| 1-5 (v1) | Complete | See v1 archive |
+| 6 — Onboarding & Compose Polish | Not planned | — |
+| 7 — Queue Preview & Featured | Not planned | — |
+| 8 — Email Notifications | Not planned | — |
+| 9 — Activity & Bookmarks | Not planned | — |
 
 ## Recent Activity
 
-- 2026-02-25: Project initialized (research, requirements, roadmap)
-- 2026-02-25: Phase 1 executed — Next.js 16 scaffold, Supabase schema/RLS, auth flow
-- 2026-02-25: Phase 2 executed — submit_answer() advisory lock, public pages, answer form
-- 2026-02-25: Phase 3 executed — profile fields, public expert profiles, dashboard stats
-- 2026-02-25: Phase 4 executed — question CRUD, queue dashboard, answer moderation
-- 2026-02-25: Phase 5 executed — OG meta, social cards, responsive, account deletion, legal pages
-- 2026-02-25: UAT verification — 37/38 PASS, 0 FAIL, 1 MANUAL
-- 2026-02-25: Milestone audit — 18/18 integration points verified
-- 2026-02-25: v1 milestone archived
+- 2026-02-25: v1 milestone completed and archived
+- 2026-02-25: v2 milestone started — requirements and roadmap defined (24 requirements, 4 phases)
 
 ## Open Questions
 
 | Question | Impact | When to Decide |
 |----------|--------|----------------|
-| LinkedIn app: Development mode (20 users) vs. Production | Blocks beta scale beyond 20 users | Apply for Production in week 1 |
-| 3 free / 5 premium answer limits — are these right? | Core product feel | Ship 3 for beta, instrument and measure |
-| Hide other answers until expert submits their own? | Prevents anchoring but reduces read engagement | UX decision for v2 |
-| Supabase free tier vs. Pro ($25/month) for beta | Auto-pause risk vs. cost | Upgrade when 10+ regular users |
+| Resend vs. SendGrid vs. SES for email | Email infrastructure choice | Phase 8 research |
+| Queue preview depth: 3 days free, more for premium? | Affects monetization lever | Phase 7 planning |
+| View count implementation: API route vs. middleware vs. edge | Performance and accuracy tradeoff | Phase 9 planning |
+| Vercel Cron vs. pg_cron for scheduled emails | Deployment simplicity vs. DB proximity | Phase 8 planning |
+| v1 deployment timing vs. v2 development | Deploy v1 before or during v2 work? | Now |
 
 ## Notes
 
-- Stack: Next.js 16 + Supabase + Vercel + Tailwind CSS v4
-- Docker not available locally — migrations verified via SQL review
-- Manual steps pending: OAuth provider config, Vercel deployment, production migrations, admin user promotion
+- v1 is code-complete but not yet deployed — deployment can happen in parallel with v2 planning/execution
+- No email service currently integrated — Phase 8 will need API key setup
+- react-markdown already installed — Markdown preview in Phase 6 is straightforward
+- Expert answer UPDATE is already allowed by RLS (own visible answers) — edit window just needs time guard
