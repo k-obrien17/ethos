@@ -5,13 +5,20 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** Phase 1 — Foundation
+**Current focus:** Phase 2 — Core Loop
 
 ## Current Phase
 
-**Phase:** 1 — Foundation
+**Phase:** 2 — Core Loop
 **Status:** Planned
-**Plans:** 3 plans across 2 waves (see `.planning/phases/01-foundation/PLAN-01..03.md`)
+**Plans:** 3 plans across 2 waves (see `.planning/phases/02-core-loop/PLAN-01..03.md`)
+
+## Phase History
+
+| Phase | Status | Plans |
+|-------|--------|-------|
+| 1 — Foundation | Complete | 3 plans, 2 waves, 18 tasks, 8 requirements |
+| 2 — Core Loop | Planned | 3 plans, 2 waves, 18 tasks, 15 requirements |
 
 ## Recent Activity
 
@@ -21,6 +28,8 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Requirements defined (38 v1 requirements)
 - 2026-02-25: Roadmap created (5 phases)
 - 2026-02-25: Phase 1 planned (3 plans, 2 waves, 18 tasks, 8 requirements covered)
+- 2026-02-25: Phase 2 researched and planned (3 plans, 2 waves, 18 tasks, 15 requirements covered)
+- 2026-02-25: Phase 1 executed — Next.js 16 scaffold, Supabase schema/RLS migrations, auth flow (OAuth callback, login page, admin layout, dashboard)
 
 ## Open Questions
 
@@ -36,6 +45,8 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Notes
 
-- Existing codebase is the old Daily 10 Tauri app — being replaced, not evolved
-- Fresh Next.js + Supabase + Vercel build
+- Old Daily 10 Tauri app has been replaced with fresh Next.js 16 + Supabase project
 - Stack verified through research — see .planning/research/STACK.md for exact deps
+- Docker not available locally — Supabase migrations verified via SQL review, not `supabase db reset`
+- Manual steps pending: OAuth provider config (Google Console, LinkedIn Dev Portal, Supabase Dashboard), Vercel deployment
+- Next.js 16 deprecates `middleware` in favor of `proxy` convention — current middleware works fine, consider migrating later

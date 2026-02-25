@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-warm-50: #faf5f0;
+  --color-warm-100: #f0e6d8;
+  --color-warm-200: #e3d0bb;
+  --color-warm-300: #d4b896;
+  --color-warm-400: #c49d6f;
+  --color-warm-500: #b48352;
+  --color-warm-600: #9a6b3f;
+  --color-warm-700: #7d5432;
+  --color-warm-800: #5e3e26;
+  --color-warm-900: #2d1f0e;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
