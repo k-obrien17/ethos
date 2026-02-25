@@ -183,3 +183,67 @@ export async function toggleAnswerVisibility(answerId) {
 
   return { success: true, hidden: !isHidden }
 }
+
+export async function toggleFeaturedAnswer(answerId) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'You must be signed in.' }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+  if (profile?.role !== 'admin') return { error: 'Admin access required.' }
+
+  // Get current state + question context
+  const { data: answer } = await supabase
+    .from('answers')
+    .select('featured_at, question_id, questions!inner(slug)')
+    .eq('id', answerId)
+    .single()
+
+  if (!answer) return { error: 'Answer not found.' }
+
+  const isFeatured = !!answer.featured_at
+
+  if (isFeatured) {
+    // Unfeature this answer
+    const { error } = await supabase
+      .from('answers')
+      .update({ featured_at: null, featured_by: null })
+      .eq('id', answerId)
+
+    if (error) return { error: 'Failed to unfeature answer.' }
+  } else {
+    // Clear any existing featured answer for this question first
+    const { error: clearError } = await supabase
+      .from('answers')
+      .update({ featured_at: null, featured_by: null })
+      .eq('question_id', answer.question_id)
+      .not('featured_at', 'is', null)
+
+    if (clearError) return { error: 'Failed to clear existing featured answer.' }
+
+    // Feature this answer
+    const { error } = await supabase
+      .from('answers')
+      .update({
+        featured_at: new Date().toISOString(),
+        featured_by: user.id,
+      })
+      .eq('id', answerId)
+
+    if (error) return { error: 'Failed to feature answer.' }
+  }
+
+  // Revalidate affected pages
+  revalidatePath('/admin/answers')
+  revalidatePath(`/answers/${answerId}`)
+  if (answer.questions?.slug) {
+    revalidatePath(`/q/${answer.questions.slug}`)
+  }
+  revalidatePath('/')
+
+  return { success: true, featured: !isFeatured }
+}

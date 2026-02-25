@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Milestone
 
 **Milestone:** v2 (engagement & retention)
-**Status:** Phase 7 planned — ready for `/gsd:execute-phase 7`
+**Status:** Phase 7 complete — ready for `/gsd:plan-phase 8`
 
 ## Milestone History
 
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 |-------|--------|-------|
 | 1-5 (v1) | Complete | See v1 archive |
 | 6 — Onboarding & Compose Polish | Complete | 3 plans, 2 waves, 10 tasks, 5 requirements |
-| 7 — Queue Preview & Featured | Planned | 2 plans, 1 wave, 8 tasks, 8 requirements |
+| 7 — Queue Preview & Featured | Complete | 2 plans, 1 wave, 8 tasks, 8 requirements |
 | 8 — Email Notifications | Not planned | — |
 | 9 — Activity & Bookmarks | Not planned | — |
 
@@ -35,6 +35,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: v2 milestone started — requirements and roadmap defined (24 requirements, 4 phases)
 - 2026-02-25: Phase 6 executed — welcome flow, first-answer nudge, Markdown preview, 15-min edit window
 - 2026-02-25: Phase 7 planned — queue preview (RLS + /questions/upcoming) and featured answers (admin toggle + badge + sorting)
+- 2026-02-25: Phase 7 executed — queue preview page, upcoming nav link, featured answers (migration, admin toggle, badge, sorting)
 
 ## Open Questions
 

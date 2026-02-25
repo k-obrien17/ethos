@@ -103,6 +103,7 @@ export default async function HomePage() {
                   answer={answer}
                   expert={answer.profiles}
                   monthlyUsage={null}
+                  featured={!!answer.featured_at}
                 />
               ))}
             </div>

@@ -108,6 +108,7 @@ export default async function AnswerPage({ params }) {
         expert={answer.profiles}
         monthlyUsage={null}
         currentUserId={user?.id}
+        featured={!!answer.featured_at}
       />
 
       {/* Link to see all answers + share */}

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { format } from 'date-fns'
 import ToggleHideButton from '@/components/admin/ToggleHideButton'
+import ToggleFeatureButton from '@/components/admin/ToggleFeatureButton'
 
 export const metadata = { title: 'Answer Moderation — Admin' }
 
@@ -10,7 +11,7 @@ export default async function AdminAnswersPage() {
   const { data: answers } = await supabase
     .from('answers')
     .select(`
-      id, body, word_count, created_at, hidden_at, hidden_by,
+      id, body, word_count, created_at, hidden_at, hidden_by, featured_at,
       profiles!expert_id (display_name, handle),
       questions!question_id (body, slug, publish_date)
     `)
@@ -39,10 +40,16 @@ export default async function AdminAnswersPage() {
                 @{answer.profiles?.handle}
               </span>
             </div>
-            <ToggleHideButton
-              answerId={answer.id}
-              isHidden={!!answer.hidden_at}
-            />
+            <div className="flex items-center gap-2">
+              <ToggleFeatureButton
+                answerId={answer.id}
+                isFeatured={!!answer.featured_at}
+              />
+              <ToggleHideButton
+                answerId={answer.id}
+                isHidden={!!answer.hidden_at}
+              />
+            </div>
           </div>
 
           {/* Question context */}
@@ -59,6 +66,11 @@ export default async function AdminAnswersPage() {
           <div className="flex items-center gap-3 mt-2 text-xs text-warm-400">
             <span>{answer.word_count} words</span>
             <span>{format(new Date(answer.created_at), 'MMM d, yyyy')}</span>
+            {answer.featured_at && (
+              <span className="text-amber-600 font-medium">
+                Featured
+              </span>
+            )}
             {answer.hidden_at && (
               <span className="text-red-500 font-medium">
                 Hidden {format(new Date(answer.hidden_at), 'MMM d')}

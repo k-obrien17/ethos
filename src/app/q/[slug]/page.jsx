@@ -91,7 +91,14 @@ export default async function QuestionPage({ params }) {
     }, {})
   }
 
-  const answerCount = answers?.length ?? 0
+  // Sort: featured first, then by created_at DESC
+  const sortedAnswers = (answers ?? []).sort((a, b) => {
+    if (a.featured_at && !b.featured_at) return -1
+    if (!a.featured_at && b.featured_at) return 1
+    return new Date(b.created_at) - new Date(a.created_at)
+  })
+
+  const answerCount = sortedAnswers.length
 
   // Check if user is authenticated (for answer form)
   const { data: { user } } = await supabase.auth.getUser()
@@ -162,13 +169,14 @@ export default async function QuestionPage({ params }) {
       {/* Answers */}
       {answerCount > 0 ? (
         <section className="space-y-4">
-          {answers.map((answer) => (
+          {sortedAnswers.map((answer) => (
             <EditableAnswerCard
               key={answer.id}
               answer={answer}
               expert={answer.profiles}
               monthlyUsage={monthlyUsageMap[answer.profiles.id] ?? null}
               currentUserId={user?.id}
+              featured={!!answer.featured_at}
             />
           ))}
         </section>

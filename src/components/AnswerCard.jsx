@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 
-export default function AnswerCard({ answer, expert, monthlyUsage }) {
+export default function AnswerCard({ answer, expert, monthlyUsage, featured = false }) {
   return (
     <article
       id={`answer-${answer.id}`}
@@ -32,6 +32,16 @@ export default function AnswerCard({ answer, expert, monthlyUsage }) {
           </p>
         </div>
       </Link>
+
+      {/* Featured badge */}
+      {featured && (
+        <div className="flex items-center gap-1.5 mb-3 text-xs font-medium text-amber-700">
+          <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 1l2.39 6.34H19l-5.3 3.85L15.3 18 10 13.82 4.7 18l1.61-6.81L1 7.34h6.61L10 1z" />
+          </svg>
+          Featured
+        </div>
+      )}
 
       {/* Answer body — Markdown rendered */}
       <div className="text-warm-800 leading-relaxed [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_a]:text-warm-700 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:mb-1">

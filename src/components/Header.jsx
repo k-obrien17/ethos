@@ -45,6 +45,14 @@ export default async function Header() {
           >
             Archive
           </Link>
+          {user && (
+            <Link
+              href="/questions/upcoming"
+              className="text-warm-600 hover:text-warm-900 text-sm font-medium"
+            >
+              Upcoming
+            </Link>
+          )}
           <HeaderAuth user={user} budgetData={budgetData} />
         </div>
       </nav>
