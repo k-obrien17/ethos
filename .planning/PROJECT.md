@@ -8,34 +8,36 @@ A public content platform where influencers and subject-matter experts answer on
 
 The limited answer budget turns every response into a statement of identity — what you choose to answer reveals what you stand for.
 
+## Current State
+
+**Shipped:** v1 (beta launch) — 2026-02-25
+**Status:** Code-complete, pending deployment
+
+v1 includes: auth (Google + LinkedIn), profiles, daily questions, answer submission with three-layer budget enforcement, public feeds, expert profiles with selectivity metrics, editorial admin panel, social sharing with OG images, account deletion, legal pages.
+
+**To deploy:** Configure OAuth providers, deploy to Vercel, run Supabase migrations, promote admin user.
+
 ## Requirements
 
-### Validated
+### Validated (v1)
 
-(None yet — ship to validate)
+- [x] 37/38 requirements pass code-level verification
+- [x] 18/18 cross-phase integration points verified
+- [ ] INFR-01: Vercel deployment (manual verification needed)
+
+See [v1-REQUIREMENTS.md](milestones/v1-REQUIREMENTS.md) for full requirements archive.
 
 ### Active
 
-- [ ] One curated question published per day
-- [ ] Users can preview upcoming questions (queue depth tiered by plan)
-- [ ] Monthly answer limit (3 for free, 5+ for premium)
-- [ ] Public feed: browse by question (all expert answers under one question)
-- [ ] Public feed: browse by person (expert's answer history)
-- [ ] Expert profiles with answer archive
-- [ ] Shareable answer links (works on social platforms)
-- [ ] Admin panel: manage question queue (create, schedule, reorder)
-- [ ] Admin panel: multi-editor support (2-5 editorial team members)
-- [ ] Social login (LinkedIn + Google OAuth)
-- [ ] Free tier: 3 answers/month, limited queue preview
-- [ ] Premium tier: 5+ answers/month, full month queue preview, analytics on reach
+(None — v1 complete. Define v2 requirements with `/gsd:new-milestone`)
 
 ### Out of Scope
 
 - Native mobile apps — web-first, responsive design covers mobile
-- Payments/billing — beta is free-tier only, premium comes after validation
 - AI-generated questions — editorial team curates manually
-- Comments/reactions on answers — keep v1 focused on the answer itself
-- Following/notifications — discovery is feed-based for now, social graph later
+- Comments/reactions on answers — keep focused on the answer itself
+- Following/notifications — discovery is feed-based for now
+- Gamification (points, badges, leaderboards) — trivializes expertise
 - The existing Tauri desktop app code — clean break, different product
 
 ## Context
@@ -44,29 +46,27 @@ The limited answer budget turns every response into a statement of identity — 
 - Target users are LinkedIn-style thought leaders, industry experts, consultants
 - The scarcity mechanic (limited answers/month) is the core differentiator — this is NOT another Quora
 - Queue preview creates a strategic game: skip today's question to save your answer for Thursday's
-- Tiered queue visibility (free sees less, premium sees full month) is the primary monetization lever
 - Content is public by default — the platform's value grows with every visible answer
 - Solo operator (Keith at Total Emphasis) with a small editorial team for question curation
 
 ## Constraints
 
-- **Stack:** Next.js + Supabase (Postgres + Auth) + Vercel + Tailwind CSS
+- **Stack:** Next.js 16 + Supabase (Postgres + Auth) + Vercel + Tailwind CSS v4
 - **Auth:** Supabase Auth with LinkedIn and Google OAuth providers
 - **Team:** Solo developer, must be maintainable by one person
-- **Timeline:** Beta launch scope — enough to validate with 20-50 real users
 - **Budget:** Free tiers of Supabase + Vercel for beta (upgrade when traction warrants)
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Fresh start (not evolving Tauri app) | Completely different product — multi-user web platform vs. local journaling app | — Pending |
-| Next.js + Supabase + Vercel | Least moving parts for solo operator. Auth, DB, hosting all integrated. Free tiers cover beta. | — Pending |
-| Both feed views from day one | Question-centric and person-centric views both serve the product — scarcity mechanic makes "who chose to answer" as interesting as the answers | — Pending |
-| Beta launch scope (no payments) | Validate the core loop (question → selective answering → public feed) before building billing | — Pending |
-| Social login only (no email/password) | Target users live on LinkedIn — reduce friction, get real identity | — Pending |
-| 3-5 answers/month limit | Small enough to force real selectivity — each answer is a statement | — Pending |
-| Tiered queue preview | Free sees limited ahead, premium sees full month — natural upsell tied to core mechanic | — Pending |
+| Fresh start (not evolving Tauri app) | Completely different product — multi-user web platform vs. local journaling app | Shipped v1 |
+| Next.js + Supabase + Vercel | Least moving parts for solo operator. Auth, DB, hosting all integrated. | Shipped v1 |
+| Both feed views from day one | Question-centric and person-centric views both serve the product | Shipped v1 |
+| Beta launch scope (no payments) | Validate the core loop before building billing | Shipped v1 |
+| Social login only (no email/password) | Target users live on LinkedIn — reduce friction, get real identity | Shipped v1 |
+| 3 answers/month limit | Small enough to force real selectivity — each answer is a statement | Shipped v1 — instrument and measure |
+| Calendar month reset (not rolling) | Simpler mental model, implemented via date_trunc('month', now()) | Shipped v1 |
 
 ---
-*Last updated: 2026-02-25 after initialization*
+*Last updated: 2026-02-25 after v1 milestone completion*
