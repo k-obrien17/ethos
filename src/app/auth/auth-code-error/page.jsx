@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function AuthCodeError() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
+    <div className="flex flex-col items-center justify-center py-16">
       <h1 className="text-2xl font-bold text-warm-900 mb-4">
         Authentication Error
       </h1>
@@ -15,6 +15,6 @@ export default function AuthCodeError() {
       >
         Back to login
       </Link>
-    </main>
+    </div>
   )
 }

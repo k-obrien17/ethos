@@ -5,12 +5,12 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** Phase 2 — Core Loop
+**Current focus:** Phase 3 (next unplanned phase)
 
 ## Current Phase
 
 **Phase:** 2 — Core Loop
-**Status:** Planned
+**Status:** Complete
 **Plans:** 3 plans across 2 waves (see `.planning/phases/02-core-loop/PLAN-01..03.md`)
 
 ## Phase History
@@ -18,7 +18,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | Phase | Status | Plans |
 |-------|--------|-------|
 | 1 — Foundation | Complete | 3 plans, 2 waves, 18 tasks, 8 requirements |
-| 2 — Core Loop | Planned | 3 plans, 2 waves, 18 tasks, 15 requirements |
+| 2 — Core Loop | Complete | 3 plans, 2 waves, 18 tasks, 15 requirements |
 
 ## Recent Activity
 
@@ -30,17 +30,18 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 1 planned (3 plans, 2 waves, 18 tasks, 8 requirements covered)
 - 2026-02-25: Phase 2 researched and planned (3 plans, 2 waves, 18 tasks, 15 requirements covered)
 - 2026-02-25: Phase 1 executed — Next.js 16 scaffold, Supabase schema/RLS migrations, auth flow (OAuth callback, login page, admin layout, dashboard)
+- 2026-02-25: Phase 2 executed — submit_answer() advisory lock, public pages (homepage, question feed, question detail, answer detail), answer form with three-layer budget enforcement and draft auto-save
 
 ## Open Questions
 
 | Question | Impact | When to Decide |
 |----------|--------|----------------|
-| Calendar month vs. rolling window for answer budget | Core mechanic behavior — affects engagement curves | Before building answer-budget system |
+| Calendar month vs. rolling window for answer budget | **Decided: calendar month** — implemented in submit_answer() | Resolved |
 | LinkedIn app: Development mode (20 users) vs. Production (requires review) | Blocks beta scale beyond 20 users | Apply for Production in week 1 |
 | 3 free / 5 premium answer limits — are these right? | Core product feel — too tight kills engagement, too loose kills signal | Ship 3/5 for beta, instrument and measure utilization |
-| Hide other answers until expert submits their own? | Prevents anchoring but reduces read engagement | UX decision during answer submission build |
+| Hide other answers until expert submits their own? | Prevents anchoring but reduces read engagement | UX decision — not implemented, answers visible before answering |
 | Supabase free tier vs. Pro ($25/month) for beta | Auto-pause risk vs. cost | Upgrade when 10+ regular users |
-| Soft word guidance (100-500) vs. hard min/max on answers | Prevents throwaway answers but adds friction | During answer form build |
+| Soft word guidance (100-500) vs. hard min/max on answers | **Decided: soft** — no hard limits, min 10 chars only | Resolved |
 | Image uploads for expert avatars vs. OAuth-provided only | Affects profile quality and storage needs | During profile implementation |
 
 ## Notes

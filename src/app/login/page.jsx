@@ -24,7 +24,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
+    <div className="flex flex-col items-center justify-center py-16">
       <h1 className="text-3xl font-bold text-warm-900 mb-2">Ethos</h1>
       <p className="text-warm-600 mb-8">Sign in to share your expertise</p>
       <div className="flex flex-col gap-3 w-full max-w-xs">
@@ -41,6 +41,6 @@ export default function LoginPage() {
           Sign in with LinkedIn
         </button>
       </div>
-    </main>
+    </div>
   )
 }
