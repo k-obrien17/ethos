@@ -5,7 +5,7 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** Phase 4 — Content Pipeline
+**Current focus:** Phase 4 — Admin Panel
 
 ## Current Phase
 
@@ -34,6 +34,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 2 executed — submit_answer() advisory lock, public pages (homepage, question feed, question detail, answer detail), answer form with three-layer budget enforcement and draft auto-save
 - 2026-02-25: Phase 3 researched and planned (3 plans, 2 waves, 11 tasks, 5 requirements covered)
 - 2026-02-25: Phase 3 executed — profile fields migration, public expert profile page, expert linking in AnswerCard, profile editing Server Action + EditProfileForm, enhanced dashboard with stats
+- 2026-02-25: Phase 4 researched and planned (4 plans, 2 waves, 14 tasks, 6 requirements covered)
 
 ## Open Questions
 
