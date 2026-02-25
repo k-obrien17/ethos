@@ -1,6 +1,6 @@
 import QuestionForm from '@/components/admin/QuestionForm'
 
-export const metadata = { title: 'New Question — Admin — Ethos' }
+export const metadata = { title: 'New Question — Admin' }
 
 export default function NewQuestionPage() {
   return (

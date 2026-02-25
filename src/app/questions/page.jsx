@@ -4,7 +4,7 @@ import QuestionCard from '@/components/QuestionCard'
 export const revalidate = 300
 
 export const metadata = {
-  title: 'Questions — Ethos',
+  title: 'Questions',
   description: 'Browse all expert questions on Ethos.',
 }
 

@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import QuestionForm from '@/components/admin/QuestionForm'
 
-export const metadata = { title: 'Edit Question — Admin — Ethos' }
+export const metadata = { title: 'Edit Question — Admin' }
 
 export default async function EditQuestionPage({ params }) {
   const { id } = await params

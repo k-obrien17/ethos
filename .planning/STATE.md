@@ -5,13 +5,13 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** Phase 5 — Distribution
+**Current focus:** All 5 phases complete — v1 ready for beta launch
 
 ## Current Phase
 
-**Phase:** 4 — Admin Panel
+**Phase:** 5 — Distribution
 **Status:** Complete
-**Plans:** 4 plans across 2 waves (see `.planning/phases/04-admin-panel/PLAN-01..04.md`)
+**Plans:** 2 plans across 2 waves (see `.planning/phases/05-distribution/PLAN-01..02.md`)
 
 ## Phase History
 
@@ -21,6 +21,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | 2 — Core Loop | Complete | 3 plans, 2 waves, 18 tasks, 15 requirements |
 | 3 — Expert Identity | Complete | 3 plans, 2 waves, 11 tasks, 5 requirements |
 | 4 — Admin Panel | Complete | 4 plans, 2 waves, 14 tasks, 6 requirements |
+| 5 — Distribution | Complete | 2 plans, 2 waves, 15 tasks, 6 requirements |
 
 ## Recent Activity
 
@@ -38,6 +39,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 4 researched and planned (4 plans, 2 waves, 14 tasks, 6 requirements covered)
 - 2026-02-25: Phase 4 executed — answer moderation migration (hidden_at + tightened RLS), question CRUD (Server Actions + admin pages), queue dashboard (depth/gaps/reschedule), answer moderation UI (hide/unhide toggle)
 - 2026-02-25: Phase 5 researched and planned (2 plans, 2 waves, 15 tasks, 6 requirements covered)
+- 2026-02-25: Phase 5 executed — OG meta enrichment + social card generation (/api/og), mobile responsive grids, ShareButton, viewport/metadataBase, title template, account deletion (cascade fix migration + admin client + server action), privacy/terms pages, site footer
 
 ## Open Questions
 

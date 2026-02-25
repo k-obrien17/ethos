@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { format, addDays, differenceInDays } from 'date-fns'
 import RescheduleForm from '@/components/admin/RescheduleForm'
 
-export const metadata = { title: 'Admin Dashboard — Ethos' }
+export const metadata = { title: 'Admin Dashboard' }
 
 function StatCard({ label, value, sublabel, color }) {
   const colorClasses = {
@@ -91,7 +91,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Summary stats */}
-      <section className="grid grid-cols-4 gap-4">
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <StatCard
           label="Total"
           value={questions.length}

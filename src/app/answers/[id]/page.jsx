@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import AnswerCard from '@/components/AnswerCard'
+import ShareButton from '@/components/ShareButton'
 
 export const revalidate = 3600
 
@@ -22,11 +23,29 @@ export async function generateMetadata({ params }) {
 
   if (!answer) return { title: 'Answer not found' }
 
-  const excerpt = answer.body.slice(0, 150) + (answer.body.length > 150 ? '...' : '')
+  const expertName = answer.profiles?.display_name ?? 'Expert'
+  const questionBody = answer.questions?.body ?? 'a question'
+  const excerpt = answer.body?.slice(0, 150) ?? ''
+  const title = `${expertName} on "${questionBody}"`
 
   return {
-    title: `${answer.profiles.display_name} on "${answer.questions.body}" — Ethos`,
+    title,
     description: excerpt,
+    openGraph: {
+      title,
+      description: excerpt,
+      type: 'article',
+      images: [{
+        url: `/api/og?type=answer&title=${encodeURIComponent(expertName)}&subtitle=${encodeURIComponent(questionBody)}&detail=${encodeURIComponent(excerpt)}`,
+        width: 1200,
+        height: 630,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: excerpt,
+    },
   }
 }
 
@@ -87,14 +106,15 @@ export default async function AnswerPage({ params }) {
         monthlyUsage={null}
       />
 
-      {/* Link to see all answers */}
-      <div className="text-center">
+      {/* Link to see all answers + share */}
+      <div className="flex items-center justify-center gap-4">
         <Link
           href={`/q/${answer.questions.slug}`}
           className="text-sm text-warm-600 hover:text-warm-800"
         >
           See all answers to this question &rarr;
         </Link>
+        <ShareButton />
       </div>
     </div>
   )

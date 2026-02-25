@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import AnswerCard from '@/components/AnswerCard'
 import AnswerForm from '@/components/AnswerForm'
+import ShareButton from '@/components/ShareButton'
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
@@ -11,17 +12,35 @@ export async function generateMetadata({ params }) {
 
   const { data: question } = await supabase
     .from('questions')
-    .select('body, category')
+    .select('body, category, publish_date')
     .eq('slug', slug)
     .single()
 
   if (!question) return { title: 'Question not found' }
 
+  const title = question.body
+  const description = question.category
+    ? `${question.category} question on Ethos`
+    : 'A question on Ethos'
+
   return {
-    title: `${question.body} — Ethos`,
-    description: question.category
-      ? `${question.category} question on Ethos`
-      : 'Expert answers on Ethos',
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      images: [{
+        url: `/api/og?type=question&title=${encodeURIComponent(question.body)}&subtitle=${encodeURIComponent(question.category ?? '')}&detail=${encodeURIComponent(question.publish_date ?? '')}`,
+        width: 1200,
+        height: 630,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   }
 }
 
@@ -116,6 +135,7 @@ export default async function QuestionPage({ params }) {
           <span className="text-xs text-warm-400">
             {format(new Date(question.publish_date), 'MMMM d, yyyy')}
           </span>
+          <ShareButton />
         </div>
         <h1 className="text-2xl font-bold text-warm-900">
           {question.body}

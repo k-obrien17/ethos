@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 
 export async function updateProfile(prevState, formData) {
@@ -76,6 +77,34 @@ export async function updateProfile(prevState, formData) {
     revalidatePath(`/expert/${oldProfile.handle}`)
   }
   revalidatePath('/')
+
+  return { success: true }
+}
+
+export async function deleteAccount() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) return { error: 'You must be signed in.' }
+
+  // Get handle for revalidation
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('handle')
+    .eq('id', user.id)
+    .single()
+
+  // Use admin client to delete the auth user
+  // This triggers ON DELETE CASCADE: auth.users -> profiles -> answers
+  const admin = createAdminClient()
+  const { error } = await admin.auth.admin.deleteUser(user.id)
+
+  if (error) return { error: 'Failed to delete account. Please try again.' }
+
+  // Revalidate pages that showed this user's data
+  revalidatePath('/')
+  revalidatePath('/questions')
+  if (profile?.handle) revalidatePath(`/expert/${profile.handle}`)
 
   return { success: true }
 }

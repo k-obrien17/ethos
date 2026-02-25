@@ -2,9 +2,10 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import EditProfileForm from '@/components/EditProfileForm'
+import DeleteAccountSection from '@/components/DeleteAccountSection'
 
 export const metadata = {
-  title: 'Dashboard — Ethos',
+  title: 'Dashboard',
 }
 
 export default async function DashboardPage() {
@@ -80,7 +81,7 @@ export default async function DashboardPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-3 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
           <p className="text-2xl font-bold text-warm-900">
             {monthlyAnswers ?? 0} / {profile?.answer_limit ?? 3}
@@ -115,6 +116,11 @@ export default async function DashboardPage() {
       <section>
         <h2 className="text-lg font-semibold text-warm-800 mb-4">Edit Profile</h2>
         <EditProfileForm profile={profile} />
+      </section>
+
+      {/* Danger zone */}
+      <section className="pt-4 border-t border-warm-200">
+        <DeleteAccountSection />
       </section>
     </div>
   )

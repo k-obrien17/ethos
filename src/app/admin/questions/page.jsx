@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import DeleteQuestionButton from '@/components/admin/DeleteQuestionButton'
 
-export const metadata = { title: 'Questions — Admin — Ethos' }
+export const metadata = { title: 'Questions — Admin' }
 
 function StatusBadge({ status }) {
   const classes = {

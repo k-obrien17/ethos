@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { format } from 'date-fns'
 import ToggleHideButton from '@/components/admin/ToggleHideButton'
 
-export const metadata = { title: 'Answer Moderation — Admin — Ethos' }
+export const metadata = { title: 'Answer Moderation — Admin' }
 
 export default async function AdminAnswersPage() {
   const supabase = await createClient()

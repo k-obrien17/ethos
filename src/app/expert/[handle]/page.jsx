@@ -18,9 +18,27 @@ export async function generateMetadata({ params }) {
 
   if (!profile) return { title: 'Expert not found' }
 
+  const title = profile.display_name
+  const description = profile.headline || profile.bio?.slice(0, 150) || `${profile.display_name} on Ethos`
+
   return {
-    title: `${profile.display_name} — Ethos`,
-    description: profile.headline || profile.bio?.slice(0, 150) || `${profile.display_name} on Ethos`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'profile',
+      images: [{
+        url: `/api/og?type=expert&title=${encodeURIComponent(profile.display_name)}&subtitle=${encodeURIComponent(profile.headline ?? '')}&detail=${encodeURIComponent(profile.bio?.slice(0, 80) ?? '')}`,
+        width: 1200,
+        height: 630,
+      }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   }
 }
 
@@ -111,7 +129,7 @@ export default async function ExpertProfilePage({ params }) {
       )}
 
       {/* Stats */}
-      <section className="grid grid-cols-3 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
           <p className="text-2xl font-bold text-warm-900">{allAnswers.length}</p>
           <p className="text-xs text-warm-500 mt-1">Total Answers</p>
