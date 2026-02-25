@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import AnswerCard from '@/components/AnswerCard'
+import EditableAnswerCard from '@/components/EditableAnswerCard'
 import ShareButton from '@/components/ShareButton'
 
 export const revalidate = 3600
@@ -78,6 +78,9 @@ export default async function AnswerPage({ params }) {
 
   if (!answer) notFound()
 
+  // Get current user for edit capability
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <div className="space-y-6">
       {/* Question context */}
@@ -100,10 +103,11 @@ export default async function AnswerPage({ params }) {
       </div>
 
       {/* The answer */}
-      <AnswerCard
+      <EditableAnswerCard
         answer={answer}
         expert={answer.profiles}
         monthlyUsage={null}
+        currentUserId={user?.id}
       />
 
       {/* Link to see all answers + share */}

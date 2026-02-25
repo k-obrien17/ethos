@@ -9,6 +9,17 @@ export default async function HomePage() {
   const supabase = await createClient()
   const today = new Date().toISOString().slice(0, 10)
 
+  // Check if user is authenticated and has answered
+  const { data: { user } } = await supabase.auth.getUser()
+  let showNudge = false
+  if (user) {
+    const { count: userAnswerCount } = await supabase
+      .from('answers')
+      .select('*', { count: 'exact', head: true })
+      .eq('expert_id', user.id)
+    showNudge = (userAnswerCount ?? 0) === 0
+  }
+
   // Fetch today's question
   const { data: todayQuestion } = await supabase
     .from('questions')
@@ -69,6 +80,19 @@ export default async function HomePage() {
               {todayAnswers.length} {todayAnswers.length === 1 ? 'expert has' : 'experts have'} answered
             </p>
           </div>
+
+          {/* First-answer nudge for authenticated users with 0 answers */}
+          {showNudge && todayQuestion && (
+            <div className="mt-4 p-3 bg-warm-100 rounded-lg text-center">
+              <p className="text-warm-700 text-sm">
+                This is your first day on Ethos.{' '}
+                <Link href={`/q/${todayQuestion.slug}`} className="font-medium underline hover:text-warm-900">
+                  Answer today&apos;s question
+                </Link>
+                {' '}to get started.
+              </p>
+            </div>
+          )}
 
           {/* Today's answers */}
           {todayAnswers.length > 0 && (

@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Milestone
 
 **Milestone:** v2 (engagement & retention)
-**Status:** Requirements and roadmap defined — ready for `/gsd:plan-phase 6`
+**Status:** Phase 6 complete — ready for `/gsd:plan-phase 7`
 
 ## Milestone History
 
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | Phase | Status | Plans |
 |-------|--------|-------|
 | 1-5 (v1) | Complete | See v1 archive |
-| 6 — Onboarding & Compose Polish | Not planned | — |
+| 6 — Onboarding & Compose Polish | Complete | 3 plans, 2 waves, 10 tasks, 5 requirements |
 | 7 — Queue Preview & Featured | Not planned | — |
 | 8 — Email Notifications | Not planned | — |
 | 9 — Activity & Bookmarks | Not planned | — |
@@ -33,6 +33,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 - 2026-02-25: v1 milestone completed and archived
 - 2026-02-25: v2 milestone started — requirements and roadmap defined (24 requirements, 4 phases)
+- 2026-02-25: Phase 6 executed — welcome flow, first-answer nudge, Markdown preview, 15-min edit window
 
 ## Open Questions
 

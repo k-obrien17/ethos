@@ -43,6 +43,16 @@ export default async function DashboardPage() {
     .gte('publish_date', startOfMonth.slice(0, 10))
     .in('status', ['scheduled', 'published'])
 
+  // Fetch today's question (for nudge when totalAnswers === 0)
+  const { data: todayQuestion } = await supabase
+    .from('questions')
+    .select('slug, body')
+    .lte('publish_date', todayStr)
+    .in('status', ['scheduled', 'published'])
+    .order('publish_date', { ascending: false })
+    .limit(1)
+    .single()
+
   const budgetRemaining = (profile?.answer_limit ?? 3) - (monthlyAnswers ?? 0)
 
   return (
@@ -110,6 +120,24 @@ export default async function DashboardPage() {
         <p className="text-sm text-warm-400 -mt-4">
           Monthly budget used — answers reset next month
         </p>
+      )}
+
+      {/* First-answer nudge */}
+      {totalAnswers === 0 && todayQuestion && (
+        <section className="bg-warm-100 rounded-lg p-6 text-center">
+          <p className="text-warm-800 font-medium">
+            Ready to share your first answer?
+          </p>
+          <p className="text-warm-600 text-sm mt-1">
+            Today&apos;s question is waiting. Your answer budget resets monthly — use it or lose it.
+          </p>
+          <Link
+            href={`/q/${todayQuestion.slug}`}
+            className="inline-block mt-3 px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 transition-colors"
+          >
+            Answer today&apos;s question
+          </Link>
+        </section>
       )}
 
       {/* Edit Profile */}

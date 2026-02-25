@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import AnswerCard from '@/components/AnswerCard'
+import EditableAnswerCard from '@/components/EditableAnswerCard'
 import AnswerForm from '@/components/AnswerForm'
 import ShareButton from '@/components/ShareButton'
 
@@ -163,11 +163,12 @@ export default async function QuestionPage({ params }) {
       {answerCount > 0 ? (
         <section className="space-y-4">
           {answers.map((answer) => (
-            <AnswerCard
+            <EditableAnswerCard
               key={answer.id}
               answer={answer}
               expert={answer.profiles}
               monthlyUsage={monthlyUsageMap[answer.profiles.id] ?? null}
+              currentUserId={user?.id}
             />
           ))}
         </section>

@@ -1,12 +1,16 @@
 'use client'
 
 import { useState, useEffect, useActionState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { submitAnswer } from '@/app/actions/answers'
 import BudgetIndicator from '@/components/BudgetIndicator'
+
+const MARKDOWN_STYLES = "text-warm-800 leading-relaxed [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_a]:text-warm-700 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:mb-1"
 
 export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAnswered }) {
   const [state, formAction, pending] = useActionState(submitAnswer, null)
   const [content, setContent] = useState('')
+  const [showPreview, setShowPreview] = useState(false)
   const draftKey = `ethos_draft_${questionId}`
 
   const remaining = budgetLimit - budgetUsed
@@ -75,16 +79,65 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
       <form action={formAction}>
         <input type="hidden" name="questionId" value={questionId} />
 
-        <textarea
-          name="body"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Share your perspective..."
-          rows={6}
-          required
-          minLength={10}
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300 resize-y"
-        />
+        <div className="border border-warm-200 rounded-lg overflow-hidden">
+          {/* Write / Preview tabs */}
+          <div className="flex border-b border-warm-200 bg-warm-50">
+            <button
+              type="button"
+              onClick={() => setShowPreview(false)}
+              className={`px-4 py-2 text-sm font-medium transition-colors ${
+                !showPreview
+                  ? 'text-warm-900 bg-white border-b-2 border-warm-800'
+                  : 'text-warm-500 hover:text-warm-700'
+              }`}
+            >
+              Write
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowPreview(true)}
+              className={`px-4 py-2 text-sm font-medium transition-colors ${
+                showPreview
+                  ? 'text-warm-900 bg-white border-b-2 border-warm-800'
+                  : 'text-warm-500 hover:text-warm-700'
+              }`}
+            >
+              Preview
+            </button>
+          </div>
+
+          {/* Preview area */}
+          {showPreview && (
+            <div className="min-h-[156px] px-3 py-2">
+              {content ? (
+                <div className={MARKDOWN_STYLES}>
+                  <ReactMarkdown>{content}</ReactMarkdown>
+                </div>
+              ) : (
+                <p className="text-warm-400 text-sm py-2">
+                  Nothing to preview yet.
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Textarea — always rendered for form data; sr-only when previewing */}
+          <textarea
+            name="body"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            {...(showPreview
+              ? { className: 'sr-only', tabIndex: -1, 'aria-hidden': true }
+              : {
+                  placeholder: 'Share your perspective... (Markdown supported)',
+                  rows: 6,
+                  required: true,
+                  minLength: 10,
+                  className:
+                    'w-full px-3 py-2 text-warm-900 placeholder:text-warm-400 focus:outline-none resize-y border-0',
+                })}
+          />
+        </div>
 
         <div className="flex items-center justify-between mt-3">
           <div className="text-xs text-warm-400 space-x-3">

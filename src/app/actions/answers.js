@@ -88,6 +88,59 @@ export async function submitAnswer(prevState, formData) {
   return { success: true, answerId: data?.id }
 }
 
+export async function editAnswer(prevState, formData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) return { error: 'You must be signed in.' }
+
+  const answerId = formData.get('answerId')
+  const body = formData.get('body')?.trim()
+
+  if (!answerId) return { error: 'Missing answer ID.' }
+  if (!body || body.length < 10) return { error: 'Answer must be at least 10 characters.' }
+  if (body.length > 10000) return { error: 'Answer must be under 10,000 characters.' }
+
+  // Fetch the answer to verify ownership and time window
+  const { data: answer } = await supabase
+    .from('answers')
+    .select('expert_id, created_at, question_id, questions!inner(slug)')
+    .eq('id', answerId)
+    .single()
+
+  if (!answer) return { error: 'Answer not found.' }
+  if (answer.expert_id !== user.id) return { error: 'You can only edit your own answers.' }
+
+  // Enforce 15-minute edit window
+  const createdAt = new Date(answer.created_at)
+  const now = new Date()
+  const diffMinutes = (now - createdAt) / (1000 * 60)
+
+  if (diffMinutes > 15) {
+    return { error: 'Edit window has closed. Answers can only be edited within 15 minutes of submission.' }
+  }
+
+  // Recalculate word count
+  const wordCount = body.split(/\s+/).filter(Boolean).length
+
+  // Update the answer
+  const { error } = await supabase
+    .from('answers')
+    .update({ body, word_count: wordCount, updated_at: new Date().toISOString() })
+    .eq('id', answerId)
+
+  if (error) return { error: 'Failed to update answer. Please try again.' }
+
+  // Revalidate affected pages
+  revalidatePath(`/answers/${answerId}`)
+  if (answer.questions?.slug) {
+    revalidatePath(`/q/${answer.questions.slug}`)
+  }
+  revalidatePath('/')
+
+  return { success: true }
+}
+
 export async function toggleAnswerVisibility(answerId) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

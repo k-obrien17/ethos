@@ -1,11 +1,22 @@
 'use client'
 
-import { useState, useActionState } from 'react'
+import { useState, useEffect, useRef, useActionState } from 'react'
+import { useRouter } from 'next/navigation'
 import { updateProfile } from '@/app/actions/profile'
 
-export default function EditProfileForm({ profile }) {
+export default function EditProfileForm({ profile, redirectTo }) {
   const [state, formAction, pending] = useActionState(updateProfile, null)
   const [handle, setHandle] = useState(profile.handle)
+  const router = useRouter()
+  const redirected = useRef(false)
+
+  // After successful save, redirect if requested (guard prevents double-nav on re-render)
+  useEffect(() => {
+    if (state?.success && redirectTo && !redirected.current) {
+      redirected.current = true
+      router.push(redirectTo)
+    }
+  }, [state?.success, redirectTo, router])
 
   return (
     <form action={formAction} className="space-y-4">
