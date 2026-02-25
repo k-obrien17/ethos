@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Milestone
 
 **Milestone:** v2 (engagement & retention)
-**Status:** Phase 8 complete — ready for `/gsd:plan-phase 9`
+**Status:** Phase 9 planned — ready for `/gsd:execute-phase 9`
 
 ## Milestone History
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | 6 — Onboarding & Compose Polish | Complete | 3 plans, 2 waves, 10 tasks, 5 requirements |
 | 7 — Queue Preview & Featured | Complete | 2 plans, 1 wave, 8 tasks, 8 requirements |
 | 8 — Email Notifications | Complete | 3 plans, 2 waves, 10 tasks, 7 requirements |
-| 9 — Activity & Bookmarks | Not planned | — |
+| 9 — Activity & Bookmarks | Planned | 2 plans, 2 waves, 10 tasks, 4 requirements |
 
 ## Recent Activity
 
@@ -38,19 +38,19 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 7 executed — queue preview page, upcoming nav link, featured answers (migration, admin toggle, badge, sorting)
 - 2026-02-25: Phase 8 planned — Resend integration, email preferences, unsubscribe, featured notification, daily/weekly/budget cron emails
 - 2026-02-25: Phase 8 executed — Resend SDK, email utility, preferences page, unsubscribe route, featured email hook, daily cron with 3 email types
+- 2026-02-25: Phase 9 planned — bookmarks (table + RLS + toggle + dashboard + cron notification) and view counts (column + RPC + API route + dashboard stat)
 
 ## Open Questions
 
 | Question | Impact | When to Decide |
 |----------|--------|----------------|
-| Resend vs. SendGrid vs. SES for email | Email infrastructure choice | Phase 8 research |
-| View count implementation: API route vs. middleware vs. edge | Performance and accuracy tradeoff | Phase 9 planning |
-| Vercel Cron vs. pg_cron for scheduled emails | Deployment simplicity vs. DB proximity | Phase 8 planning |
 | v1 deployment timing vs. v2 development | Deploy v1 before or during v2 work? | Now |
 
 ## Notes
 
 - v1 is code-complete but not yet deployed — deployment can happen in parallel with v2 planning/execution
-- No email service currently integrated — Phase 8 will need API key setup
+- Resend integrated for email (Phase 8) — API key needed in env
 - Queue preview depth decided: 3 days default, configurable 1-7 per profile, RLS caps at 7
 - Featured answer pattern mirrors hidden_at/hidden_by — same migration + Server Action + toggle button approach
+- View counts decided: API route + RPC function for atomic increment, author-only display on dashboard
+- Bookmarks: dedicated table with composite PK, RLS, bookmark notification integrated into existing daily cron
