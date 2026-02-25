@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Milestone
 
 **Milestone:** v2 (engagement & retention)
-**Status:** Phase 9 planned — ready for `/gsd:execute-phase 9`
+**Status:** Phase 9 complete — v2 milestone complete, ready for `/gsd:audit-milestone`
 
 ## Milestone History
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | 6 — Onboarding & Compose Polish | Complete | 3 plans, 2 waves, 10 tasks, 5 requirements |
 | 7 — Queue Preview & Featured | Complete | 2 plans, 1 wave, 8 tasks, 8 requirements |
 | 8 — Email Notifications | Complete | 3 plans, 2 waves, 10 tasks, 7 requirements |
-| 9 — Activity & Bookmarks | Planned | 2 plans, 2 waves, 10 tasks, 4 requirements |
+| 9 — Activity & Bookmarks | Complete | 2 plans, 2 waves, 10 tasks, 4 requirements |
 
 ## Recent Activity
 
@@ -39,6 +39,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 8 planned — Resend integration, email preferences, unsubscribe, featured notification, daily/weekly/budget cron emails
 - 2026-02-25: Phase 8 executed — Resend SDK, email utility, preferences page, unsubscribe route, featured email hook, daily cron with 3 email types
 - 2026-02-25: Phase 9 planned — bookmarks (table + RLS + toggle + dashboard + cron notification) and view counts (column + RPC + API route + dashboard stat)
+- 2026-02-25: Phase 9 executed — bookmarks table + RLS, BookmarkButton, dashboard Saved section, bookmark-goes-live email, view_count column + RPC, ViewTracker, dashboard Total Views stat
 
 ## Open Questions
 
