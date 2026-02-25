@@ -5,12 +5,12 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** Phase 3 — Expert Identity
+**Current focus:** Phase 4 — Content Pipeline
 
 ## Current Phase
 
 **Phase:** 3 — Expert Identity
-**Status:** Planned
+**Status:** Complete
 **Plans:** 3 plans across 2 waves (see `.planning/phases/03-expert-identity/PLAN-01..03.md`)
 
 ## Phase History
@@ -19,7 +19,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 |-------|--------|-------|
 | 1 — Foundation | Complete | 3 plans, 2 waves, 18 tasks, 8 requirements |
 | 2 — Core Loop | Complete | 3 plans, 2 waves, 18 tasks, 15 requirements |
-| 3 — Expert Identity | Planned | 3 plans, 2 waves, 11 tasks, 5 requirements |
+| 3 — Expert Identity | Complete | 3 plans, 2 waves, 11 tasks, 5 requirements |
 
 ## Recent Activity
 
@@ -33,6 +33,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 1 executed — Next.js 16 scaffold, Supabase schema/RLS migrations, auth flow (OAuth callback, login page, admin layout, dashboard)
 - 2026-02-25: Phase 2 executed — submit_answer() advisory lock, public pages (homepage, question feed, question detail, answer detail), answer form with three-layer budget enforcement and draft auto-save
 - 2026-02-25: Phase 3 researched and planned (3 plans, 2 waves, 11 tasks, 5 requirements covered)
+- 2026-02-25: Phase 3 executed — profile fields migration, public expert profile page, expert linking in AnswerCard, profile editing Server Action + EditProfileForm, enhanced dashboard with stats
 
 ## Open Questions
 

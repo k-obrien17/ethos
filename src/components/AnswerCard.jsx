@@ -8,7 +8,7 @@ export default function AnswerCard({ answer, expert, monthlyUsage }) {
       className="p-6 bg-white rounded-lg border border-warm-200"
     >
       {/* Expert info */}
-      <div className="flex items-center gap-3 mb-4">
+      <Link href={`/expert/${expert.handle}`} className="flex items-center gap-3 mb-4 group">
         {expert.avatar_url ? (
           <img
             src={expert.avatar_url}
@@ -21,7 +21,7 @@ export default function AnswerCard({ answer, expert, monthlyUsage }) {
           </div>
         )}
         <div>
-          <p className="font-medium text-warm-900">
+          <p className="font-medium text-warm-900 group-hover:underline">
             {expert.display_name}
           </p>
           <p className="text-xs text-warm-500">
@@ -31,7 +31,7 @@ export default function AnswerCard({ answer, expert, monthlyUsage }) {
             )}
           </p>
         </div>
-      </div>
+      </Link>
 
       {/* Answer body — Markdown rendered */}
       <div className="text-warm-800 leading-relaxed [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_a]:text-warm-700 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:mb-1">

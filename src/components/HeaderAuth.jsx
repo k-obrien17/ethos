@@ -30,6 +30,12 @@ export default function HeaderAuth({ user, budgetData }) {
       {budgetData && (
         <BudgetIndicator used={budgetData.used} limit={budgetData.limit} />
       )}
+      <Link
+        href="/dashboard"
+        className="text-sm text-warm-600 hover:text-warm-900"
+      >
+        Dashboard
+      </Link>
       <button
         onClick={handleSignOut}
         className="text-sm text-warm-500 hover:text-warm-700"
