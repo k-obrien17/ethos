@@ -37,6 +37,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 3 executed — profile fields migration, public expert profile page, expert linking in AnswerCard, profile editing Server Action + EditProfileForm, enhanced dashboard with stats
 - 2026-02-25: Phase 4 researched and planned (4 plans, 2 waves, 14 tasks, 6 requirements covered)
 - 2026-02-25: Phase 4 executed — answer moderation migration (hidden_at + tightened RLS), question CRUD (Server Actions + admin pages), queue dashboard (depth/gaps/reschedule), answer moderation UI (hide/unhide toggle)
+- 2026-02-25: Phase 5 researched and planned (2 plans, 2 waves, 15 tasks, 6 requirements covered)
 
 ## Open Questions
 
