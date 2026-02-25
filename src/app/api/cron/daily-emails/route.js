@@ -16,7 +16,7 @@ export async function GET(request) {
   const isFirstOfMonth = today.getDate() === 1
   const isMonday = today.getDay() === 1
 
-  const results = { daily: 0, budget_reset: 0, weekly_recap: 0, errors: 0 }
+  const results = { daily: 0, budget_reset: 0, weekly_recap: 0, bookmark_live: 0, errors: 0 }
 
   try {
     // Get all profiles with their preferences
@@ -82,6 +82,57 @@ export async function GET(request) {
         })
 
         if (error) { results.errors++ } else { results.daily++ }
+      }
+    }
+
+    // === Bookmark Goes Live Email ===
+    if (todayQuestion) {
+      // Find users who bookmarked today's question
+      const { data: bookmarkUsers } = await admin
+        .from('bookmarks')
+        .select('user_id')
+        .eq('question_id', todayQuestion.id)
+
+      if (bookmarkUsers && bookmarkUsers.length > 0) {
+        const questionUrl = `${siteUrl}/q/${todayQuestion.slug}`
+
+        for (const bookmark of bookmarkUsers) {
+          const profile = profiles.find(p => p.id === bookmark.user_id)
+          if (!profile) continue
+          if (!profile.email_preferences?.bookmark_live) continue
+          const email = emailMap[profile.id]
+          if (!email) continue
+
+          const content = `
+            <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">A question you saved is live!</h2>
+            <p style="font-size:14px;color:#44403c;margin:0 0 16px;">
+              ${escapeHtml(profile.display_name || 'there')}, a question you bookmarked is now open for answers.
+            </p>
+            <div style="background-color:#faf9f7;border-radius:6px;padding:16px;margin:0 0 8px;">
+              ${todayQuestion.category ? `<p style="font-size:11px;color:#a8a29e;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 4px;">${escapeHtml(todayQuestion.category)}</p>` : ''}
+              <p style="font-size:17px;color:#1c1917;font-weight:600;margin:0;">
+                ${escapeHtml(todayQuestion.body)}
+              </p>
+            </div>
+            <p style="font-size:13px;color:#a8a29e;margin:0 0 20px;">
+              ${format(today, 'EEEE, MMMM d, yyyy')}
+            </p>
+            <div style="text-align:center;">
+              <a href="${questionUrl}" style="display:inline-block;padding:10px 24px;background-color:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">
+                Answer now
+              </a>
+            </div>
+          `
+
+          const unsubscribeUrl = getUnsubscribeUrl(profile.unsubscribe_token, 'bookmark_live')
+          const { error } = await sendEmail({
+            to: email,
+            subject: `Your saved question is live: ${todayQuestion.body.slice(0, 50)}${todayQuestion.body.length > 50 ? '...' : ''}`,
+            html: emailLayout(content, unsubscribeUrl),
+          })
+
+          if (error) { results.errors++ } else { results.bookmark_live++ }
+        }
       }
     }
 

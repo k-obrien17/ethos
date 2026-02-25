@@ -8,6 +8,7 @@ const EMAIL_TYPES = [
   { key: 'weekly_recap', label: 'Weekly recap', description: "Monday summary of the week's questions and top answers" },
   { key: 'budget_reset', label: 'Budget reset', description: 'Notification when your monthly answer budget resets' },
   { key: 'featured_answer', label: 'Featured answer', description: 'When your answer is picked as an editorial feature' },
+  { key: 'bookmark_live', label: 'Bookmark alerts', description: 'When a question you saved goes live and is ready to answer' },
 ]
 
 export default function EmailPreferencesForm({ preferences }) {

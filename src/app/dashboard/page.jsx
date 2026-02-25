@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import EditProfileForm from '@/components/EditProfileForm'
 import DeleteAccountSection from '@/components/DeleteAccountSection'
+import BookmarkButton from '@/components/BookmarkButton'
+import { format } from 'date-fns'
 
 export const metadata = {
   title: 'Dashboard',
@@ -52,6 +54,18 @@ export default async function DashboardPage() {
     .order('publish_date', { ascending: false })
     .limit(1)
     .single()
+
+  // Fetch user's bookmarked questions
+  const { data: bookmarks } = await supabase
+    .from('bookmarks')
+    .select('question_id, created_at, questions!inner(id, body, slug, category, publish_date, status)')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+
+  const savedQuestions = (bookmarks ?? []).map(b => ({
+    ...b.questions,
+    bookmarkedAt: b.created_at,
+  }))
 
   const budgetRemaining = (profile?.answer_limit ?? 3) - (monthlyAnswers ?? 0)
 
@@ -137,6 +151,55 @@ export default async function DashboardPage() {
           >
             Answer today&apos;s question
           </Link>
+        </section>
+      )}
+
+      {/* Saved Questions */}
+      {savedQuestions.length > 0 && (
+        <section>
+          <h2 className="text-lg font-semibold text-warm-800 mb-3">
+            Saved Questions
+          </h2>
+          <div className="space-y-2">
+            {savedQuestions.map((q) => {
+              const isUpcoming = q.publish_date > todayStr
+              return (
+                <div
+                  key={q.id}
+                  className="flex items-center justify-between bg-white rounded-lg border border-warm-200 p-4"
+                >
+                  <div className="min-w-0 flex-1 mr-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      {q.category && (
+                        <span className="text-xs font-medium text-warm-500 uppercase tracking-wide">
+                          {q.category}
+                        </span>
+                      )}
+                      <span className="text-xs text-warm-400">
+                        {format(new Date(q.publish_date), 'MMM d')}
+                      </span>
+                      {isUpcoming && (
+                        <span className="text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-medium">
+                          Upcoming
+                        </span>
+                      )}
+                    </div>
+                    <Link
+                      href={isUpcoming ? '/questions/upcoming' : `/q/${q.slug}`}
+                      className="text-sm font-medium text-warm-900 hover:underline"
+                    >
+                      {q.body}
+                    </Link>
+                  </div>
+                  <BookmarkButton
+                    questionId={q.id}
+                    isBookmarked={true}
+                    className="flex-shrink-0"
+                  />
+                </div>
+              )
+            })}
+          </div>
         </section>
       )}
 

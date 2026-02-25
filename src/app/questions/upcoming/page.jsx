@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { format, addDays } from 'date-fns'
+import BookmarkButton from '@/components/BookmarkButton'
 
 export const metadata = {
   title: 'Upcoming Questions',
@@ -33,6 +34,18 @@ export default async function UpcomingQuestionsPage() {
     .in('status', ['scheduled', 'published'])
     .order('publish_date', { ascending: true })
 
+  // Fetch user's bookmarks for these questions
+  const questionIds = (questions ?? []).map(q => q.id)
+  const { data: bookmarks } = questionIds.length > 0
+    ? await supabase
+        .from('bookmarks')
+        .select('question_id')
+        .eq('user_id', user.id)
+        .in('question_id', questionIds)
+    : { data: [] }
+
+  const bookmarkedIds = new Set((bookmarks ?? []).map(b => b.question_id))
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-warm-900 mb-2">
@@ -62,6 +75,12 @@ export default async function UpcomingQuestionsPage() {
               <h2 className="text-lg font-semibold text-warm-900">
                 {q.body}
               </h2>
+              <div className="flex items-center justify-between mt-3">
+                <BookmarkButton
+                  questionId={q.id}
+                  isBookmarked={bookmarkedIds.has(q.id)}
+                />
+              </div>
             </div>
           ))}
         </div>

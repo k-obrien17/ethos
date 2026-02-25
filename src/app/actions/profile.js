@@ -120,6 +120,7 @@ export async function updateEmailPreferences(prevState, formData) {
     weekly_recap: formData.get('weekly_recap') === 'on',
     budget_reset: formData.get('budget_reset') === 'on',
     featured_answer: formData.get('featured_answer') === 'on',
+    bookmark_live: formData.get('bookmark_live') === 'on',
   }
 
   const { error } = await supabase

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import EditableAnswerCard from '@/components/EditableAnswerCard'
 import AnswerForm from '@/components/AnswerForm'
 import ShareButton from '@/components/ShareButton'
+import BookmarkButton from '@/components/BookmarkButton'
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
@@ -103,6 +104,17 @@ export default async function QuestionPage({ params }) {
   // Check if user is authenticated (for answer form)
   const { data: { user } } = await supabase.auth.getUser()
 
+  let isBookmarked = false
+  if (user) {
+    const { data: bookmark } = await supabase
+      .from('bookmarks')
+      .select('question_id')
+      .eq('user_id', user.id)
+      .eq('question_id', question.id)
+      .maybeSingle()
+    isBookmarked = !!bookmark
+  }
+
   let answerFormProps = null
   if (user) {
     const hasAnswered = (answers ?? []).some(
@@ -142,6 +154,12 @@ export default async function QuestionPage({ params }) {
           <span className="text-xs text-warm-400">
             {format(new Date(question.publish_date), 'MMMM d, yyyy')}
           </span>
+          {user && (
+            <BookmarkButton
+              questionId={question.id}
+              isBookmarked={isBookmarked}
+            />
+          )}
           <ShareButton />
         </div>
         <h1 className="text-2xl font-bold text-warm-900">
