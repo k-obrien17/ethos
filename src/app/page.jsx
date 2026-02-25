@@ -47,7 +47,12 @@ export default async function HomePage() {
       .eq('question_id', todayQuestion.id)
       .order('created_at', { ascending: false })
 
-    todayAnswers = data ?? []
+    const unsorted = data ?? []
+    todayAnswers = unsorted.sort((a, b) => {
+      if (a.featured_at && !b.featured_at) return -1
+      if (!a.featured_at && b.featured_at) return 1
+      return new Date(b.created_at) - new Date(a.created_at)
+    })
   }
 
   // Fetch recent past questions with answer counts
