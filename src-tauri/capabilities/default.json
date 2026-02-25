@@ -1,0 +1,41 @@
+{
+  "identifier": "default",
+  "description": "Default capability set for Ethos",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    {
+      "identifier": "fs:default",
+      "allow": [
+        { "path": "$HOME/Desktop/obsidian-workspace/vault/Daily 10" },
+        { "path": "$HOME/Desktop/obsidian-workspace/vault/Daily 10/**" }
+      ]
+    },
+    {
+      "identifier": "fs:allow-read-text-file",
+      "allow": [
+        { "path": "$HOME/Desktop/obsidian-workspace/vault/Daily 10/**" }
+      ]
+    },
+    {
+      "identifier": "fs:allow-write-text-file",
+      "allow": [
+        { "path": "$HOME/Desktop/obsidian-workspace/vault/Daily 10/**" }
+      ]
+    },
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [
+        { "path": "$HOME/Desktop/obsidian-workspace/vault/Daily 10" },
+        { "path": "$HOME/Desktop/obsidian-workspace/vault/Daily 10/**" }
+      ]
+    },
+    {
+      "identifier": "fs:allow-mkdir",
+      "allow": [
+        { "path": "$HOME/Desktop/obsidian-workspace/vault/Daily 10" },
+        { "path": "$HOME/Desktop/obsidian-workspace/vault/Daily 10/**" }
+      ]
+    }
+  ]
+}
