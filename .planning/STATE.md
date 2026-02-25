@@ -5,13 +5,13 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** Phase 4 — Admin Panel
+**Current focus:** Phase 5 — Distribution
 
 ## Current Phase
 
-**Phase:** 3 — Expert Identity
+**Phase:** 4 — Admin Panel
 **Status:** Complete
-**Plans:** 3 plans across 2 waves (see `.planning/phases/03-expert-identity/PLAN-01..03.md`)
+**Plans:** 4 plans across 2 waves (see `.planning/phases/04-admin-panel/PLAN-01..04.md`)
 
 ## Phase History
 
@@ -20,6 +20,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | 1 — Foundation | Complete | 3 plans, 2 waves, 18 tasks, 8 requirements |
 | 2 — Core Loop | Complete | 3 plans, 2 waves, 18 tasks, 15 requirements |
 | 3 — Expert Identity | Complete | 3 plans, 2 waves, 11 tasks, 5 requirements |
+| 4 — Admin Panel | Complete | 4 plans, 2 waves, 14 tasks, 6 requirements |
 
 ## Recent Activity
 
@@ -35,6 +36,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 3 researched and planned (3 plans, 2 waves, 11 tasks, 5 requirements covered)
 - 2026-02-25: Phase 3 executed — profile fields migration, public expert profile page, expert linking in AnswerCard, profile editing Server Action + EditProfileForm, enhanced dashboard with stats
 - 2026-02-25: Phase 4 researched and planned (4 plans, 2 waves, 14 tasks, 6 requirements covered)
+- 2026-02-25: Phase 4 executed — answer moderation migration (hidden_at + tightened RLS), question CRUD (Server Actions + admin pages), queue dashboard (depth/gaps/reschedule), answer moderation UI (hide/unhide toggle)
 
 ## Open Questions
 

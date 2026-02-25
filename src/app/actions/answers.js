@@ -87,3 +87,46 @@ export async function submitAnswer(prevState, formData) {
 
   return { success: true, answerId: data?.id }
 }
+
+export async function toggleAnswerVisibility(answerId) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'You must be signed in.' }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+  if (profile?.role !== 'admin') return { error: 'Admin access required.' }
+
+  // Get current state
+  const { data: answer } = await supabase
+    .from('answers')
+    .select('hidden_at, question_id, questions(slug)')
+    .eq('id', answerId)
+    .single()
+
+  if (!answer) return { error: 'Answer not found.' }
+
+  const isHidden = !!answer.hidden_at
+
+  const { error } = await supabase
+    .from('answers')
+    .update({
+      hidden_at: isHidden ? null : new Date().toISOString(),
+      hidden_by: isHidden ? null : user.id,
+    })
+    .eq('id', answerId)
+
+  if (error) return { error: 'Failed to update answer visibility.' }
+
+  revalidatePath('/admin/answers')
+  revalidatePath(`/answers/${answerId}`)
+  if (answer.questions?.slug) {
+    revalidatePath(`/q/${answer.questions.slug}`)
+  }
+  revalidatePath('/')
+
+  return { success: true, hidden: !isHidden }
+}

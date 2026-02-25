@@ -1,0 +1,25 @@
+import { createClient } from '@/lib/supabase/server'
+import { notFound } from 'next/navigation'
+import QuestionForm from '@/components/admin/QuestionForm'
+
+export const metadata = { title: 'Edit Question — Admin — Ethos' }
+
+export default async function EditQuestionPage({ params }) {
+  const { id } = await params
+  const supabase = await createClient()
+
+  const { data: question } = await supabase
+    .from('questions')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (!question) notFound()
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold text-warm-900 mb-6">Edit Question</h1>
+      <QuestionForm question={question} />
+    </div>
+  )
+}
