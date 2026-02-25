@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import Link from 'next/link'
 import EditableAnswerCard from '@/components/EditableAnswerCard'
 import ShareButton from '@/components/ShareButton'
+import ViewTracker from '@/components/ViewTracker'
 
 export const revalidate = 3600
 
@@ -121,6 +122,8 @@ export default async function AnswerPage({ params }) {
         </Link>
         <ShareButton />
       </div>
+
+      <ViewTracker answerId={id} />
     </div>
   )
 }

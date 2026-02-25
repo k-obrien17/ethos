@@ -67,6 +67,15 @@ export default async function DashboardPage() {
     bookmarkedAt: b.created_at,
   }))
 
+  // Fetch user's answers with view counts (for author-only stats)
+  const { data: myAnswers } = await supabase
+    .from('answers')
+    .select('id, view_count, body, created_at, questions!inner(body, slug)')
+    .eq('expert_id', user.id)
+    .order('created_at', { ascending: false })
+
+  const totalViews = (myAnswers ?? []).reduce((sum, a) => sum + (a.view_count ?? 0), 0)
+
   const budgetRemaining = (profile?.answer_limit ?? 3) - (monthlyAnswers ?? 0)
 
   return (
@@ -105,7 +114,7 @@ export default async function DashboardPage() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
           <p className="text-2xl font-bold text-warm-900">
             {monthlyAnswers ?? 0} / {profile?.answer_limit ?? 3}
@@ -123,6 +132,10 @@ export default async function DashboardPage() {
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
           <p className="text-2xl font-bold text-warm-900">{totalAnswers ?? 0}</p>
           <p className="text-xs text-warm-500 mt-1">Total Answers</p>
+        </div>
+        <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
+          <p className="text-2xl font-bold text-warm-900">{totalViews}</p>
+          <p className="text-xs text-warm-500 mt-1">Total Views</p>
         </div>
       </section>
 
