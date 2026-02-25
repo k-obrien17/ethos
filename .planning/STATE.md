@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Milestone
 
 **Milestone:** v2 (engagement & retention)
-**Status:** Phase 6 complete — ready for `/gsd:plan-phase 7`
+**Status:** Phase 7 planned — ready for `/gsd:execute-phase 7`
 
 ## Milestone History
 
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 |-------|--------|-------|
 | 1-5 (v1) | Complete | See v1 archive |
 | 6 — Onboarding & Compose Polish | Complete | 3 plans, 2 waves, 10 tasks, 5 requirements |
-| 7 — Queue Preview & Featured | Not planned | — |
+| 7 — Queue Preview & Featured | Planned | 2 plans, 1 wave, 8 tasks, 8 requirements |
 | 8 — Email Notifications | Not planned | — |
 | 9 — Activity & Bookmarks | Not planned | — |
 
@@ -34,13 +34,13 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: v1 milestone completed and archived
 - 2026-02-25: v2 milestone started — requirements and roadmap defined (24 requirements, 4 phases)
 - 2026-02-25: Phase 6 executed — welcome flow, first-answer nudge, Markdown preview, 15-min edit window
+- 2026-02-25: Phase 7 planned — queue preview (RLS + /questions/upcoming) and featured answers (admin toggle + badge + sorting)
 
 ## Open Questions
 
 | Question | Impact | When to Decide |
 |----------|--------|----------------|
 | Resend vs. SendGrid vs. SES for email | Email infrastructure choice | Phase 8 research |
-| Queue preview depth: 3 days free, more for premium? | Affects monetization lever | Phase 7 planning |
 | View count implementation: API route vs. middleware vs. edge | Performance and accuracy tradeoff | Phase 9 planning |
 | Vercel Cron vs. pg_cron for scheduled emails | Deployment simplicity vs. DB proximity | Phase 8 planning |
 | v1 deployment timing vs. v2 development | Deploy v1 before or during v2 work? | Now |
@@ -49,5 +49,5 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 - v1 is code-complete but not yet deployed — deployment can happen in parallel with v2 planning/execution
 - No email service currently integrated — Phase 8 will need API key setup
-- react-markdown already installed — Markdown preview in Phase 6 is straightforward
-- Expert answer UPDATE is already allowed by RLS (own visible answers) — edit window just needs time guard
+- Queue preview depth decided: 3 days default, configurable 1-7 per profile, RLS caps at 7
+- Featured answer pattern mirrors hidden_at/hidden_by — same migration + Server Action + toggle button approach
