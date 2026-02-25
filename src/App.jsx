@@ -23,7 +23,7 @@ export default function App() {
   const [vaultSyncOk, setVaultSyncOk] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('daily10_dark');
+      const stored = localStorage.getItem('ethos_dark');
       if (stored !== null) return stored === 'true';
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
@@ -58,9 +58,9 @@ export default function App() {
 
         if (available) {
           // Run migration if not done yet
-          if (!localStorage.getItem('daily10_vault_migrated')) {
+          if (!localStorage.getItem('ethos_vault_migrated')) {
             await runMigration((dateKey) => selectDailyQuestions(dateKey));
-            localStorage.setItem('daily10_vault_migrated', '1');
+            localStorage.setItem('ethos_vault_migrated', '1');
           }
 
           const vaultQuestions = await loadQuestionsFromVault();
@@ -98,7 +98,7 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
-    localStorage.setItem('daily10_dark', String(darkMode));
+    localStorage.setItem('ethos_dark', String(darkMode));
   }, [darkMode]);
 
   const loadDay = useCallback((key) => {
@@ -252,7 +252,7 @@ export default function App() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-xl font-bold text-warm-900 dark:text-warm-100 tracking-tight">
-                  Daily 10
+                  Ethos
                 </h1>
                 <p className="text-xs text-warm-500 dark:text-warm-400 mt-0.5">
                   {formatDisplayDate(dateKey)}

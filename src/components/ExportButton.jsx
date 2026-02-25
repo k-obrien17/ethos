@@ -5,7 +5,7 @@ export default function ExportButton({ questions, answers, dateKey }) {
   const [copied, setCopied] = useState(false);
 
   function handleCopy() {
-    const lines = [`# Daily 10 — ${dateKey}\n`];
+    const lines = [`# Ethos — ${dateKey}\n`];
 
     questions.forEach((q, idx) => {
       const text = getAnswerText(answers[idx]);

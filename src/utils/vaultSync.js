@@ -3,7 +3,7 @@ import { homeDir, join } from '@tauri-apps/api/path';
 import { CATEGORIES, FALLBACK_QUESTIONS } from '../data/questions';
 import { getCustomQuestions, getAllAnswerDates, getAnswers, getAnswerText } from './storage';
 
-const VAULT_SUBPATH = 'Desktop/obsidian-workspace/vault/Daily 10';
+const VAULT_SUBPATH = 'Desktop/obsidian-workspace/vault/Ethos';
 
 // --- Path helpers ---
 

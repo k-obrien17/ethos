@@ -1,10 +1,10 @@
 const STORAGE_KEYS = {
-  ANSWERS: 'daily10_answers',
-  STREAKS: 'daily10_streaks',
-  FLAGGED: 'daily10_flagged',
-  CUSTOM_QUESTIONS: 'daily10_custom_questions',
-  ANSWERED_QUESTIONS: 'daily10_answered_questions',
-  LIFETIME_STATS: 'daily10_lifetime',
+  ANSWERS: 'ethos_answers',
+  STREAKS: 'ethos_streaks',
+  FLAGGED: 'ethos_flagged',
+  CUSTOM_QUESTIONS: 'ethos_custom_questions',
+  ANSWERED_QUESTIONS: 'ethos_answered_questions',
+  LIFETIME_STATS: 'ethos_lifetime',
 };
 
 function safeGet(key, fallback) {
@@ -254,7 +254,7 @@ export function addCustomQuestion(categoryId, question) {
 
 // --- Drafts (protect against app quit losing in-progress text) ---
 
-const DRAFTS_KEY = 'daily10_drafts';
+const DRAFTS_KEY = 'ethos_drafts';
 
 export function getDraft(dateKey, questionIndex) {
   const drafts = safeGet(DRAFTS_KEY, {});
