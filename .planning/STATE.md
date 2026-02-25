@@ -5,13 +5,13 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** Phase 3 (next unplanned phase)
+**Current focus:** Phase 3 — Expert Identity
 
 ## Current Phase
 
-**Phase:** 2 — Core Loop
-**Status:** Complete
-**Plans:** 3 plans across 2 waves (see `.planning/phases/02-core-loop/PLAN-01..03.md`)
+**Phase:** 3 — Expert Identity
+**Status:** Planned
+**Plans:** 3 plans across 2 waves (see `.planning/phases/03-expert-identity/PLAN-01..03.md`)
 
 ## Phase History
 
@@ -19,6 +19,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 |-------|--------|-------|
 | 1 — Foundation | Complete | 3 plans, 2 waves, 18 tasks, 8 requirements |
 | 2 — Core Loop | Complete | 3 plans, 2 waves, 18 tasks, 15 requirements |
+| 3 — Expert Identity | Planned | 3 plans, 2 waves, 11 tasks, 5 requirements |
 
 ## Recent Activity
 
@@ -31,6 +32,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 2 researched and planned (3 plans, 2 waves, 18 tasks, 15 requirements covered)
 - 2026-02-25: Phase 1 executed — Next.js 16 scaffold, Supabase schema/RLS migrations, auth flow (OAuth callback, login page, admin layout, dashboard)
 - 2026-02-25: Phase 2 executed — submit_answer() advisory lock, public pages (homepage, question feed, question detail, answer detail), answer form with three-layer budget enforcement and draft auto-save
+- 2026-02-25: Phase 3 researched and planned (3 plans, 2 waves, 11 tasks, 5 requirements covered)
 
 ## Open Questions
 
@@ -42,7 +44,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | Hide other answers until expert submits their own? | Prevents anchoring but reduces read engagement | UX decision — not implemented, answers visible before answering |
 | Supabase free tier vs. Pro ($25/month) for beta | Auto-pause risk vs. cost | Upgrade when 10+ regular users |
 | Soft word guidance (100-500) vs. hard min/max on answers | **Decided: soft** — no hard limits, min 10 chars only | Resolved |
-| Image uploads for expert avatars vs. OAuth-provided only | Affects profile quality and storage needs | During profile implementation |
+| Image uploads for expert avatars vs. OAuth-provided only | **Decided: OAuth-only for v1** — no upload, use OAuth avatar | Resolved |
 
 ## Notes
 
