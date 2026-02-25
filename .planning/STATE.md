@@ -5,19 +5,19 @@
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v2 — Engagement & Retention (24 requirements, 4 phases)
+**Current focus:** Ready for next milestone
 
 ## Current Milestone
 
 **Milestone:** v2 (engagement & retention)
-**Status:** Phase 9 complete — v2 milestone complete, ready for `/gsd:audit-milestone`
+**Status:** Complete — archived to `.planning/milestones/v2-*`
 
 ## Milestone History
 
 | Milestone | Status | Phases | Requirements | Archived |
 |-----------|--------|--------|-------------|----------|
 | v1 — Beta Launch | Complete | 5 phases, 15 plans | 38 (37 pass, 1 manual) | `.planning/milestones/v1-*` |
-| v2 — Engagement | Active | 4 phases (6-9) planned | 24 defined | — |
+| v2 — Engagement | Complete | 4 phases, 10 plans | 24 (24 pass) | `.planning/milestones/v2-*` |
 
 ## Phase History
 
@@ -31,27 +31,17 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Recent Activity
 
-- 2026-02-25: v1 milestone completed and archived
-- 2026-02-25: v2 milestone started — requirements and roadmap defined (24 requirements, 4 phases)
-- 2026-02-25: Phase 6 executed — welcome flow, first-answer nudge, Markdown preview, 15-min edit window
-- 2026-02-25: Phase 7 planned — queue preview (RLS + /questions/upcoming) and featured answers (admin toggle + badge + sorting)
-- 2026-02-25: Phase 7 executed — queue preview page, upcoming nav link, featured answers (migration, admin toggle, badge, sorting)
-- 2026-02-25: Phase 8 planned — Resend integration, email preferences, unsubscribe, featured notification, daily/weekly/budget cron emails
-- 2026-02-25: Phase 8 executed — Resend SDK, email utility, preferences page, unsubscribe route, featured email hook, daily cron with 3 email types
-- 2026-02-25: Phase 9 planned — bookmarks (table + RLS + toggle + dashboard + cron notification) and view counts (column + RPC + API route + dashboard stat)
-- 2026-02-25: Phase 9 executed — bookmarks table + RLS, BookmarkButton, dashboard Saved section, bookmark-goes-live email, view_count column + RPC, ViewTracker, dashboard Total Views stat
-
-## Open Questions
-
-| Question | Impact | When to Decide |
-|----------|--------|----------------|
-| v1 deployment timing vs. v2 development | Deploy v1 before or during v2 work? | Now |
+- 2026-02-25: v2 milestone completed and archived (24/24 requirements, 4 phases, 10 plans)
+- 2026-02-25: FEAT-02 and FEAT-03 gap fixes applied (featured badge on expert profile, featured-first sort on homepage)
+- 2026-02-25: v2 milestone audit passed (24/24)
+- 2026-02-25: Phase 9 executed — bookmarks + view counts
+- 2026-02-25: Phase 8 executed — email infrastructure
+- 2026-02-25: Phase 7 executed — queue preview + featured answers
+- 2026-02-25: Phase 6 executed — onboarding + compose polish
 
 ## Notes
 
-- v1 is code-complete but not yet deployed — deployment can happen in parallel with v2 planning/execution
+- v1 + v2 are code-complete but not yet deployed
 - Resend integrated for email (Phase 8) — API key needed in env
-- Queue preview depth decided: 3 days default, configurable 1-7 per profile, RLS caps at 7
-- Featured answer pattern mirrors hidden_at/hidden_by — same migration + Server Action + toggle button approach
-- View counts decided: API route + RPC function for atomic increment, author-only display on dashboard
-- Bookmarks: dedicated table with composite PK, RLS, bookmark notification integrated into existing daily cron
+- 62 total requirements across v1 + v2 (61 pass, 1 manual deployment check)
+- Next step: `/gsd:new-milestone` for v3

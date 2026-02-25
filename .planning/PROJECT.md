@@ -10,13 +10,12 @@ The limited answer budget turns every response into a statement of identity — 
 
 ## Current State
 
-**Shipped:** v1 (beta launch) — 2026-02-25
-**Active:** v2 (engagement & retention) — 24 requirements, 4 phases (6-9)
-**Status:** v1 pending deployment, v2 requirements and roadmap defined
+**Shipped:** v2 (engagement & retention) — 2026-02-25
+**Previous:** v1 (beta launch) — 2026-02-25
 
 v1 includes: auth (Google + LinkedIn), profiles, daily questions, answer submission with three-layer budget enforcement, public feeds, expert profiles with selectivity metrics, editorial admin panel, social sharing with OG images, account deletion, legal pages.
 
-v2 focus: onboarding polish, Markdown preview, edit window, queue preview, featured answers, email notifications, bookmarks.
+v2 adds: onboarding flow, Markdown preview, 15-min edit window, queue preview, featured answers, email notifications (Resend), bookmarks, view counts.
 
 ## Requirements
 
@@ -28,13 +27,13 @@ v2 focus: onboarding polish, Markdown preview, edit window, queue preview, featu
 
 See [v1-REQUIREMENTS.md](milestones/v1-REQUIREMENTS.md) for full requirements archive.
 
-### Active (v2)
+### Validated (v2)
 
-See [REQUIREMENTS.md](REQUIREMENTS.md) — 24 requirements across 4 categories:
-- Onboarding & Compose Polish (5)
-- Queue Preview & Featured Answers (8)
-- Email Notifications (7)
-- Activity & Bookmarks (4)
+- [x] 24/24 requirements pass code-level verification
+- [x] 4/4 cross-phase integration points verified
+- [x] 4/4 E2E flows verified
+
+See [v2-REQUIREMENTS.md](milestones/v2-REQUIREMENTS.md) for full requirements archive.
 
 ### Out of Scope
 
@@ -58,6 +57,7 @@ See [REQUIREMENTS.md](REQUIREMENTS.md) — 24 requirements across 4 categories:
 
 - **Stack:** Next.js 16 + Supabase (Postgres + Auth) + Vercel + Tailwind CSS v4
 - **Auth:** Supabase Auth with LinkedIn and Google OAuth providers
+- **Email:** Resend transactional email with Vercel Cron
 - **Team:** Solo developer, must be maintainable by one person
 - **Budget:** Free tiers of Supabase + Vercel for beta (upgrade when traction warrants)
 
@@ -72,9 +72,11 @@ See [REQUIREMENTS.md](REQUIREMENTS.md) — 24 requirements across 4 categories:
 | Social login only (no email/password) | Target users live on LinkedIn — reduce friction, get real identity | Shipped v1 |
 | 3 answers/month limit | Small enough to force real selectivity — each answer is a statement | Shipped v1 — instrument and measure |
 | Calendar month reset (not rolling) | Simpler mental model, implemented via date_trunc('month', now()) | Shipped v1 |
-| Engagement before monetization | Validate retention with free users before building billing | v2 scope |
-| Resend for transactional email | Simple API, good Next.js integration, generous free tier | v2 Phase 8 |
-| 15-min edit window (not unlimited) | Preserves "permanent record" feel while allowing typo fixes | v2 Phase 6 |
+| Engagement before monetization | Validate retention with free users before building billing | Shipped v2 |
+| Resend for transactional email | Simple API, good Next.js integration, generous free tier | Shipped v2 |
+| 15-min edit window (not unlimited) | Preserves "permanent record" feel while allowing typo fixes | Shipped v2 |
+| Queue preview (configurable 1-7 days) | Strategic visibility without ruining surprise — default 3 days | Shipped v2 |
+| View counts author-only | Prevents popularity contest, gives authors private engagement signal | Shipped v2 |
 
 ---
-*Last updated: 2026-02-25 after v2 milestone definition*
+*Last updated: 2026-02-25 after v2 milestone completion*
