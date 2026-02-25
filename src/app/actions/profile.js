@@ -108,3 +108,27 @@ export async function deleteAccount() {
 
   return { success: true }
 }
+
+export async function updateEmailPreferences(prevState, formData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) return { error: 'You must be signed in.' }
+
+  const preferences = {
+    daily_question: formData.get('daily_question') === 'on',
+    weekly_recap: formData.get('weekly_recap') === 'on',
+    budget_reset: formData.get('budget_reset') === 'on',
+    featured_answer: formData.get('featured_answer') === 'on',
+  }
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ email_preferences: preferences })
+    .eq('id', user.id)
+
+  if (error) return { error: 'Failed to update preferences.' }
+
+  revalidatePath('/dashboard/notifications')
+  return { success: true }
+}

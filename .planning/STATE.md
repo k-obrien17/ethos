@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Milestone
 
 **Milestone:** v2 (engagement & retention)
-**Status:** Phase 8 planned — ready for `/gsd:execute-phase 8`
+**Status:** Phase 8 complete — ready for `/gsd:plan-phase 9`
 
 ## Milestone History
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | 1-5 (v1) | Complete | See v1 archive |
 | 6 — Onboarding & Compose Polish | Complete | 3 plans, 2 waves, 10 tasks, 5 requirements |
 | 7 — Queue Preview & Featured | Complete | 2 plans, 1 wave, 8 tasks, 8 requirements |
-| 8 — Email Notifications | Planned | 3 plans, 2 waves, 10 tasks, 7 requirements |
+| 8 — Email Notifications | Complete | 3 plans, 2 waves, 10 tasks, 7 requirements |
 | 9 — Activity & Bookmarks | Not planned | — |
 
 ## Recent Activity
@@ -37,6 +37,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - 2026-02-25: Phase 7 planned — queue preview (RLS + /questions/upcoming) and featured answers (admin toggle + badge + sorting)
 - 2026-02-25: Phase 7 executed — queue preview page, upcoming nav link, featured answers (migration, admin toggle, badge, sorting)
 - 2026-02-25: Phase 8 planned — Resend integration, email preferences, unsubscribe, featured notification, daily/weekly/budget cron emails
+- 2026-02-25: Phase 8 executed — Resend SDK, email utility, preferences page, unsubscribe route, featured email hook, daily cron with 3 email types
 
 ## Open Questions
 

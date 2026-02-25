@@ -2,6 +2,76 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { sendEmail, emailLayout, getUnsubscribeUrl } from '@/lib/email'
+import { createAdminClient } from '@/lib/supabase/admin'
+
+async function sendFeaturedEmail(answerId, expertId) {
+  try {
+    const admin = createAdminClient()
+
+    // Check expert's email preferences
+    const { data: profile } = await admin
+      .from('profiles')
+      .select('email_preferences, unsubscribe_token, display_name')
+      .eq('id', expertId)
+      .single()
+
+    if (!profile?.email_preferences?.featured_answer) return
+
+    // Get expert's email from auth.users
+    const { data: { user: expertUser } } = await admin.auth.admin.getUserById(expertId)
+    if (!expertUser?.email) return
+
+    // Get answer + question context
+    const { data: answer } = await admin
+      .from('answers')
+      .select('body, questions!inner(body, slug)')
+      .eq('id', answerId)
+      .single()
+
+    if (!answer) return
+
+    const answerUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/answers/${answerId}`
+    const unsubscribeUrl = getUnsubscribeUrl(profile.unsubscribe_token, 'featured_answer')
+
+    const content = `
+      <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">Your answer was featured!</h2>
+      <p style="font-size:14px;color:#44403c;margin:0 0 16px;">
+        Congratulations, ${escapeHtml(profile.display_name || 'there')}. Your answer to the question below has been selected as an editorial pick on Ethos.
+      </p>
+      <div style="background-color:#faf9f7;border-radius:6px;padding:16px;margin:0 0 16px;">
+        <p style="font-size:12px;color:#a8a29e;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 4px;">Question</p>
+        <p style="font-size:15px;color:#1c1917;font-weight:600;margin:0;">${escapeHtml(answer.questions.body)}</p>
+      </div>
+      <p style="font-size:14px;color:#44403c;margin:0 0 20px;">
+        ${escapeHtml(answer.body.slice(0, 200))}${answer.body.length > 200 ? '...' : ''}
+      </p>
+      <div style="text-align:center;">
+        <a href="${answerUrl}" style="display:inline-block;padding:10px 24px;background-color:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">
+          View your featured answer
+        </a>
+      </div>
+    `
+
+    await sendEmail({
+      to: expertUser.email,
+      subject: 'Your answer was featured on Ethos!',
+      html: emailLayout(content, unsubscribeUrl),
+    })
+  } catch (err) {
+    // Email failure should not break the feature action
+    console.error('[email] Featured notification failed:', err)
+  }
+}
+
+function escapeHtml(str) {
+  if (!str) return ''
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
 
 export async function submitAnswer(prevState, formData) {
   const supabase = await createClient()
@@ -199,7 +269,7 @@ export async function toggleFeaturedAnswer(answerId) {
   // Get current state + question context
   const { data: answer } = await supabase
     .from('answers')
-    .select('featured_at, question_id, questions!inner(slug)')
+    .select('featured_at, question_id, expert_id, questions!inner(slug)')
     .eq('id', answerId)
     .single()
 
@@ -235,6 +305,9 @@ export async function toggleFeaturedAnswer(answerId) {
       .eq('id', answerId)
 
     if (error) return { error: 'Failed to feature answer.' }
+
+    // Send notification email to the expert (fire-and-forget)
+    sendFeaturedEmail(answerId, answer.expert_id)
   }
 
   // Revalidate affected pages
