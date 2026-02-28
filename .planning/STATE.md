@@ -5,21 +5,21 @@
 See: .planning/PROJECT.md (updated 2026-02-27)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v3 Discovery & Content Organization — Phase 10 (Topic Taxonomy & Browse)
+**Current focus:** v3 Discovery & Content Organization — Phase 10 complete, Phase 11 next
 
 ## Current Position
 
-Phase: 10 of 13 (Topic Taxonomy & Browse) — first phase of v3
+Phase: 10 of 13 (Topic Taxonomy & Browse) — complete
 Plan: 2 of 2
-Status: Executing
-Last activity: 2026-02-28 — completed plan 10-01 (topic schema + admin + pills)
+Status: Phase Complete
+Last activity: 2026-02-28 — completed plan 10-02 (topic browse, follow, feed personalization)
 
-Progress: [█████░░░░░] 50% (v3 — 1 of 2 plans in phase 10)
+Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 10)
 
 ## Current Milestone
 
 **Milestone:** v3 (Discovery & Content Organization)
-**Status:** Phase 10 in progress (plan 01 complete, plan 02 pending)
+**Status:** Phase 10 complete, Phase 11 (Search) next
 
 ## Milestone History
 
@@ -34,7 +34,7 @@ Progress: [█████░░░░░] 50% (v3 — 1 of 2 plans in phase 10)
 |-------|--------|-------|
 | 1-5 (v1) | Complete | See v1 archive |
 | 6-9 (v2) | Complete | See v2 archive |
-| 10 — Topic Taxonomy & Browse | In progress | 1/2 complete |
+| 10 — Topic Taxonomy & Browse | Complete | 2/2 complete |
 | 11 — Search | Not started | TBD |
 | 12 — Content Surfacing | Not started | TBD |
 | 13 — Expert Directory | Not started | TBD |
@@ -42,13 +42,14 @@ Progress: [█████░░░░░] 50% (v3 — 1 of 2 plans in phase 10)
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1 (v3)
-- Average duration: 5min
-- Total execution time: 5min
+- Total plans completed: 2 (v3)
+- Average duration: 4min
+- Total execution time: 8min
 
 | Phase | Plan | Duration | Tasks | Files |
 |-------|------|----------|-------|-------|
 | 10 | 01 | 5min | 2 | 16 |
+| 10 | 02 | 3min | 2 | 9 |
 
 *Updated after each plan completion*
 
@@ -60,9 +61,12 @@ Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
 - v3 Roadmap: Topics (Phase 10) before Search (Phase 11) — topic taxonomy is foundational for search filters, expert expertise tags, and content organization
-- Topic pills are display-only on public pages; links to topic browse pages come in plan 10-02
+- Topic pills are now linked across all public pages (homepage, question, answer, question list)
 - Topic assignment inlined in question actions to avoid circular imports with topics.js
 - Topic picker uses clickable pill UI with hidden comma-separated UUID input
+- QuestionCard restructured: div wrapper with Link (body) + separate topic pill Links to avoid nested anchors
+- FollowTopicButton uses optimistic useState + useTransition for instant feedback
+- Feed personalization: client-side stable sort of recent questions by followed-topic match
 
 ### Pending Todos
 
@@ -76,5 +80,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Completed 10-01-PLAN.md
-Resume file: None — next step is `/gsd:execute-phase 10` (plan 10-02)
+Stopped at: Completed 10-02-PLAN.md (Phase 10 complete)
+Resume file: None — next step is Phase 11 (Search) planning

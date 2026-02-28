@@ -18,7 +18,7 @@
 
 ### Phases
 
-- [ ] **Phase 10: Topic Taxonomy & Browse** - Admin-managed topic tags on questions with user-facing browse and follow
+- [x] **Phase 10: Topic Taxonomy & Browse** - Admin-managed topic tags on questions with user-facing browse and follow (completed 2026-02-28)
 - [ ] **Phase 11: Search** - Full-text search across questions, answers, and experts with filters and typeahead
 - [ ] **Phase 12: Content Surfacing** - Trending answers, question archives, and related content connections
 - [ ] **Phase 13: Expert Directory** - Browsable expert directory with auto-generated topic expertise and featured spotlight
@@ -87,7 +87,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 10. Topic Taxonomy & Browse | 1/2 | In Progress|  |
+| 10. Topic Taxonomy & Browse | 2/2 | Complete   | 2026-02-28 |
 | 11. Search | 0/? | Not started | - |
 | 12. Content Surfacing | 0/? | Not started | - |
 | 13. Expert Directory | 0/? | Not started | - |
