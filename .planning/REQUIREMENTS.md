@@ -15,7 +15,7 @@ Requirements for Discovery & Content Organization milestone. Each maps to roadma
 
 ### Topics
 
-- [ ] **TOPC-01**: Admin can assign 1-3 topic tags per question from a managed taxonomy
+- [x] **TOPC-01**: Admin can assign 1-3 topic tags per question from a managed taxonomy
 - [ ] **TOPC-02**: User can browse a topic page showing all questions and answers tagged with that topic
 - [ ] **TOPC-03**: User can follow topics to personalize their feed with preferred subjects
 
@@ -64,7 +64,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SRCH-01 | Phase 11 | Pending |
 | SRCH-02 | Phase 11 | Pending |
 | SRCH-03 | Phase 11 | Pending |
-| TOPC-01 | Phase 10 | Pending |
+| TOPC-01 | Phase 10 | Complete |
 | TOPC-02 | Phase 10 | Pending |
 | TOPC-03 | Phase 10 | Pending |
 | SURF-01 | Phase 12 | Pending |

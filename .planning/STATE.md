@@ -10,16 +10,16 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 10 of 13 (Topic Taxonomy & Browse) — first phase of v3
-Plan: —
-Status: Ready to plan
-Last activity: 2026-02-28 — v3 roadmap created (4 phases, 12 requirements)
+Plan: 2 of 2
+Status: Executing
+Last activity: 2026-02-28 — completed plan 10-01 (topic schema + admin + pills)
 
-Progress: [░░░░░░░░░░] 0% (v3)
+Progress: [█████░░░░░] 50% (v3 — 1 of 2 plans in phase 10)
 
 ## Current Milestone
 
 **Milestone:** v3 (Discovery & Content Organization)
-**Status:** Roadmap complete, ready to plan Phase 10
+**Status:** Phase 10 in progress (plan 01 complete, plan 02 pending)
 
 ## Milestone History
 
@@ -34,7 +34,7 @@ Progress: [░░░░░░░░░░] 0% (v3)
 |-------|--------|-------|
 | 1-5 (v1) | Complete | See v1 archive |
 | 6-9 (v2) | Complete | See v2 archive |
-| 10 — Topic Taxonomy & Browse | Not started | TBD |
+| 10 — Topic Taxonomy & Browse | In progress | 1/2 complete |
 | 11 — Search | Not started | TBD |
 | 12 — Content Surfacing | Not started | TBD |
 | 13 — Expert Directory | Not started | TBD |
@@ -42,9 +42,13 @@ Progress: [░░░░░░░░░░] 0% (v3)
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0 (v3)
-- Average duration: —
-- Total execution time: —
+- Total plans completed: 1 (v3)
+- Average duration: 5min
+- Total execution time: 5min
+
+| Phase | Plan | Duration | Tasks | Files |
+|-------|------|----------|-------|-------|
+| 10 | 01 | 5min | 2 | 16 |
 
 *Updated after each plan completion*
 
@@ -56,6 +60,9 @@ Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
 - v3 Roadmap: Topics (Phase 10) before Search (Phase 11) — topic taxonomy is foundational for search filters, expert expertise tags, and content organization
+- Topic pills are display-only on public pages; links to topic browse pages come in plan 10-02
+- Topic assignment inlined in question actions to avoid circular imports with topics.js
+- Topic picker uses clickable pill UI with hidden comma-separated UUID input
 
 ### Pending Todos
 
@@ -69,5 +76,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: v3 roadmap created
-Resume file: None — next step is `/gsd:plan-phase 10`
+Stopped at: Completed 10-01-PLAN.md
+Resume file: None — next step is `/gsd:execute-phase 10` (plan 10-02)

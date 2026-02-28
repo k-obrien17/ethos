@@ -87,7 +87,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 10. Topic Taxonomy & Browse | 0/2 | Planned | - |
+| 10. Topic Taxonomy & Browse | 1/2 | In Progress|  |
 | 11. Search | 0/? | Not started | - |
 | 12. Content Surfacing | 0/? | Not started | - |
 | 13. Expert Directory | 0/? | Not started | - |
