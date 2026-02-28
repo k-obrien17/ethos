@@ -1,6 +1,18 @@
 import Link from 'next/link'
+import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import HeaderAuth from '@/components/HeaderAuth'
+
+function NavLink({ href, children }) {
+  return (
+    <Link
+      href={href}
+      className="text-warm-600 hover:text-warm-900 text-sm font-medium"
+    >
+      {children}
+    </Link>
+  )
+}
 
 export default async function Header() {
   const supabase = await createClient()
@@ -39,6 +51,12 @@ export default async function Header() {
           Ethos
         </Link>
         <div className="flex items-center gap-4">
+          <Link
+            href="/topics"
+            className="text-warm-600 hover:text-warm-900 text-sm font-medium"
+          >
+            Topics
+          </Link>
           <Link
             href="/questions"
             className="text-warm-600 hover:text-warm-900 text-sm font-medium"
