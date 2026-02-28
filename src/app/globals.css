@@ -14,3 +14,27 @@
 
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
+
+/* Shared prose styles for markdown-rendered content */
+.prose-answer {
+  @apply text-warm-800 leading-relaxed;
+}
+.prose-answer p { @apply mb-3; }
+.prose-answer p:last-child { @apply mb-0; }
+.prose-answer strong { @apply font-semibold; }
+.prose-answer a { @apply text-warm-700 underline; }
+.prose-answer ul { @apply list-disc ml-5; }
+.prose-answer ol { @apply list-decimal ml-5; }
+.prose-answer li { @apply mb-1; }
+
+/* Global focus-visible ring for interactive elements */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  @apply outline-2 outline-offset-2 outline-warm-400 rounded-sm;
+}
+
+/* Search result highlights */
+mark {
+  @apply bg-warm-200 text-warm-900 rounded-sm px-0.5;
+}
