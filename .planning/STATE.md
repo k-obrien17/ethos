@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in-progress
-last_updated: "2026-02-28T14:51:09Z"
+status: completed
+last_updated: "2026-02-28T14:56:22.026Z"
 progress:
-  total_phases: 13
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 5
+  total_phases: 11
+  completed_phases: 2
+  total_plans: 4
+  completed_plans: 6
 ---
 
 # Project State: Ethos
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 11 of 13 (Search)
-Plan: 1 of 2 complete
-Status: In Progress
-Last activity: 2026-02-28 — completed plan 11-01 (search infrastructure + results page)
+Plan: 2 of 2 complete
+Status: Complete
+Last activity: 2026-02-28 — completed plan 11-02 (search bar + typeahead)
 
-Progress: [█████-----] 50% (v3 — 1 of 2 plans in phase 11)
+Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 11)
 
 ## Current Milestone
 
@@ -48,22 +48,23 @@ Progress: [█████-----] 50% (v3 — 1 of 2 plans in phase 11)
 | 1-5 (v1) | Complete | See v1 archive |
 | 6-9 (v2) | Complete | See v2 archive |
 | 10 — Topic Taxonomy & Browse | Complete | 2/2 complete |
-| 11 — Search | In Progress | 1/2 complete |
+| 11 — Search | Complete | 2/2 complete |
 | 12 — Content Surfacing | Not started | TBD |
 | 13 — Expert Directory | Not started | TBD |
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3 (v3)
-- Average duration: 4min
-- Total execution time: 11min
+- Total plans completed: 4 (v3)
+- Average duration: 3min
+- Total execution time: 13min
 
 | Phase | Plan | Duration | Tasks | Files |
 |-------|------|----------|-------|-------|
 | 10 | 01 | 5min | 2 | 16 |
 | 10 | 02 | 3min | 2 | 9 |
 | 11 | 01 | 3min | 2 | 6 |
+| 11 | 02 | 2min | 2 | 4 |
 
 *Updated after each plan completion*
 
@@ -84,6 +85,9 @@ Recent decisions affecting current work:
 - Used websearch_to_tsquery for Google-like search syntax (quoted phrases, AND, OR, -exclude)
 - Unified search_content RPC returns interleaved results ranked by ts_rank across all three content types
 - Filter state fully URL-driven for shareability and browser back/forward support
+- SearchBar is self-contained client component rendered within server component Header
+- Mobile search uses fixed overlay pattern for full-width input on narrow screens
+- Typeahead debounced at 250ms with lightweight searchSuggestions action (7 results max)
 
 ### Pending Todos
 
@@ -97,5 +101,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Completed 11-01-PLAN.md
-Resume file: .planning/phases/11-search/11-02-PLAN.md
+Stopped at: Completed 11-02-PLAN.md (Phase 11 Search complete)
+Resume file: .planning/phases/12-content-surfacing/

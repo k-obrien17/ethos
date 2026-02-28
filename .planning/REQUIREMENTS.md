@@ -11,7 +11,7 @@ Requirements for Discovery & Content Organization milestone. Each maps to roadma
 
 - [x] **SRCH-01**: User can search questions, answers, and experts from a single search bar
 - [x] **SRCH-02**: User can filter search results by content type (question, answer, expert), topic, and date range
-- [ ] **SRCH-03**: User sees typeahead suggestions as they type in the search bar
+- [x] **SRCH-03**: User sees typeahead suggestions as they type in the search bar
 
 ### Topics
 
@@ -63,7 +63,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | SRCH-01 | Phase 11 | Complete |
 | SRCH-02 | Phase 11 | Complete |
-| SRCH-03 | Phase 11 | Pending |
+| SRCH-03 | Phase 11 | Complete |
 | TOPC-01 | Phase 10 | Complete |
 | TOPC-02 | Phase 10 | Complete |
 | TOPC-03 | Phase 10 | Complete |
