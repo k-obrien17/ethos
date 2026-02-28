@@ -8,6 +8,18 @@ A public content platform where influencers and subject-matter experts answer on
 
 The limited answer budget turns every response into a statement of identity — what you choose to answer reveals what you stand for.
 
+## Current Milestone: v3 Discovery & Content Organization
+
+**Goal:** Make every answer findable — by topic, by search, by quality signal — so users always have a reason to browse.
+
+**Target features:**
+- Full-text search across questions, answers, and experts
+- Topic taxonomy for questions with browse-by-topic pages
+- Trending/popular content surfacing on homepage
+- Answer archives for past questions
+- Expert directory with topic filtering
+- Related content connections (other answers, more from expert)
+
 ## Current State
 
 **Shipped:** v2 (engagement & retention) — 2026-02-25
@@ -34,6 +46,15 @@ See [v1-REQUIREMENTS.md](milestones/v1-REQUIREMENTS.md) for full requirements ar
 - [x] 4/4 E2E flows verified
 
 See [v2-REQUIREMENTS.md](milestones/v2-REQUIREMENTS.md) for full requirements archive.
+
+### Active (v3)
+
+- [ ] Full-text search across questions, answers, and experts
+- [ ] Topic taxonomy and browse-by-topic pages
+- [ ] Trending/popular content surfacing
+- [ ] Answer archives for past questions
+- [ ] Expert directory with topic filtering
+- [ ] Related content connections
 
 ### Out of Scope
 
@@ -79,4 +100,4 @@ See [v2-REQUIREMENTS.md](milestones/v2-REQUIREMENTS.md) for full requirements ar
 | View counts author-only | Prevents popularity contest, gives authors private engagement signal | Shipped v2 |
 
 ---
-*Last updated: 2026-02-25 after v2 milestone completion*
+*Last updated: 2026-02-27 after v3 milestone start*
