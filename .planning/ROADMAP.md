@@ -34,11 +34,11 @@
   2. User can navigate to a topic page and see all questions (with their answers) tagged under that topic
   3. User can follow/unfollow topics from the topic page or a topic listing, and their feed reflects followed-topic preferences
   4. Topic tags appear on question cards throughout the app (homepage, feeds, answer pages)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 10-01: TBD
-- [ ] 10-02: TBD
+- [ ] 10-01-PLAN.md — Database schema + admin topic management + topic assignment on questions + topic pills on cards
+- [ ] 10-02-PLAN.md — Topic browse pages + follow/unfollow + homepage feed personalization
 
 #### Phase 11: Search
 **Goal**: Users can find any question, answer, or expert through a single search experience
@@ -87,7 +87,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 10. Topic Taxonomy & Browse | 0/? | Not started | - |
+| 10. Topic Taxonomy & Browse | 0/2 | Planned | - |
 | 11. Search | 0/? | Not started | - |
 | 12. Content Surfacing | 0/? | Not started | - |
 | 13. Expert Directory | 0/? | Not started | - |
