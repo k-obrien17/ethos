@@ -61,24 +61,24 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SRCH-01 | — | Pending |
-| SRCH-02 | — | Pending |
-| SRCH-03 | — | Pending |
-| TOPC-01 | — | Pending |
-| TOPC-02 | — | Pending |
-| TOPC-03 | — | Pending |
-| SURF-01 | — | Pending |
-| SURF-02 | — | Pending |
-| SURF-03 | — | Pending |
-| EXPR-01 | — | Pending |
-| EXPR-02 | — | Pending |
-| EXPR-03 | — | Pending |
+| SRCH-01 | Phase 11 | Pending |
+| SRCH-02 | Phase 11 | Pending |
+| SRCH-03 | Phase 11 | Pending |
+| TOPC-01 | Phase 10 | Pending |
+| TOPC-02 | Phase 10 | Pending |
+| TOPC-03 | Phase 10 | Pending |
+| SURF-01 | Phase 12 | Pending |
+| SURF-02 | Phase 12 | Pending |
+| SURF-03 | Phase 12 | Pending |
+| EXPR-01 | Phase 13 | Pending |
+| EXPR-02 | Phase 13 | Pending |
+| EXPR-03 | Phase 13 | Pending |
 
 **Coverage:**
 - v3 requirements: 12 total
-- Mapped to phases: 0
-- Unmapped: 12 ⚠️
+- Mapped to phases: 12
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-27*
-*Last updated: 2026-02-27 after initial definition*
+*Last updated: 2026-02-28 after roadmap creation*
