@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import HeaderAuth from '@/components/HeaderAuth'
+import SearchBar from '@/components/SearchBar'
 
 function NavLink({ href, children }) {
   return (
@@ -45,12 +46,13 @@ export default async function Header() {
   }
 
   return (
-    <header className="border-b border-warm-200 bg-warm-50">
+    <header className="border-b border-warm-200 bg-warm-50 relative">
       <nav className="mx-auto max-w-2xl px-4 py-4 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold text-warm-900">
           Ethos
         </Link>
         <div className="flex items-center gap-4">
+          <SearchBar />
           <Link
             href="/topics"
             className="text-warm-600 hover:text-warm-900 text-sm font-medium"
