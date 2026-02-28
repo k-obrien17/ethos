@@ -28,6 +28,9 @@ export default async function AdminLayout({ children }) {
         <Link href="/admin/answers" className="text-sm font-medium text-warm-700 hover:text-warm-900 transition-colors">
           Answers
         </Link>
+        <Link href="/admin/topics" className="text-sm font-medium text-warm-700 hover:text-warm-900 transition-colors">
+          Topics
+        </Link>
         <div className="flex-1" />
         <Link href="/" className="text-xs text-warm-400 hover:text-warm-600 transition-colors">
           &larr; Back to site

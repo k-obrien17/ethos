@@ -16,10 +16,28 @@ export default async function EditQuestionPage({ params }) {
 
   if (!question) notFound()
 
+  // Fetch all topics for the picker
+  const { data: topics } = await supabase
+    .from('topics')
+    .select('id, name')
+    .order('name', { ascending: true })
+
+  // Fetch this question's current topic assignments
+  const { data: questionTopics } = await supabase
+    .from('question_topics')
+    .select('topic_id')
+    .eq('question_id', id)
+
+  const selectedTopicIds = (questionTopics || []).map((qt) => qt.topic_id)
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-warm-900 mb-6">Edit Question</h1>
-      <QuestionForm question={question} />
+      <QuestionForm
+        question={question}
+        topics={topics || []}
+        selectedTopicIds={selectedTopicIds}
+      />
     </div>
   )
 }

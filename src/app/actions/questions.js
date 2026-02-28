@@ -60,6 +60,20 @@ export async function createQuestion(prevState, formData) {
     return { error: 'Failed to create question.' }
   }
 
+  // Assign topics if provided
+  const topicIdsRaw = formData.get('topic_ids')
+  if (topicIdsRaw && data?.id) {
+    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    const topicIds = topicIdsRaw.split(',').filter((id) => uuidPattern.test(id.trim()))
+    if (topicIds.length > 0 && topicIds.length <= 3) {
+      const rows = topicIds.map((topicId) => ({
+        question_id: data.id,
+        topic_id: topicId.trim(),
+      }))
+      await supabase.from('question_topics').insert(rows)
+    }
+  }
+
   revalidatePath('/admin/questions')
   revalidatePath('/questions')
   revalidatePath('/')
@@ -109,6 +123,26 @@ export async function updateQuestion(prevState, formData) {
       return { error: 'That slug is already taken.' }
     }
     return { error: 'Failed to update question.' }
+  }
+
+  // Update topic assignments
+  const topicIdsRaw = formData.get('topic_ids')
+  if (topicIdsRaw !== null) {
+    // Delete existing topic assignments
+    await supabase.from('question_topics').delete().eq('question_id', questionId)
+
+    // Insert new ones if provided
+    if (topicIdsRaw) {
+      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+      const topicIds = topicIdsRaw.split(',').filter((id) => uuidPattern.test(id.trim()))
+      if (topicIds.length > 0 && topicIds.length <= 3) {
+        const rows = topicIds.map((topicId) => ({
+          question_id: questionId,
+          topic_id: topicId.trim(),
+        }))
+        await supabase.from('question_topics').insert(rows)
+      }
+    }
   }
 
   revalidatePath('/admin/questions')

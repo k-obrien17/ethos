@@ -23,7 +23,7 @@ export default async function HomePage() {
   // Fetch today's question
   const { data: todayQuestion } = await supabase
     .from('questions')
-    .select('*')
+    .select('*, question_topics(topics(name, slug))')
     .lte('publish_date', today)
     .in('status', ['scheduled', 'published'])
     .order('publish_date', { ascending: false })
@@ -58,7 +58,7 @@ export default async function HomePage() {
   // Fetch recent past questions with answer counts
   const { data: recentQuestions } = await supabase
     .from('questions')
-    .select('*, answers(count)')
+    .select('*, answers(count), question_topics(topics(name, slug))')
     .lt('publish_date', today)
     .in('status', ['scheduled', 'published'])
     .order('publish_date', { ascending: false })
@@ -81,6 +81,18 @@ export default async function HomePage() {
             <h1 className="text-2xl font-bold text-warm-900 mt-1">
               {todayQuestion.body}
             </h1>
+            {todayQuestion.question_topics?.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {todayQuestion.question_topics.map((qt) => qt.topics && (
+                  <span
+                    key={qt.topics.slug}
+                    className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium"
+                  >
+                    {qt.topics.name}
+                  </span>
+                ))}
+              </div>
+            )}
             <p className="text-sm text-warm-500 mt-3">
               {todayAnswers.length} {todayAnswers.length === 1 ? 'expert has' : 'experts have'} answered
             </p>

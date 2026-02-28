@@ -71,7 +71,8 @@ export default async function AnswerPage({ params }) {
         body,
         slug,
         category,
-        publish_date
+        publish_date,
+        question_topics(topics(name, slug))
       )
     `)
     .eq('id', id)
@@ -83,7 +84,7 @@ export default async function AnswerPage({ params }) {
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Question context */}
       <div>
         <Link
@@ -100,6 +101,18 @@ export default async function AnswerPage({ params }) {
           <p className="text-lg font-semibold text-warm-900 mt-1">
             {answer.questions.body}
           </p>
+          {answer.questions.question_topics?.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {answer.questions.question_topics.map((qt) => qt.topics && (
+                <span
+                  key={qt.topics.slug}
+                  className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium"
+                >
+                  {qt.topics.name}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

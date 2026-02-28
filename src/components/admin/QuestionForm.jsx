@@ -12,7 +12,7 @@ function generateSlug(text) {
     .slice(0, 60)
 }
 
-export default function QuestionForm({ question }) {
+export default function QuestionForm({ question, topics = [], selectedTopicIds = [] }) {
   const isEdit = !!question
   const action = isEdit ? updateQuestion : createQuestion
   const [state, formAction, pending] = useActionState(action, null)
@@ -21,6 +21,7 @@ export default function QuestionForm({ question }) {
   const [slug, setSlug] = useState(question?.slug ?? '')
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(isEdit)
   const [status, setStatus] = useState(question?.status ?? 'draft')
+  const [selectedTopics, setSelectedTopics] = useState(selectedTopicIds)
 
   function handleBodyChange(e) {
     const newBody = e.target.value
@@ -36,6 +37,16 @@ export default function QuestionForm({ question }) {
     setSlugManuallyEdited(true)
   }
 
+  function toggleTopic(topicId) {
+    setSelectedTopics((prev) => {
+      if (prev.includes(topicId)) {
+        return prev.filter((id) => id !== topicId)
+      }
+      if (prev.length >= 3) return prev
+      return [...prev, topicId]
+    })
+  }
+
   const statusBadgeClasses = {
     draft: 'bg-warm-100 text-warm-600',
     scheduled: 'bg-amber-100 text-amber-700',
@@ -47,6 +58,9 @@ export default function QuestionForm({ question }) {
       {isEdit && (
         <input type="hidden" name="question_id" value={question.id} />
       )}
+
+      {/* Hidden input for topic IDs */}
+      <input type="hidden" name="topic_ids" value={selectedTopics.join(',')} />
 
       {/* Body */}
       <div>
@@ -109,6 +123,37 @@ export default function QuestionForm({ question }) {
           className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
         />
       </div>
+
+      {/* Topics */}
+      {topics.length > 0 && (
+        <div>
+          <label className="block text-sm font-medium text-warm-700 mb-1">
+            Topics (up to 3)
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {topics.map((topic) => {
+              const isSelected = selectedTopics.includes(topic.id)
+              return (
+                <button
+                  key={topic.id}
+                  type="button"
+                  onClick={() => toggleTopic(topic.id)}
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                    isSelected
+                      ? 'bg-warm-800 text-warm-50'
+                      : 'border border-warm-300 text-warm-600 hover:border-warm-400 hover:text-warm-700'
+                  }`}
+                >
+                  {topic.name}
+                </button>
+              )
+            })}
+          </div>
+          <p className="text-xs text-warm-400 mt-1.5">
+            {selectedTopics.length}/3 selected
+          </p>
+        </div>
+      )}
 
       {/* Status */}
       <div>

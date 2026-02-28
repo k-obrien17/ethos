@@ -13,7 +13,7 @@ export default async function QuestionsPage() {
 
   const { data: questions } = await supabase
     .from('questions')
-    .select('*, answers(count)')
+    .select('*, answers(count), question_topics(topics(name, slug))')
     .lte('publish_date', new Date().toISOString().slice(0, 10))
     .in('status', ['scheduled', 'published'])
     .order('publish_date', { ascending: false })

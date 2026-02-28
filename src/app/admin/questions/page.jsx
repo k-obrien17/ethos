@@ -21,6 +21,7 @@ function StatusBadge({ status }) {
 
 function QuestionRow({ question }) {
   const canDelete = question.status !== 'published'
+  const topics = question.question_topics?.map((qt) => qt.topics).filter(Boolean) ?? []
 
   return (
     <div className="flex items-start justify-between gap-4 py-3 border-b border-warm-100 last:border-b-0">
@@ -32,6 +33,18 @@ function QuestionRow({ question }) {
           <StatusBadge status={question.status} />
           {question.category && (
             <span className="text-xs text-warm-500">{question.category}</span>
+          )}
+          {topics.length > 0 && (
+            <span className="flex items-center gap-1">
+              {topics.map((topic) => (
+                <span
+                  key={topic.slug}
+                  className="text-xs px-1.5 py-0.5 rounded-full bg-warm-100 text-warm-500 font-medium"
+                >
+                  {topic.name}
+                </span>
+              ))}
+            </span>
           )}
           {question.publish_date && (
             <span className="text-xs text-warm-400">
@@ -83,7 +96,7 @@ export default async function AdminQuestionsPage() {
 
   const { data: questions } = await supabase
     .from('questions')
-    .select('*, answers(count)')
+    .select('*, answers(count), question_topics(topics(name, slug))')
     .order('publish_date', { ascending: false, nullsFirst: true })
 
   const allQuestions = questions || []

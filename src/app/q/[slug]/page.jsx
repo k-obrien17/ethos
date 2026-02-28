@@ -52,7 +52,7 @@ export default async function QuestionPage({ params }) {
   // Fetch question by slug
   const { data: question } = await supabase
     .from('questions')
-    .select('*')
+    .select('*, question_topics(topics(name, slug))')
     .eq('slug', slug)
     .single()
 
@@ -165,6 +165,18 @@ export default async function QuestionPage({ params }) {
         <h1 className="text-2xl font-bold text-warm-900">
           {question.body}
         </h1>
+        {question.question_topics?.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {question.question_topics.map((qt) => qt.topics && (
+              <span
+                key={qt.topics.slug}
+                className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium"
+              >
+                {qt.topics.name}
+              </span>
+            ))}
+          </div>
+        )}
         <p className="text-sm text-warm-500 mt-3">
           {answerCount} {answerCount === 1 ? 'expert' : 'experts'} chose to answer
         </p>
