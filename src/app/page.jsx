@@ -20,10 +20,20 @@ export default async function HomePage() {
     showNudge = (userAnswerCount ?? 0) === 0
   }
 
+  // Fetch followed topics for feed personalization
+  let followedTopicIds = []
+  if (user) {
+    const { data: follows } = await supabase
+      .from('topic_follows')
+      .select('topic_id')
+      .eq('user_id', user.id)
+    followedTopicIds = (follows ?? []).map(f => f.topic_id)
+  }
+
   // Fetch today's question
   const { data: todayQuestion } = await supabase
     .from('questions')
-    .select('*, question_topics(topics(name, slug))')
+    .select('*, question_topics(topics(id, name, slug))')
     .lte('publish_date', today)
     .in('status', ['scheduled', 'published'])
     .order('publish_date', { ascending: false })
@@ -56,13 +66,30 @@ export default async function HomePage() {
   }
 
   // Fetch recent past questions with answer counts
-  const { data: recentQuestions } = await supabase
-    .from('questions')
-    .select('*, answers(count), question_topics(topics(name, slug))')
-    .lt('publish_date', today)
-    .in('status', ['scheduled', 'published'])
-    .order('publish_date', { ascending: false })
-    .limit(10)
+  let recentQuestions = null
+  {
+    const { data } = await supabase
+      .from('questions')
+      .select('*, answers(count), question_topics(topics(id, name, slug))')
+      .lt('publish_date', today)
+      .in('status', ['scheduled', 'published'])
+      .order('publish_date', { ascending: false })
+      .limit(10)
+    recentQuestions = data
+  }
+
+  // Prioritize followed-topic questions for signed-in users
+  if (followedTopicIds.length > 0 && recentQuestions) {
+    recentQuestions = [...recentQuestions].sort((a, b) => {
+      const aTopics = (a.question_topics ?? []).map(qt => qt.topics?.id).filter(Boolean)
+      const bTopics = (b.question_topics ?? []).map(qt => qt.topics?.id).filter(Boolean)
+      const aFollowed = aTopics.some(id => followedTopicIds.includes(id))
+      const bFollowed = bTopics.some(id => followedTopicIds.includes(id))
+      if (aFollowed && !bFollowed) return -1
+      if (!aFollowed && bFollowed) return 1
+      return 0
+    })
+  }
 
   return (
     <div className="space-y-8">
@@ -84,12 +111,13 @@ export default async function HomePage() {
             {todayQuestion.question_topics?.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {todayQuestion.question_topics.map((qt) => qt.topics && (
-                  <span
+                  <Link
                     key={qt.topics.slug}
-                    className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium"
+                    href={`/topics/${qt.topics.slug}`}
+                    className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
                   >
                     {qt.topics.name}
-                  </span>
+                  </Link>
                 ))}
               </div>
             )}

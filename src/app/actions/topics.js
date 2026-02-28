@@ -76,6 +76,45 @@ export async function deleteTopic(topicId) {
   return { success: true }
 }
 
+export async function followTopic(topicId) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'You must be signed in to follow topics.' }
+
+  const { error } = await supabase
+    .from('topic_follows')
+    .upsert(
+      { user_id: user.id, topic_id: topicId },
+      { onConflict: 'user_id,topic_id' }
+    )
+
+  if (error) return { error: 'Failed to follow topic.' }
+
+  revalidatePath('/topics')
+  revalidatePath('/')
+
+  return { success: true }
+}
+
+export async function unfollowTopic(topicId) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'You must be signed in to unfollow topics.' }
+
+  const { error } = await supabase
+    .from('topic_follows')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('topic_id', topicId)
+
+  if (error) return { error: 'Failed to unfollow topic.' }
+
+  revalidatePath('/topics')
+  revalidatePath('/')
+
+  return { success: true }
+}
+
 export async function setQuestionTopics(questionId, topicIds) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

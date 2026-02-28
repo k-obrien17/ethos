@@ -5,37 +5,40 @@ export default function QuestionCard({ question, answerCount }) {
   const topics = question.question_topics?.map((qt) => qt.topics).filter(Boolean) ?? []
 
   return (
-    <Link
-      href={`/q/${question.slug}`}
-      className="block p-6 bg-white rounded-lg border border-warm-200 hover:border-warm-400 focus-visible:ring-2 focus-visible:ring-warm-400 focus-visible:ring-offset-2 transition-colors outline-none"
-    >
-      {question.category && (
-        <span className="text-xs font-medium text-warm-500 uppercase tracking-wide">
-          {question.category}
-        </span>
-      )}
-      <h2 className="text-lg font-semibold text-warm-900 mt-1">
-        {question.body}
-      </h2>
+    <div className="bg-white rounded-lg border border-warm-200 hover:border-warm-400 transition-colors">
+      <Link
+        href={`/q/${question.slug}`}
+        className="block p-6 pb-3 outline-none focus-visible:ring-2 focus-visible:ring-warm-400 focus-visible:ring-offset-2 rounded-t-lg"
+      >
+        {question.category && (
+          <span className="text-xs font-medium text-warm-500 uppercase tracking-wide">
+            {question.category}
+          </span>
+        )}
+        <h2 className="text-lg font-semibold text-warm-900 mt-1">
+          {question.body}
+        </h2>
+        <div className="flex items-center gap-3 mt-3 text-sm text-warm-500">
+          <span>{format(new Date(question.publish_date), 'MMM d, yyyy')}</span>
+          <span>·</span>
+          <span>
+            {answerCount} {answerCount === 1 ? 'answer' : 'answers'}
+          </span>
+        </div>
+      </Link>
       {topics.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mt-2">
+        <div className="flex flex-wrap gap-1.5 px-6 pb-4 pt-1 border-t border-warm-100">
           {topics.map((topic) => (
-            <span
+            <Link
               key={topic.slug}
-              className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium"
+              href={`/topics/${topic.slug}`}
+              className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
             >
               {topic.name}
-            </span>
+            </Link>
           ))}
         </div>
       )}
-      <div className="flex items-center gap-3 mt-3 text-sm text-warm-500">
-        <span>{format(new Date(question.publish_date), 'MMM d, yyyy')}</span>
-        <span>·</span>
-        <span>
-          {answerCount} {answerCount === 1 ? 'answer' : 'answers'}
-        </span>
-      </div>
-    </Link>
+    </div>
   )
 }

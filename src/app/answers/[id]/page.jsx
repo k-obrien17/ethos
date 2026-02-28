@@ -104,12 +104,13 @@ export default async function AnswerPage({ params }) {
           {answer.questions.question_topics?.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-2">
               {answer.questions.question_topics.map((qt) => qt.topics && (
-                <span
+                <Link
                   key={qt.topics.slug}
-                  className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium"
+                  href={`/topics/${qt.topics.slug}`}
+                  className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
                 >
                   {qt.topics.name}
-                </span>
+                </Link>
               ))}
             </div>
           )}
