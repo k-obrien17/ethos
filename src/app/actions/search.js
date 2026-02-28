@@ -30,3 +30,35 @@ export async function searchContent({ query, type, topicId, dateRange, page = 1 
 
   return { results, hasMore, error: null }
 }
+
+export async function searchSuggestions(query) {
+  if (!query || query.trim().length < 2) {
+    return { suggestions: [] }
+  }
+
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.rpc('search_content', {
+    search_query: query.trim(),
+    filter_type: null,
+    filter_topic_id: null,
+    filter_date_range: null,
+    result_limit: 7,
+    result_offset: 0,
+  })
+
+  if (error) {
+    return { suggestions: [] }
+  }
+
+  const suggestions = (data ?? []).map(r => ({
+    id: r.result_id,
+    type: r.result_type,
+    title: r.title,
+    url: r.url,
+    subtitle: r.result_type === 'answer' ? r.author_name :
+              r.result_type === 'expert' ? `@${r.author_handle}` : null,
+  }))
+
+  return { suggestions }
+}
