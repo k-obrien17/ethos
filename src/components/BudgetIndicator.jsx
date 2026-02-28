@@ -6,7 +6,15 @@ export default function BudgetIndicator({ used, limit }) {
   if (remaining <= 0) {
     return (
       <span className="text-xs font-medium text-red-600">
-        0 answers remaining
+        0 remaining
+      </span>
+    )
+  }
+
+  if (remaining === 1) {
+    return (
+      <span className="text-xs font-medium text-amber-600">
+        {remaining} of {limit} remaining
       </span>
     )
   }

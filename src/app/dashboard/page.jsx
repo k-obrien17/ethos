@@ -140,11 +140,11 @@ export default async function DashboardPage() {
       </section>
 
       {budgetRemaining > 0 ? (
-        <p className="text-sm text-warm-500 -mt-4">
+        <p className="text-sm text-warm-500 mt-1">
           {budgetRemaining} answer{budgetRemaining !== 1 ? 's' : ''} remaining this month
         </p>
       ) : (
-        <p className="text-sm text-warm-400 -mt-4">
+        <p className="text-sm text-warm-400 mt-1">
           Monthly budget used — answers reset next month
         </p>
       )}
@@ -239,7 +239,9 @@ export default async function DashboardPage() {
       {/* Edit Profile */}
       <section>
         <h2 className="text-lg font-semibold text-warm-800 mb-4">Edit Profile</h2>
-        <EditProfileForm profile={profile} />
+        <div className="bg-white rounded-lg border border-warm-200 p-6">
+          <EditProfileForm profile={profile} />
+        </div>
       </section>
 
       {/* Danger zone */}

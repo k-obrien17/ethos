@@ -23,6 +23,7 @@ export default function BookmarkButton({ questionId, isBookmarked, className = '
           ? 'text-amber-600 hover:text-amber-700'
           : 'text-warm-400 hover:text-warm-600'
       } disabled:opacity-50 ${className}`}
+      aria-label={optimisticBookmarked ? 'Remove bookmark' : 'Save for later'}
       title={optimisticBookmarked ? 'Remove bookmark' : 'Save for later'}
     >
       <svg

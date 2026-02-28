@@ -44,7 +44,7 @@ export default function AnswerCard({ answer, expert, monthlyUsage, featured = fa
       )}
 
       {/* Answer body — Markdown rendered */}
-      <div className="text-warm-800 leading-relaxed [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_a]:text-warm-700 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:mb-1">
+      <div className="prose-answer">
         <ReactMarkdown>{answer.body}</ReactMarkdown>
       </div>
 

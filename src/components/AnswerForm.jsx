@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import { submitAnswer } from '@/app/actions/answers'
 import BudgetIndicator from '@/components/BudgetIndicator'
 
-const MARKDOWN_STYLES = "text-warm-800 leading-relaxed [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_a]:text-warm-700 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:mb-1"
+const MARKDOWN_STYLES = "prose-answer"
 
 export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAnswered }) {
   const [state, formAction, pending] = useActionState(submitAnswer, null)
@@ -134,7 +134,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
                   required: true,
                   minLength: 10,
                   className:
-                    'w-full px-3 py-2 text-warm-900 placeholder:text-warm-400 focus:outline-none resize-y border-0',
+                    'w-full px-3 py-2 text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 resize-y border-0',
                 })}
           />
         </div>

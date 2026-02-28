@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import { editAnswer } from '@/app/actions/answers'
 
-const MARKDOWN_STYLES = "text-warm-800 leading-relaxed [&_p]:mb-3 [&_p:last-child]:mb-0 [&_strong]:font-semibold [&_a]:text-warm-700 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:mb-1"
+const MARKDOWN_STYLES = "prose-answer"
 
 export default function EditableAnswerCard({ answer, expert, monthlyUsage, currentUserId, featured = false }) {
   const [editing, setEditing] = useState(false)
@@ -142,7 +142,7 @@ export default function EditableAnswerCard({ answer, expert, monthlyUsage, curre
                     required: true,
                     minLength: 10,
                     className:
-                      'w-full px-3 py-2 text-warm-900 focus:outline-none resize-y border-0',
+                      'w-full px-3 py-2 text-warm-900 focus:outline-none focus:ring-2 focus:ring-warm-300 resize-y border-0',
                   })}
             />
           </div>
