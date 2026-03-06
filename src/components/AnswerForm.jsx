@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useActionState } from 'react'
+import { useRouter } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import { submitAnswer } from '@/app/actions/answers'
 import BudgetIndicator from '@/components/BudgetIndicator'
@@ -8,6 +9,7 @@ import BudgetIndicator from '@/components/BudgetIndicator'
 const MARKDOWN_STYLES = "prose-answer"
 
 export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAnswered }) {
+  const router = useRouter()
   const [state, formAction, pending] = useActionState(submitAnswer, null)
   const [content, setContent] = useState('')
   const [showPreview, setShowPreview] = useState(false)
@@ -42,7 +44,17 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
       localStorage.removeItem(draftKey)
       setContent('')
     }
-  }, [state?.success, state?.aiRejected, draftKey])
+    // Refresh server data so new answer appears instantly
+    if (state?.success) {
+      router.refresh()
+      // Scroll to new answer after refresh
+      if (state.answerId) {
+        setTimeout(() => {
+          document.getElementById(`answer-${state.answerId}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }, 500)
+      }
+    }
+  }, [state?.success, state?.aiRejected, draftKey, router, state?.answerId])
 
   // Already answered this question
   if (hasAnswered) {

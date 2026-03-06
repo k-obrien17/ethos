@@ -98,6 +98,17 @@ export async function submitAnswer(prevState, formData) {
     return { error: 'Answer must be under 10,000 characters.' }
   }
 
+  // Layer 1.5: Email verification check
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('answer_limit, email_verified_at')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile?.email_verified_at) {
+    return { error: 'Please verify your email before submitting answers. Check your dashboard.' }
+  }
+
   // Layer 2: Server-side budget check (fast reject before DB function)
   const startOfMonth = new Date(
     new Date().getFullYear(),
@@ -110,12 +121,6 @@ export async function submitAnswer(prevState, formData) {
     .select('*', { count: 'exact', head: true })
     .eq('expert_id', user.id)
     .gte('created_at', startOfMonth)
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('answer_limit')
-    .eq('id', user.id)
-    .single()
 
   if (count >= (profile?.answer_limit ?? 3)) {
     return { error: 'You have used all your answers this month.' }

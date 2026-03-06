@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
+import { sendEmail, emailLayout } from '@/lib/email'
 
 export async function updateProfile(prevState, formData) {
   const supabase = await createClient()
@@ -107,6 +108,57 @@ export async function deleteAccount() {
   if (profile?.handle) revalidatePath(`/expert/${profile.handle}`)
 
   return { success: true }
+}
+
+export async function sendVerificationEmail() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) return { error: 'You must be signed in.' }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('email_verified_at, email_verify_token, display_name')
+    .eq('id', user.id)
+    .single()
+
+  if (profile?.email_verified_at) return { error: 'Email already verified.' }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const verifyUrl = `${siteUrl}/api/verify-email?token=${profile.email_verify_token}`
+
+  const content = `
+    <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">Verify your email</h2>
+    <p style="font-size:14px;color:#44403c;margin:0 0 16px;">
+      Hi ${escapeHtml(profile.display_name || 'there')}, please verify your email to start answering questions on Ethos.
+    </p>
+    <div style="text-align:center;">
+      <a href="${verifyUrl}" style="display:inline-block;padding:10px 24px;background-color:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">
+        Verify email
+      </a>
+    </div>
+    <p style="font-size:12px;color:#a8a29e;margin:16px 0 0;">
+      If the button doesn't work, copy and paste this link: ${verifyUrl}
+    </p>
+  `
+
+  const { error } = await sendEmail({
+    to: user.email,
+    subject: 'Verify your email — Ethos',
+    html: emailLayout(content),
+  })
+
+  if (error) return { error: 'Failed to send verification email.' }
+  return { success: true }
+}
+
+function escapeHtml(str) {
+  if (!str) return ''
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
 }
 
 export async function updateEmailPreferences(prevState, formData) {

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import EditProfileForm from '@/components/EditProfileForm'
 import DeleteAccountSection from '@/components/DeleteAccountSection'
+import VerifyEmailBanner from '@/components/VerifyEmailBanner'
 import BookmarkButton from '@/components/BookmarkButton'
 import { format } from 'date-fns'
 
@@ -67,14 +68,17 @@ export default async function DashboardPage() {
     bookmarkedAt: b.created_at,
   }))
 
-  // Fetch user's answers with view counts (for author-only stats)
+  // Fetch user's answers with engagement metrics
   const { data: myAnswers } = await supabase
     .from('answers')
-    .select('id, view_count, body, created_at, questions!inner(body, slug)')
+    .select('id, view_count, like_count, comment_count, featured_at, body, created_at, questions!inner(body, slug)')
     .eq('expert_id', user.id)
     .order('created_at', { ascending: false })
 
   const totalViews = (myAnswers ?? []).reduce((sum, a) => sum + (a.view_count ?? 0), 0)
+  const totalLikes = (myAnswers ?? []).reduce((sum, a) => sum + (a.like_count ?? 0), 0)
+  const totalComments = (myAnswers ?? []).reduce((sum, a) => sum + (a.comment_count ?? 0), 0)
+  const featuredCount = (myAnswers ?? []).filter(a => a.featured_at).length
 
   const budgetRemaining = (profile?.answer_limit ?? 3) - (monthlyAnswers ?? 0)
 
@@ -113,8 +117,11 @@ export default async function DashboardPage() {
         </div>
       </section>
 
+      {/* Email verification banner */}
+      {!profile?.email_verified_at && <VerifyEmailBanner />}
+
       {/* Stats */}
-      <section className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
           <p className="text-2xl font-bold text-warm-900">
             {monthlyAnswers ?? 0} / {profile?.answer_limit ?? 3}
@@ -122,22 +129,82 @@ export default async function DashboardPage() {
           <p className="text-xs text-warm-500 mt-1">Budget Used</p>
         </div>
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
-          <p className="text-2xl font-bold text-warm-900">
+          <p className="text-2xl font-bold text-warm-900">{totalAnswers ?? 0}</p>
+          <p className="text-xs text-warm-500 mt-1">Answers</p>
+        </div>
+        <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
+          <p className="text-2xl font-bold text-warm-900">{totalViews}</p>
+          <p className="text-xs text-warm-500 mt-1">Views</p>
+        </div>
+        <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
+          <p className="text-2xl font-bold text-warm-900">{totalLikes}</p>
+          <p className="text-xs text-warm-500 mt-1">Likes</p>
+        </div>
+      </section>
+
+      {/* Engagement breakdown */}
+      <section className="grid grid-cols-3 gap-3">
+        <div className="bg-white rounded-lg border border-warm-200 p-3 text-center">
+          <p className="text-lg font-bold text-warm-900">{totalComments}</p>
+          <p className="text-xs text-warm-500">Comments</p>
+        </div>
+        <div className="bg-white rounded-lg border border-warm-200 p-3 text-center">
+          <p className="text-lg font-bold text-warm-900">{featuredCount}</p>
+          <p className="text-xs text-warm-500">Featured</p>
+        </div>
+        <div className="bg-white rounded-lg border border-warm-200 p-3 text-center">
+          <p className="text-lg font-bold text-warm-900">
             {questionsThisMonth > 0
               ? `${Math.round(((monthlyAnswers ?? 0) / questionsThisMonth) * 100)}%`
               : '—'}
           </p>
-          <p className="text-xs text-warm-500 mt-1">Selectivity</p>
-        </div>
-        <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
-          <p className="text-2xl font-bold text-warm-900">{totalAnswers ?? 0}</p>
-          <p className="text-xs text-warm-500 mt-1">Total Answers</p>
-        </div>
-        <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
-          <p className="text-2xl font-bold text-warm-900">{totalViews}</p>
-          <p className="text-xs text-warm-500 mt-1">Total Views</p>
+          <p className="text-xs text-warm-500">Selectivity</p>
         </div>
       </section>
+
+      {/* Answer performance table */}
+      {myAnswers && myAnswers.length > 0 && (
+        <section>
+          <h2 className="text-lg font-semibold text-warm-800 mb-3">Your Answers</h2>
+          <div className="bg-white rounded-lg border border-warm-200 overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-warm-200 bg-warm-50">
+                  <th className="text-left px-4 py-2 text-xs font-medium text-warm-500">Question</th>
+                  <th className="text-center px-2 py-2 text-xs font-medium text-warm-500">Views</th>
+                  <th className="text-center px-2 py-2 text-xs font-medium text-warm-500">Likes</th>
+                  <th className="text-center px-2 py-2 text-xs font-medium text-warm-500">Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                {myAnswers.map((a) => (
+                  <tr key={a.id} className="border-b border-warm-100 last:border-0">
+                    <td className="px-4 py-3">
+                      <Link
+                        href={`/answers/${a.id}`}
+                        className="text-warm-800 hover:underline line-clamp-1"
+                      >
+                        {a.questions?.body}
+                      </Link>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-xs text-warm-400">
+                          {format(new Date(a.created_at), 'MMM d')}
+                        </span>
+                        {a.featured_at && (
+                          <span className="text-xs text-amber-600 font-medium">Featured</span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="text-center px-2 py-3 text-warm-600">{a.view_count ?? 0}</td>
+                    <td className="text-center px-2 py-3 text-warm-600">{a.like_count ?? 0}</td>
+                    <td className="text-center px-2 py-3 text-warm-600">{a.comment_count ?? 0}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
       {budgetRemaining > 0 ? (
         <p className="text-sm text-warm-500 mt-1">
