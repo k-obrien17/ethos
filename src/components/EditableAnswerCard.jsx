@@ -5,10 +5,11 @@ import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import { editAnswer } from '@/app/actions/answers'
 import LikeButton from '@/components/LikeButton'
+import CommentSection from '@/components/CommentSection'
 
 const MARKDOWN_STYLES = "prose-answer"
 
-export default function EditableAnswerCard({ answer, expert, monthlyUsage, currentUserId, featured = false, isLiked = false }) {
+export default function EditableAnswerCard({ answer, expert, monthlyUsage, currentUserId, featured = false, isLiked = false, comments = [] }) {
   const [editing, setEditing] = useState(false)
   const [content, setContent] = useState(answer.body)
   const [showPreview, setShowPreview] = useState(false)
@@ -250,6 +251,13 @@ export default function EditableAnswerCard({ answer, expert, monthlyUsage, curre
           </Link>
         </div>
       </div>
+
+      {/* Comments */}
+      <CommentSection
+        answerId={answer.id}
+        comments={comments}
+        currentUserId={currentUserId}
+      />
     </article>
   )
 }

@@ -65,6 +65,21 @@ export default async function HomePage() {
     })
   }
 
+  // Fetch comments for today's answers
+  let commentsMap = {}
+  if (todayAnswers.length > 0) {
+    const todayAnswerIds = todayAnswers.map(a => a.id)
+    const { data: comments } = await supabase
+      .from('answer_comments')
+      .select('*, profiles!inner(display_name, handle, avatar_url)')
+      .in('answer_id', todayAnswerIds)
+      .order('created_at', { ascending: true })
+    for (const c of comments ?? []) {
+      if (!commentsMap[c.answer_id]) commentsMap[c.answer_id] = []
+      commentsMap[c.answer_id].push(c)
+    }
+  }
+
   // Fetch user's likes for today's answers
   let userLikedAnswerIds = new Set()
   if (user && todayAnswers.length > 0) {
@@ -163,6 +178,8 @@ export default async function HomePage() {
                   featured={!!answer.featured_at}
                   isLiked={userLikedAnswerIds.has(answer.id)}
                   isAuthenticated={!!user}
+                  comments={commentsMap[answer.id] ?? []}
+                  currentUserId={user?.id}
                 />
               ))}
             </div>

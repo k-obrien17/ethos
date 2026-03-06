@@ -115,6 +115,21 @@ export default async function QuestionPage({ params }) {
     isBookmarked = !!bookmark
   }
 
+  // Fetch comments for all answers on this question
+  const answerIds = (sortedAnswers ?? []).map(a => a.id)
+  let commentsMap = {}
+  if (answerIds.length > 0) {
+    const { data: comments } = await supabase
+      .from('answer_comments')
+      .select('*, profiles!inner(display_name, handle, avatar_url)')
+      .in('answer_id', answerIds)
+      .order('created_at', { ascending: true })
+    for (const c of comments ?? []) {
+      if (!commentsMap[c.answer_id]) commentsMap[c.answer_id] = []
+      commentsMap[c.answer_id].push(c)
+    }
+  }
+
   // Fetch user's likes for answers on this question
   let userLikedAnswerIds = new Set()
   if (user && sortedAnswers.length > 0) {
@@ -221,6 +236,7 @@ export default async function QuestionPage({ params }) {
               currentUserId={user?.id}
               featured={!!answer.featured_at}
               isLiked={userLikedAnswerIds.has(answer.id)}
+              comments={commentsMap[answer.id] ?? []}
             />
           ))}
         </section>

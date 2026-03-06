@@ -1,8 +1,9 @@
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import LikeButton from '@/components/LikeButton'
+import CommentSection from '@/components/CommentSection'
 
-export default function AnswerCard({ answer, expert, monthlyUsage, featured = false, isLiked = false, isAuthenticated = false }) {
+export default function AnswerCard({ answer, expert, monthlyUsage, featured = false, isLiked = false, isAuthenticated = false, comments = [], currentUserId = null }) {
   return (
     <article
       id={`answer-${answer.id}`}
@@ -67,6 +68,13 @@ export default function AnswerCard({ answer, expert, monthlyUsage, featured = fa
           Link
         </Link>
       </div>
+
+      {/* Comments */}
+      <CommentSection
+        answerId={answer.id}
+        comments={comments}
+        currentUserId={currentUserId}
+      />
     </article>
   )
 }

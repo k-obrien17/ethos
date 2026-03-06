@@ -83,6 +83,13 @@ export default async function AnswerPage({ params }) {
   // Get current user for edit capability
   const { data: { user } } = await supabase.auth.getUser()
 
+  // Fetch comments for this answer
+  const { data: comments } = await supabase
+    .from('answer_comments')
+    .select('*, profiles!inner(display_name, handle, avatar_url)')
+    .eq('answer_id', id)
+    .order('created_at', { ascending: true })
+
   // Check if user has liked this answer
   let isLiked = false
   if (user) {
@@ -137,6 +144,7 @@ export default async function AnswerPage({ params }) {
         currentUserId={user?.id}
         featured={!!answer.featured_at}
         isLiked={isLiked}
+        comments={comments ?? []}
       />
 
       {/* Link to see all answers + share */}
