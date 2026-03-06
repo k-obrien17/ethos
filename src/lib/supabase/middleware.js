@@ -4,6 +4,20 @@ import { NextResponse } from 'next/server'
 export async function updateSession(request) {
   let supabaseResponse = NextResponse.next({ request })
 
+  // Password gate — skip for password page, API auth, and static assets
+  const pathname = request.nextUrl.pathname
+  const isPasswordRoute = pathname === '/password' || pathname === '/api/auth/password'
+  const isApiRoute = pathname.startsWith('/api/')
+
+  if (!isPasswordRoute && !isApiRoute && process.env.SITE_PASSWORD) {
+    const accessCookie = request.cookies.get('site_access')
+    if (accessCookie?.value !== 'granted') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/password'
+      return NextResponse.redirect(url)
+    }
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -26,8 +40,8 @@ export async function updateSession(request) {
   )
 
   // Only check auth for protected routes
-  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
-  const isDashboardRoute = request.nextUrl.pathname.startsWith('/dashboard')
+  const isAdminRoute = pathname.startsWith('/admin')
+  const isDashboardRoute = pathname.startsWith('/dashboard')
 
   if (!isAdminRoute && !isDashboardRoute) {
     return supabaseResponse
