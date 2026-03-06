@@ -49,48 +49,62 @@ export default async function QuestionPage({ params }) {
   const { slug } = await params
   const supabase = await createClient()
 
-  // Fetch question by slug
-  const { data: question } = await supabase
-    .from('questions')
-    .select('*, question_topics(topics(name, slug))')
-    .eq('slug', slug)
-    .single()
+  // Parallel: question + auth
+  const [{ data: question }, { data: { user } }] = await Promise.all([
+    supabase
+      .from('questions')
+      .select('*, question_topics(topics(name, slug))')
+      .eq('slug', slug)
+      .single(),
+    supabase.auth.getUser(),
+  ])
 
   if (!question) notFound()
 
-  // Fetch answers with expert profiles
-  const { data: answers } = await supabase
-    .from('answers')
-    .select(`
-      *,
-      profiles!answers_expert_id_fkey (
-        id,
-        display_name,
-        handle,
-        avatar_url,
-        answer_limit
-      )
-    `)
-    .eq('question_id', question.id)
-    .order('created_at', { ascending: false })
-
-  // Fetch monthly usage for each expert who answered
-  const expertIds = [...new Set((answers ?? []).map(a => a.profiles.id))]
   const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
 
-  let monthlyUsageMap = {}
-  if (expertIds.length > 0) {
-    const { data: usageCounts } = await supabase
-      .from('answers')
-      .select('expert_id')
-      .in('expert_id', expertIds)
-      .gte('created_at', startOfMonth)
+  // Parallel: answers + bookmark + user budget/profile (all depend on question.id or user)
+  const [{ data: answers }, bookmarkResult, userProfileResult, budgetResult] =
+    await Promise.all([
+      supabase
+        .from('answers')
+        .select(`
+          *,
+          profiles!answers_expert_id_fkey (
+            id,
+            display_name,
+            handle,
+            avatar_url,
+            answer_limit
+          )
+        `)
+        .eq('question_id', question.id)
+        .order('created_at', { ascending: false }),
+      user
+        ? supabase
+            .from('bookmarks')
+            .select('question_id')
+            .eq('user_id', user.id)
+            .eq('question_id', question.id)
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
+      user
+        ? supabase
+            .from('profiles')
+            .select('answer_limit')
+            .eq('id', user.id)
+            .single()
+        : Promise.resolve({ data: null }),
+      user
+        ? supabase
+            .from('answers')
+            .select('*', { count: 'exact', head: true })
+            .eq('expert_id', user.id)
+            .gte('created_at', startOfMonth)
+        : Promise.resolve({ count: 0 }),
+    ])
 
-    monthlyUsageMap = (usageCounts ?? []).reduce((acc, row) => {
-      acc[row.expert_id] = (acc[row.expert_id] || 0) + 1
-      return acc
-    }, {})
-  }
+  const isBookmarked = !!bookmarkResult.data
 
   // Sort: featured first, then by created_at DESC
   const sortedAnswers = (answers ?? []).sort((a, b) => {
@@ -101,69 +115,54 @@ export default async function QuestionPage({ params }) {
 
   const answerCount = sortedAnswers.length
 
-  // Check if user is authenticated (for answer form)
-  const { data: { user } } = await supabase.auth.getUser()
+  // Parallel: monthly usage + comments + likes (depend on answers)
+  const expertIds = [...new Set((answers ?? []).map(a => a.profiles.id))]
+  const answerIds = sortedAnswers.map(a => a.id)
 
-  let isBookmarked = false
-  if (user) {
-    const { data: bookmark } = await supabase
-      .from('bookmarks')
-      .select('question_id')
-      .eq('user_id', user.id)
-      .eq('question_id', question.id)
-      .maybeSingle()
-    isBookmarked = !!bookmark
-  }
+  const [usageResult, commentsResult, likesResult] = await Promise.all([
+    expertIds.length > 0
+      ? supabase
+          .from('answers')
+          .select('expert_id')
+          .in('expert_id', expertIds)
+          .gte('created_at', startOfMonth)
+      : Promise.resolve({ data: [] }),
+    answerIds.length > 0
+      ? supabase
+          .from('answer_comments')
+          .select('*, profiles(display_name, handle, avatar_url)')
+          .in('answer_id', answerIds)
+          .order('created_at', { ascending: true })
+      : Promise.resolve({ data: [] }),
+    user && answerIds.length > 0
+      ? supabase
+          .from('answer_likes')
+          .select('answer_id')
+          .eq('user_id', user.id)
+          .in('answer_id', answerIds)
+      : Promise.resolve({ data: [] }),
+  ])
 
-  // Fetch comments for all answers on this question
-  const answerIds = (sortedAnswers ?? []).map(a => a.id)
+  const monthlyUsageMap = (usageResult.data ?? []).reduce((acc, row) => {
+    acc[row.expert_id] = (acc[row.expert_id] || 0) + 1
+    return acc
+  }, {})
+
   let commentsMap = {}
-  if (answerIds.length > 0) {
-    const { data: comments } = await supabase
-      .from('answer_comments')
-      .select('*, profiles(display_name, handle, avatar_url)')
-      .in('answer_id', answerIds)
-      .order('created_at', { ascending: true })
-    for (const c of comments ?? []) {
-      if (!commentsMap[c.answer_id]) commentsMap[c.answer_id] = []
-      commentsMap[c.answer_id].push(c)
-    }
+  for (const c of commentsResult.data ?? []) {
+    if (!commentsMap[c.answer_id]) commentsMap[c.answer_id] = []
+    commentsMap[c.answer_id].push(c)
   }
 
-  // Fetch user's likes for answers on this question
-  let userLikedAnswerIds = new Set()
-  if (user && sortedAnswers.length > 0) {
-    const answerIds = sortedAnswers.map(a => a.id)
-    const { data: likes } = await supabase
-      .from('answer_likes')
-      .select('answer_id')
-      .eq('user_id', user.id)
-      .in('answer_id', answerIds)
-    userLikedAnswerIds = new Set((likes ?? []).map(l => l.answer_id))
-  }
+  const userLikedAnswerIds = new Set((likesResult.data ?? []).map(l => l.answer_id))
 
   let answerFormProps = null
   if (user) {
-    const hasAnswered = (answers ?? []).some(
-      a => a.profiles.id === user.id
-    )
-
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('answer_limit')
-      .eq('id', user.id)
-      .single()
-
-    const { count: budgetCount } = await supabase
-      .from('answers')
-      .select('*', { count: 'exact', head: true })
-      .eq('expert_id', user.id)
-      .gte('created_at', startOfMonth)
-
+    const hasAnswered = (answers ?? []).some(a => a.profiles.id === user.id)
     answerFormProps = {
       questionId: question.id,
-      budgetUsed: budgetCount ?? 0,
-      budgetLimit: profile?.answer_limit ?? 3,
+      budgetUsed: budgetResult.count ?? 0,
+      budgetLimit: userProfileResult.data?.answer_limit ?? 3,
       hasAnswered,
     }
   }
