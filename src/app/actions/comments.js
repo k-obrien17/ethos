@@ -24,12 +24,23 @@ export async function addComment(prevState, formData) {
 
   await supabase.rpc('increment_comment_count', { p_answer_id: answerId })
 
-  // Fetch the answer's question slug for targeted revalidation
+  // Fetch the answer's question slug and author for revalidation + notification
   const { data: answer } = await supabase
     .from('answers')
-    .select('questions!inner(slug)')
+    .select('expert_id, questions!inner(slug)')
     .eq('id', answerId)
     .single()
+
+  // Notify answer author (fire-and-forget)
+  if (answer && answer.expert_id !== user.id) {
+    supabase.from('notifications').insert({
+      user_id: answer.expert_id,
+      type: 'comment',
+      actor_id: user.id,
+      answer_id: answerId,
+      body: body.slice(0, 100),
+    }).then(() => {})
+  }
 
   if (answer?.questions?.slug) {
     revalidatePath(`/q/${answer.questions.slug}`)

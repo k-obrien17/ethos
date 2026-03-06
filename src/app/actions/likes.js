@@ -45,6 +45,21 @@ export async function toggleLike(answerId) {
     // Increment count
     await supabase.rpc('increment_like_count', { p_answer_id: answerId })
 
+    // Create notification for answer author (fire-and-forget)
+    const { data: answer } = await supabase
+      .from('answers')
+      .select('expert_id')
+      .eq('id', answerId)
+      .single()
+    if (answer && answer.expert_id !== user.id) {
+      supabase.from('notifications').insert({
+        user_id: answer.expert_id,
+        type: 'like',
+        actor_id: user.id,
+        answer_id: answerId,
+      }).then(() => {})
+    }
+
     return { liked: true }
   }
 }

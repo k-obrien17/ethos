@@ -117,6 +117,46 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-8">
+      {/* Landing hero for logged-out visitors */}
+      {!user && (
+        <section className="text-center py-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-warm-900 leading-tight">
+            What you choose to answer<br />reveals what you stand for.
+          </h1>
+          <p className="text-warm-600 mt-3 max-w-md mx-auto">
+            Ethos is a human-only thought leadership platform. One question per day. Limited answers per month. Every response is a statement of what matters to you.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+            <Link
+              href="/login"
+              className="px-6 py-3 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 transition-colors"
+            >
+              Join Ethos
+            </Link>
+            <Link
+              href="/questions"
+              className="px-6 py-3 text-warm-600 text-sm font-medium hover:text-warm-800 transition-colors"
+            >
+              Browse questions
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 text-left max-w-lg mx-auto">
+            <div className="p-4 bg-white rounded-lg border border-warm-200">
+              <p className="text-sm font-semibold text-warm-800">One daily question</p>
+              <p className="text-xs text-warm-500 mt-1">Curated topics that demand real thought.</p>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-warm-200">
+              <p className="text-sm font-semibold text-warm-800">Limited budget</p>
+              <p className="text-xs text-warm-500 mt-1">Choose wisely. Every answer counts.</p>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-warm-200">
+              <p className="text-sm font-semibold text-warm-800">Human only</p>
+              <p className="text-xs text-warm-500 mt-1">AI-generated content is detected and blocked.</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Today's question */}
       {todayQuestion ? (
         <section>

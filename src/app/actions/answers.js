@@ -319,6 +319,14 @@ export async function toggleFeaturedAnswer(answerId) {
 
     // Send notification email to the expert (fire-and-forget)
     sendFeaturedEmail(answerId, answer.expert_id)
+
+    // In-app notification (fire-and-forget)
+    supabase.from('notifications').insert({
+      user_id: answer.expert_id,
+      type: 'featured',
+      actor_id: user.id,
+      answer_id: answerId,
+    }).then(() => {})
   }
 
   // Revalidate affected pages
