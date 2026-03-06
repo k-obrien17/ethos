@@ -63,7 +63,7 @@ export default async function QuestionPage({ params }) {
     .from('answers')
     .select(`
       *,
-      profiles!inner (
+      profiles!answers_expert_id_fkey (
         id,
         display_name,
         handle,
@@ -121,7 +121,7 @@ export default async function QuestionPage({ params }) {
   if (answerIds.length > 0) {
     const { data: comments } = await supabase
       .from('answer_comments')
-      .select('*, profiles!inner(display_name, handle, avatar_url)')
+      .select('*, profiles(display_name, handle, avatar_url)')
       .in('answer_id', answerIds)
       .order('created_at', { ascending: true })
     for (const c of comments ?? []) {

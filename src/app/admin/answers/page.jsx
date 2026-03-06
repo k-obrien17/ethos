@@ -12,7 +12,7 @@ export default async function AdminAnswersPage() {
     .from('answers')
     .select(`
       id, body, word_count, created_at, hidden_at, hidden_by, featured_at,
-      profiles!expert_id (display_name, handle),
+      profiles!answers_expert_id_fkey (display_name, handle),
       questions!question_id (body, slug, publish_date)
     `)
     .order('created_at', { ascending: false })

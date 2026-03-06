@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
     .from('answers')
     .select(`
       body,
-      profiles!inner ( display_name ),
+      profiles!answers_expert_id_fkey ( display_name ),
       questions!inner ( body )
     `)
     .eq('id', id)
@@ -59,7 +59,7 @@ export default async function AnswerPage({ params }) {
     .from('answers')
     .select(`
       *,
-      profiles!inner (
+      profiles!answers_expert_id_fkey (
         id,
         display_name,
         handle,
@@ -86,7 +86,7 @@ export default async function AnswerPage({ params }) {
   // Fetch comments for this answer
   const { data: comments } = await supabase
     .from('answer_comments')
-    .select('*, profiles!inner(display_name, handle, avatar_url)')
+    .select('*, profiles(display_name, handle, avatar_url)')
     .eq('answer_id', id)
     .order('created_at', { ascending: true })
 

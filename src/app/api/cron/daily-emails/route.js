@@ -190,7 +190,7 @@ export async function GET(request) {
         .select(`
           body,
           featured_at,
-          profiles!expert_id (display_name),
+          profiles!answers_expert_id_fkey (display_name),
           questions!question_id (body, slug)
         `)
         .gte('featured_at', new Date(weekStart).toISOString())

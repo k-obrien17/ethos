@@ -47,7 +47,7 @@ export default async function HomePage() {
       .from('answers')
       .select(`
         *,
-        profiles!inner (
+        profiles!answers_expert_id_fkey (
           display_name,
           handle,
           avatar_url,
@@ -71,7 +71,7 @@ export default async function HomePage() {
     const todayAnswerIds = todayAnswers.map(a => a.id)
     const { data: comments } = await supabase
       .from('answer_comments')
-      .select('*, profiles!inner(display_name, handle, avatar_url)')
+      .select('*, profiles(display_name, handle, avatar_url)')
       .in('answer_id', todayAnswerIds)
       .order('created_at', { ascending: true })
     for (const c of comments ?? []) {
