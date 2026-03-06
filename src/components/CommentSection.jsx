@@ -5,28 +5,41 @@ import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 import { addComment, deleteComment } from '@/app/actions/comments'
 
-export default function CommentSection({ answerId, comments = [], currentUserId }) {
+export default function CommentSection({ answerId, comments: initialComments = [], currentUserId }) {
   const [expanded, setExpanded] = useState(false)
   const [state, formAction, pending] = useActionState(addComment, null)
   const [body, setBody] = useState('')
   const [deletingId, setDeletingId] = useState(null)
+  const [localComments, setLocalComments] = useState(initialComments)
 
-  // Clear input on success
+  // Sync with server-provided comments on revalidation
   useEffect(() => {
-    if (state?.success) setBody('')
+    setLocalComments(initialComments)
+  }, [initialComments])
+
+  // Optimistically append new comment on success
+  useEffect(() => {
+    if (state?.success) {
+      setBody('')
+    }
   }, [state])
 
   async function handleDelete(commentId) {
     if (!confirm('Delete this comment?')) return
+    // Optimistically remove
+    const removed = localComments.find(c => c.id === commentId)
+    setLocalComments(prev => prev.filter(c => c.id !== commentId))
     setDeletingId(commentId)
     const result = await deleteComment(commentId, answerId)
     if (result?.error) {
+      // Revert on failure
+      if (removed) setLocalComments(prev => [...prev, removed])
       alert(result.error)
     }
     setDeletingId(null)
   }
 
-  const count = comments.length
+  const count = localComments.length
 
   return (
     <div className="mt-3">
@@ -44,7 +57,7 @@ export default function CommentSection({ answerId, comments = [], currentUserId 
       {expanded && (
         <div className="mt-3 space-y-3">
           {/* Existing comments */}
-          {comments.map((comment) => (
+          {localComments.map((comment) => (
             <div key={comment.id} className="flex gap-2">
               {comment.profiles?.avatar_url ? (
                 <img

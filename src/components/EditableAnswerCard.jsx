@@ -9,13 +9,13 @@ import CommentSection from '@/components/CommentSection'
 
 const MARKDOWN_STYLES = "prose-answer"
 
-export default function EditableAnswerCard({ answer, expert, monthlyUsage, currentUserId, featured = false, isLiked = false, comments = [] }) {
+export default function EditableAnswerCard({ answer, expert, monthlyUsage, currentUserId, featured = false, isLiked = false, comments = [], editWindowExpiresAt }) {
   const [editing, setEditing] = useState(false)
   const [content, setContent] = useState(answer.body)
   const [showPreview, setShowPreview] = useState(false)
   const [minutesRemaining, setMinutesRemaining] = useState(() => {
-    const createdAt = new Date(answer.created_at)
-    return Math.max(0, Math.ceil(15 - (Date.now() - createdAt.getTime()) / (1000 * 60)))
+    if (!editWindowExpiresAt) return 0
+    return Math.max(0, Math.ceil((editWindowExpiresAt - Date.now()) / (1000 * 60)))
   })
   const [state, formAction, pending] = useActionState(editAnswer, null)
 
@@ -25,11 +25,10 @@ export default function EditableAnswerCard({ answer, expert, monthlyUsage, curre
 
   // Update countdown every 30 seconds
   useEffect(() => {
-    if (!isOwner) return
+    if (!isOwner || !editWindowExpiresAt) return
 
     const interval = setInterval(() => {
-      const createdAt = new Date(answer.created_at)
-      const remaining = Math.max(0, Math.ceil(15 - (Date.now() - createdAt.getTime()) / (1000 * 60)))
+      const remaining = Math.max(0, Math.ceil((editWindowExpiresAt - Date.now()) / (1000 * 60)))
       setMinutesRemaining(remaining)
       if (remaining <= 0) {
         clearInterval(interval)
@@ -38,7 +37,7 @@ export default function EditableAnswerCard({ answer, expert, monthlyUsage, curre
     }, 30000)
 
     return () => clearInterval(interval)
-  }, [isOwner, answer.created_at])
+  }, [isOwner, editWindowExpiresAt])
 
   // Handle successful edit — exit edit mode
   useEffect(() => {

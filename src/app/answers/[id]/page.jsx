@@ -145,6 +145,7 @@ export default async function AnswerPage({ params }) {
         featured={!!answer.featured_at}
         isLiked={isLiked}
         comments={comments ?? []}
+        editWindowExpiresAt={new Date(answer.created_at).getTime() + 15 * 60 * 1000}
       />
 
       {/* Link to see all answers + share */}

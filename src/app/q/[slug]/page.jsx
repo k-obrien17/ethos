@@ -236,6 +236,7 @@ export default async function QuestionPage({ params }) {
               featured={!!answer.featured_at}
               isLiked={userLikedAnswerIds.has(answer.id)}
               comments={commentsMap[answer.id] ?? []}
+              editWindowExpiresAt={new Date(answer.created_at).getTime() + 15 * 60 * 1000}
             />
           ))}
         </section>
