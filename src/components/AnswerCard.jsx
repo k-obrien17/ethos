@@ -1,7 +1,8 @@
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
+import LikeButton from '@/components/LikeButton'
 
-export default function AnswerCard({ answer, expert, monthlyUsage, featured = false }) {
+export default function AnswerCard({ answer, expert, monthlyUsage, featured = false, isLiked = false, isAuthenticated = false }) {
   return (
     <article
       id={`answer-${answer.id}`}
@@ -50,7 +51,15 @@ export default function AnswerCard({ answer, expert, monthlyUsage, featured = fa
 
       {/* Footer */}
       <div className="flex items-center justify-between mt-4 pt-3 border-t border-warm-100 text-xs text-warm-400">
-        <span>{answer.word_count} words</span>
+        <div className="flex items-center gap-3">
+          <LikeButton
+            answerId={answer.id}
+            likeCount={answer.like_count ?? 0}
+            isLiked={isLiked}
+            isAuthenticated={isAuthenticated}
+          />
+          <span>{answer.word_count} words</span>
+        </div>
         <Link
           href={`/answers/${answer.id}`}
           className="hover:text-warm-600"

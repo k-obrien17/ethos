@@ -83,6 +83,18 @@ export default async function AnswerPage({ params }) {
   // Get current user for edit capability
   const { data: { user } } = await supabase.auth.getUser()
 
+  // Check if user has liked this answer
+  let isLiked = false
+  if (user) {
+    const { data: like } = await supabase
+      .from('answer_likes')
+      .select('user_id')
+      .eq('user_id', user.id)
+      .eq('answer_id', id)
+      .maybeSingle()
+    isLiked = !!like
+  }
+
   return (
     <div className="space-y-8">
       {/* Question context */}
@@ -124,6 +136,7 @@ export default async function AnswerPage({ params }) {
         monthlyUsage={null}
         currentUserId={user?.id}
         featured={!!answer.featured_at}
+        isLiked={isLiked}
       />
 
       {/* Link to see all answers + share */}

@@ -115,6 +115,18 @@ export default async function QuestionPage({ params }) {
     isBookmarked = !!bookmark
   }
 
+  // Fetch user's likes for answers on this question
+  let userLikedAnswerIds = new Set()
+  if (user && sortedAnswers.length > 0) {
+    const answerIds = sortedAnswers.map(a => a.id)
+    const { data: likes } = await supabase
+      .from('answer_likes')
+      .select('answer_id')
+      .eq('user_id', user.id)
+      .in('answer_id', answerIds)
+    userLikedAnswerIds = new Set((likes ?? []).map(l => l.answer_id))
+  }
+
   let answerFormProps = null
   if (user) {
     const hasAnswered = (answers ?? []).some(
@@ -208,6 +220,7 @@ export default async function QuestionPage({ params }) {
               monthlyUsage={monthlyUsageMap[answer.profiles.id] ?? null}
               currentUserId={user?.id}
               featured={!!answer.featured_at}
+              isLiked={userLikedAnswerIds.has(answer.id)}
             />
           ))}
         </section>

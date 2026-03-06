@@ -65,6 +65,18 @@ export default async function HomePage() {
     })
   }
 
+  // Fetch user's likes for today's answers
+  let userLikedAnswerIds = new Set()
+  if (user && todayAnswers.length > 0) {
+    const answerIds = todayAnswers.map(a => a.id)
+    const { data: likes } = await supabase
+      .from('answer_likes')
+      .select('answer_id')
+      .eq('user_id', user.id)
+      .in('answer_id', answerIds)
+    userLikedAnswerIds = new Set((likes ?? []).map(l => l.answer_id))
+  }
+
   // Fetch recent past questions with answer counts
   let recentQuestions = null
   {
@@ -149,6 +161,8 @@ export default async function HomePage() {
                   expert={answer.profiles}
                   monthlyUsage={null}
                   featured={!!answer.featured_at}
+                  isLiked={userLikedAnswerIds.has(answer.id)}
+                  isAuthenticated={!!user}
                 />
               ))}
             </div>

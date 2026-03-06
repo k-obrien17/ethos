@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { sendEmail, emailLayout, getUnsubscribeUrl } from '@/lib/email'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { detectAI } from '@/lib/aiDetection'
 
 async function sendFeaturedEmail(answerId, expertId) {
   try {
@@ -120,7 +121,16 @@ export async function submitAnswer(prevState, formData) {
     return { error: 'You have used all your answers this month.' }
   }
 
-  // Layer 3: Database advisory lock function (absolute enforcement)
+  // Layer 3: AI detection (human-only enforcement)
+  const aiCheck = await detectAI(body)
+  if (aiCheck.flagged) {
+    return {
+      error: 'This answer was flagged as AI-generated. Ethos is a human-only platform. Please write your answer in your own words.',
+      aiRejected: true,
+    }
+  }
+
+  // Layer 4: Database advisory lock function (absolute enforcement)
   const { data, error } = await supabase.rpc('submit_answer', {
     p_expert_id: user.id,
     p_question_id: questionId,

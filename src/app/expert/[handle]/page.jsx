@@ -69,6 +69,7 @@ export default async function ExpertProfilePage({ params }) {
     .order('created_at', { ascending: false })
 
   const allAnswers = answers ?? []
+  const totalLikes = allAnswers.reduce((sum, a) => sum + (a.like_count ?? 0), 0)
 
   // Monthly stats
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
@@ -129,10 +130,14 @@ export default async function ExpertProfilePage({ params }) {
       )}
 
       {/* Stats */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <section className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
+          <p className="text-2xl font-bold text-warm-900">{totalLikes}</p>
+          <p className="text-xs text-warm-500 mt-1">Likes</p>
+        </div>
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
           <p className="text-2xl font-bold text-warm-900">{allAnswers.length}</p>
-          <p className="text-xs text-warm-500 mt-1">Total Answers</p>
+          <p className="text-xs text-warm-500 mt-1">Answers</p>
         </div>
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
           <p className="text-2xl font-bold text-warm-900">{monthlyAnswerCount}</p>

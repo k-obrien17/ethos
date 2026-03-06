@@ -154,8 +154,18 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
           </button>
         </div>
 
+        {/* AI rejection message */}
+        {state?.aiRejected && (
+          <div className="mt-3 text-sm bg-red-50 border border-red-200 px-4 py-3 rounded-lg">
+            <p className="font-semibold text-red-800">AI-generated content detected</p>
+            <p className="text-red-700 mt-1">
+              Ethos is a human-only platform. Your answer was flagged as AI-written and cannot be published. Rewrite it in your own words and try again.
+            </p>
+          </div>
+        )}
+
         {/* Error message */}
-        {state?.error && (
+        {state?.error && !state?.aiRejected && (
           <p className="mt-3 text-sm text-red-600 bg-red-50 px-3 py-2 rounded">
             {state.error}
           </p>

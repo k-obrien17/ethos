@@ -4,10 +4,11 @@ import { useState, useEffect, useActionState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import { editAnswer } from '@/app/actions/answers'
+import LikeButton from '@/components/LikeButton'
 
 const MARKDOWN_STYLES = "prose-answer"
 
-export default function EditableAnswerCard({ answer, expert, monthlyUsage, currentUserId, featured = false }) {
+export default function EditableAnswerCard({ answer, expert, monthlyUsage, currentUserId, featured = false, isLiked = false }) {
   const [editing, setEditing] = useState(false)
   const [content, setContent] = useState(answer.body)
   const [showPreview, setShowPreview] = useState(false)
@@ -226,7 +227,15 @@ export default function EditableAnswerCard({ answer, expert, monthlyUsage, curre
 
       {/* Footer */}
       <div className="flex items-center justify-between mt-4 pt-3 border-t border-warm-100 text-xs text-warm-400">
-        <span>{answer.word_count} words</span>
+        <div className="flex items-center gap-3">
+          <LikeButton
+            answerId={answer.id}
+            likeCount={answer.like_count ?? 0}
+            isLiked={isLiked}
+            isAuthenticated={!!currentUserId}
+          />
+          <span>{answer.word_count} words</span>
+        </div>
         <div className="flex items-center gap-3">
           {canEdit && (
             <button

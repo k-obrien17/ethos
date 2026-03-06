@@ -54,6 +54,12 @@ export default async function Header() {
         <div className="flex items-center gap-4">
           <SearchBar />
           <Link
+            href="/leaderboard"
+            className="text-warm-600 hover:text-warm-900 text-sm font-medium"
+          >
+            Leaderboard
+          </Link>
+          <Link
             href="/topics"
             className="text-warm-600 hover:text-warm-900 text-sm font-medium"
           >
