@@ -7,6 +7,7 @@ import { editAnswer } from '@/app/actions/answers'
 import LikeButton from '@/components/LikeButton'
 import CommentSection from '@/components/CommentSection'
 import ShareButton from '@/components/ShareButton'
+import ReportButton from '@/components/ReportButton'
 
 export default function AnswerCard({
   answer,
@@ -220,6 +221,7 @@ export default function AnswerCard({
             </button>
           )}
           <ShareButton url={`/answers/${answer.id}`} title={`${expert.display_name} on Ethos`} />
+          {currentUserId && !isOwner && <ReportButton answerId={answer.id} />}
           <Link href={`/answers/${answer.id}`} className="hover:text-warm-600">
             Link
           </Link>

@@ -303,6 +303,24 @@ export default async function DashboardPage() {
         </div>
       </section>
 
+      {/* API Keys */}
+      <section className="bg-white rounded-lg border border-warm-200 p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-warm-800">API Access</h2>
+            <p className="text-sm text-warm-500 mt-1">
+              Embed your Ethos answers on your website.
+            </p>
+          </div>
+          <Link
+            href="/dashboard/api"
+            className="px-4 py-2 bg-warm-100 text-warm-700 rounded-lg text-sm font-medium hover:bg-warm-200 transition-colors"
+          >
+            Manage Keys
+          </Link>
+        </div>
+      </section>
+
       {/* Edit Profile */}
       <section>
         <h2 className="text-lg font-semibold text-warm-800 mb-4">Edit Profile</h2>
