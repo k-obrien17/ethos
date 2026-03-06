@@ -26,6 +26,9 @@ export default function MobileNav({ isAuthenticated }) {
 
       {open && (
         <div className="absolute left-0 right-0 top-full bg-warm-50 border-b border-warm-200 z-50 px-4 py-3 space-y-2">
+          <Link href="/trending" onClick={() => setOpen(false)} className="block py-2 text-sm font-medium text-warm-700">
+            Trending
+          </Link>
           <Link href="/leaderboard" onClick={() => setOpen(false)} className="block py-2 text-sm font-medium text-warm-700">
             Leaderboard
           </Link>
@@ -37,6 +40,9 @@ export default function MobileNav({ isAuthenticated }) {
           </Link>
           {isAuthenticated && (
             <>
+              <Link href="/following" onClick={() => setOpen(false)} className="block py-2 text-sm font-medium text-warm-700">
+                Following
+              </Link>
               <Link href="/questions/upcoming" onClick={() => setOpen(false)} className="block py-2 text-sm font-medium text-warm-700">
                 Upcoming
               </Link>

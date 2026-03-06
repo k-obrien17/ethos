@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { sendEmail, emailLayout, getUnsubscribeUrl } from '@/lib/email'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { detectAI } from '@/lib/aiDetection'
+import { rateLimit } from '@/lib/rateLimit'
 
 async function sendFeaturedEmail(answerId, expertId) {
   try {
@@ -81,6 +82,10 @@ export async function submitAnswer(prevState, formData) {
   if (!user) {
     return { error: 'You must be signed in to answer.' }
   }
+
+  // Rate limit: 10 submissions per hour per user
+  const rl = rateLimit({ key: `submit:${user.id}`, limit: 10, windowMs: 60 * 60 * 1000 })
+  if (!rl.success) return { error: 'Too many submissions. Please try again later.' }
 
   const questionId = formData.get('questionId')
   const body = formData.get('body')?.trim()

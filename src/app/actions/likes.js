@@ -2,12 +2,17 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { rateLimit } from '@/lib/rateLimit'
 
 export async function toggleLike(answerId) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) return { error: 'You must be signed in.' }
+
+  // Rate limit: 60 likes per 15 minutes
+  const rl = rateLimit({ key: `like:${user.id}`, limit: 60, windowMs: 15 * 60 * 1000 })
+  if (!rl.success) return { error: 'Too many actions. Please slow down.' }
 
   // Check if already liked
   const { data: existing } = await supabase

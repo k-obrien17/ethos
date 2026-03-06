@@ -30,6 +30,26 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-warm-50 text-warm-900 antialiased min-h-screen">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Ethos',
+              url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ethos-daily.vercel.app',
+              description: 'Human-only thought leadership platform. One question per day, limited answers per month.',
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: {
+                  '@type': 'EntryPoint',
+                  urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ethos-daily.vercel.app'}/search?q={search_term_string}`,
+                },
+                'query-input': 'required name=search_term_string',
+              },
+            }),
+          }}
+        />
         <Header />
         <main className="mx-auto max-w-2xl px-4 py-8">
           {children}

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { rateLimit } from '@/lib/rateLimit'
 
 export async function toggleFollow(targetUserId) {
   const supabase = await createClient()
@@ -9,6 +10,9 @@ export async function toggleFollow(targetUserId) {
 
   if (!user) return { error: 'You must be signed in.' }
   if (user.id === targetUserId) return { error: "You can't follow yourself." }
+
+  const rl = rateLimit({ key: `follow:${user.id}`, limit: 30, windowMs: 15 * 60 * 1000 })
+  if (!rl.success) return { error: 'Too many actions. Please slow down.' }
 
   const { data: existing } = await supabase
     .from('follows')

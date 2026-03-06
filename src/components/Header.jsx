@@ -46,6 +46,9 @@ export default async function Header() {
         {/* Desktop nav */}
         <div className="hidden sm:flex items-center gap-4">
           <SearchBar />
+          <Link href="/trending" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
+            Trending
+          </Link>
           <Link href="/leaderboard" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
             Leaderboard
           </Link>
@@ -55,6 +58,11 @@ export default async function Header() {
           <Link href="/questions" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
             Archive
           </Link>
+          {user && (
+            <Link href="/following" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
+              Following
+            </Link>
+          )}
           {user && (
             <Link href="/questions/upcoming" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
               Upcoming

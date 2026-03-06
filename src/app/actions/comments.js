@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { rateLimit } from '@/lib/rateLimit'
 
 export async function addComment(prevState, formData) {
   const supabase = await createClient()
@@ -9,8 +10,13 @@ export async function addComment(prevState, formData) {
 
   if (!user) return { error: 'You must be signed in to comment.' }
 
+  // Rate limit: 30 comments per 15 minutes
+  const rl = rateLimit({ key: `comment:${user.id}`, limit: 30, windowMs: 15 * 60 * 1000 })
+  if (!rl.success) return { error: 'Too many comments. Please slow down.' }
+
   const answerId = formData.get('answerId')
   const body = formData.get('body')?.trim()
+  const parentId = formData.get('parentId') || null
 
   if (!answerId) return { error: 'Missing answer ID.' }
   if (!body || body.length < 1) return { error: 'Comment cannot be empty.' }
@@ -18,7 +24,7 @@ export async function addComment(prevState, formData) {
 
   const { error } = await supabase
     .from('answer_comments')
-    .insert({ answer_id: answerId, user_id: user.id, body })
+    .insert({ answer_id: answerId, user_id: user.id, body, parent_id: parentId })
 
   if (error) return { error: 'Failed to post comment.' }
 
