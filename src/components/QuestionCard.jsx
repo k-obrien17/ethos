@@ -5,34 +5,29 @@ export default function QuestionCard({ question, answerCount }) {
   const topics = question.question_topics?.map((qt) => qt.topics).filter(Boolean) ?? []
 
   return (
-    <div className="bg-white rounded-lg border border-warm-200 hover:border-warm-400 transition-colors">
+    <div className="py-4">
       <Link
         href={`/q/${question.slug}`}
-        className="block p-6 pb-3 outline-none focus-visible:ring-2 focus-visible:ring-warm-400 focus-visible:ring-offset-2 rounded-t-lg"
+        className="block group outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 rounded-sm"
       >
-        {question.category && (
-          <span className="text-xs font-medium text-warm-500 uppercase tracking-wide">
-            {question.category}
-          </span>
-        )}
-        <h2 className="text-lg font-semibold text-warm-900 mt-1">
+        <h2 className="text-base font-semibold text-warm-900 group-hover:text-accent-600 transition-colors leading-snug">
           {question.body}
         </h2>
-        <div className="flex items-center gap-3 mt-3 text-sm text-warm-500">
+        <div className="flex items-center gap-2 mt-1.5 text-sm text-warm-400">
           <span>{format(new Date(question.publish_date), 'MMM d, yyyy')}</span>
-          <span>·</span>
+          <span>&middot;</span>
           <span>
-            {answerCount} {answerCount === 1 ? 'answer' : 'answers'}
+            {answerCount} {answerCount === 1 ? 'perspective' : 'perspectives'}
           </span>
         </div>
       </Link>
       {topics.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 px-6 pb-4 pt-1 border-t border-warm-100">
+        <div className="flex flex-wrap gap-1.5 mt-2">
           {topics.map((topic) => (
             <Link
               key={topic.slug}
               href={`/topics/${topic.slug}`}
-              className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
+              className="text-xs px-2 py-0.5 rounded-md bg-warm-100 text-warm-500 font-medium hover:bg-warm-200 hover:text-warm-600 transition-colors"
             >
               {topic.name}
             </Link>

@@ -62,29 +62,28 @@ export default function AnswerCard({
         <img
           src={expert.avatar_url}
           alt={expert.display_name}
-          className="w-10 h-10 rounded-full object-cover"
+          className="w-9 h-9 rounded-full object-cover"
         />
       ) : (
-        <div className="w-10 h-10 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 font-medium text-sm">
+        <div className="w-9 h-9 rounded-full bg-warm-100 flex items-center justify-center text-warm-500 font-medium text-sm">
           {expert.display_name?.charAt(0)?.toUpperCase()}
         </div>
       )}
       <div>
-        <p className="font-medium text-warm-900 group-hover:underline">
+        <p className="text-sm font-medium text-warm-900 group-hover:text-accent-600 transition-colors">
           {expert.display_name}
         </p>
-        <p className="text-xs text-warm-500">
-          {expert.display_name} chose to answer
-          {monthlyUsage != null && expert.answer_limit != null && (
-            <> &middot; {monthlyUsage} of {expert.answer_limit} this month</>
-          )}
-        </p>
+        {monthlyUsage != null && expert.answer_limit != null && (
+          <p className="text-xs text-warm-400">
+            {monthlyUsage} of {expert.answer_limit} this month
+          </p>
+        )}
       </div>
     </Link>
   )
 
   const featuredBadge = featured && (
-    <div className="flex items-center gap-1.5 mb-3 text-xs font-medium text-amber-700">
+    <div className="flex items-center gap-1.5 mb-3 text-xs font-medium text-accent-600">
       <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
         <path d="M10 1l2.39 6.34H19l-5.3 3.85L15.3 18 10 13.82 4.7 18l1.61-6.81L1 7.34h6.61L10 1z" />
       </svg>
@@ -95,21 +94,21 @@ export default function AnswerCard({
   // --- Edit mode ---
   if (editing) {
     return (
-      <article className="p-6 bg-white rounded-lg border border-warm-200">
+      <article className="py-6">
         {expertHeader}
         {featuredBadge}
 
         <form action={formAction}>
           <input type="hidden" name="answerId" value={answer.id} />
 
-          <div className="border border-warm-200 rounded-lg overflow-hidden">
+          <div className="border border-warm-200 rounded-md overflow-hidden">
             <div className="flex border-b border-warm-200 bg-warm-50">
               <button
                 type="button"
                 onClick={() => setShowPreview(false)}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   !showPreview
-                    ? 'text-warm-900 bg-white border-b-2 border-warm-800'
+                    ? 'text-warm-900 bg-white border-b-2 border-accent-600'
                     : 'text-warm-500 hover:text-warm-700'
                 }`}
               >
@@ -120,7 +119,7 @@ export default function AnswerCard({
                 onClick={() => setShowPreview(true)}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   showPreview
-                    ? 'text-warm-900 bg-white border-b-2 border-warm-800'
+                    ? 'text-warm-900 bg-white border-b-2 border-accent-600'
                     : 'text-warm-500 hover:text-warm-700'
                 }`}
               >
@@ -153,7 +152,7 @@ export default function AnswerCard({
                     required: true,
                     minLength: 10,
                     className:
-                      'w-full px-3 py-2 text-warm-900 focus:outline-none focus:ring-2 focus:ring-warm-300 resize-y border-0',
+                      'w-full px-3 py-2 text-warm-900 focus:outline-none focus:ring-2 focus:ring-accent-500 resize-y border-0',
                   })}
             />
           </div>
@@ -167,14 +166,14 @@ export default function AnswerCard({
                 type="button"
                 onClick={() => { setEditing(false); setContent(answer.body); setShowPreview(false) }}
                 disabled={pending}
-                className="px-3 py-1.5 text-sm text-warm-600 hover:text-warm-800"
+                className="px-3 py-1.5 text-sm text-warm-500 hover:text-warm-800"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={pending || content.trim().length < 10}
-                className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {pending ? 'Saving...' : 'Save Edit'}
               </button>
@@ -182,7 +181,7 @@ export default function AnswerCard({
           </div>
 
           {state?.error && (
-            <p className="mt-3 text-sm text-red-600 bg-red-50 px-3 py-2 rounded">
+            <p className="mt-3 text-sm text-red-600 bg-red-50 px-3 py-2 rounded-md">
               {state.error}
             </p>
           )}
@@ -193,7 +192,7 @@ export default function AnswerCard({
 
   // --- Read mode ---
   return (
-    <article id={`answer-${answer.id}`} className="p-6 bg-white rounded-lg border border-warm-200">
+    <article id={`answer-${answer.id}`} className="py-6">
       {expertHeader}
       {featuredBadge}
 
@@ -201,7 +200,7 @@ export default function AnswerCard({
         <ReactMarkdown>{answer.body}</ReactMarkdown>
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-warm-100 text-xs text-warm-400">
+      <div className="flex items-center justify-between mt-4 pt-3 text-xs text-warm-400">
         <div className="flex items-center gap-3">
           <LikeButton
             answerId={answer.id}
@@ -215,9 +214,9 @@ export default function AnswerCard({
           {canEdit && (
             <button
               onClick={() => setEditing(true)}
-              className="text-warm-500 hover:text-warm-700 font-medium"
+              className="text-warm-400 hover:text-warm-700 font-medium"
             >
-              Edit ({minutesRemaining}m left)
+              Edit ({minutesRemaining}m)
             </button>
           )}
           <ShareButton url={`/answers/${answer.id}`} title={`${expert.display_name} on Ethos`} />

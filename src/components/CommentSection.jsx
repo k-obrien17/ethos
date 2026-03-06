@@ -170,12 +170,12 @@ export default function CommentSection({ answerId, comments: initialComments = [
                   onChange={(e) => setBody(e.target.value)}
                   placeholder={replyTo ? 'Write a reply...' : 'Add a comment...'}
                   maxLength={2000}
-                  className="flex-1 px-3 py-1.5 text-sm border border-warm-200 rounded-lg text-warm-800 placeholder:text-warm-400 focus:outline-none focus:ring-1 focus:ring-warm-300"
+                  className="flex-1 px-3 py-1.5 text-sm border border-warm-200 rounded-md text-warm-800 placeholder:text-warm-400 focus:outline-none focus:ring-1 focus:ring-accent-500"
                 />
                 <button
                   type="submit"
                   disabled={pending || !body.trim()}
-                  className="px-3 py-1.5 text-sm font-medium bg-warm-800 text-warm-50 rounded-lg hover:bg-warm-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-3 py-1.5 text-sm font-medium bg-accent-600 text-white rounded-md hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {pending ? '...' : 'Post'}
                 </button>

@@ -75,7 +75,7 @@ export default async function TrendingPage() {
 
                   {/* Featured badge */}
                   {answer.featured_at && (
-                    <div className="flex items-center gap-1 mb-2 text-xs font-medium text-amber-700">
+                    <div className="flex items-center gap-1 mb-2 text-xs font-medium text-accent-600">
                       <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10 1l2.39 6.34H19l-5.3 3.85L15.3 18 10 13.82 4.7 18l1.61-6.81L1 7.34h6.61L10 1z" />
                       </svg>

@@ -44,13 +44,13 @@ export default function ApiKeyManager({ keys }) {
               placeholder="e.g. My website"
               maxLength={50}
               required
-              className="w-full px-3 py-2 border border-warm-200 rounded-lg text-sm"
+              className="w-full px-3 py-2 border border-warm-200 rounded-md text-sm"
             />
           </div>
           <button
             type="submit"
             disabled={pending}
-            className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 disabled:opacity-50 transition-colors"
+            className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 disabled:opacity-50 transition-colors"
           >
             {pending ? 'Creating...' : 'Create'}
           </button>

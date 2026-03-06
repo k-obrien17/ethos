@@ -33,7 +33,7 @@ export default async function FollowingPage() {
           </p>
           <Link
             href="/leaderboard"
-            className="inline-block px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 transition-colors"
+            className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
           >
             Discover experts
           </Link>

@@ -116,7 +116,7 @@ export default async function AdminQuestionsPage() {
         <h1 className="text-2xl font-bold text-warm-900">Questions</h1>
         <Link
           href="/admin/questions/new"
-          className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 transition-colors"
+          className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
         >
           New Question
         </Link>

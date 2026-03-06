@@ -134,7 +134,7 @@ export default function SearchBar() {
           onFocus={() => setIsFocused(true)}
           onKeyDown={handleKeyDown}
           placeholder="Search..."
-          className="w-48 lg:w-64 px-3 py-1.5 pl-8 text-sm rounded-lg border border-warm-300 bg-white text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-400 focus:border-transparent"
+          className="w-48 lg:w-64 px-3 py-1.5 pl-8 text-sm rounded-md border border-warm-200 bg-white text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
         />
         <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-warm-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -174,7 +174,7 @@ export default function SearchBar() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="fixed inset-x-0 top-0 bg-warm-50 px-4 py-3 z-50 flex items-center gap-2 border-b border-warm-200"
+            className="fixed inset-x-0 top-0 bg-white px-4 py-3 z-50 flex items-center gap-2 border-b border-warm-200"
           >
             <input
               ref={mobileInputRef}
@@ -184,7 +184,7 @@ export default function SearchBar() {
               onFocus={() => setIsFocused(true)}
               onKeyDown={handleKeyDown}
               placeholder="Search..."
-              className="flex-1 px-3 py-1.5 text-sm rounded-lg border border-warm-300 bg-white text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-400"
+              className="flex-1 px-3 py-1.5 text-sm rounded-md border border-warm-200 bg-white text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500"
               autoFocus
             />
             <button

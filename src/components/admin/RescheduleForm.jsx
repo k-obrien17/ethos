@@ -14,12 +14,12 @@ export default function RescheduleForm({ questionId, currentDate }) {
         name="publish_date"
         defaultValue={currentDate ?? ''}
         required
-        className="text-xs px-2 py-1 border border-warm-200 rounded bg-white text-warm-900 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+        className="text-xs px-2 py-1 border border-warm-200 rounded bg-white text-warm-900 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
       />
       <button
         type="submit"
         disabled={pending}
-        className="text-xs px-2 py-1 bg-warm-800 text-warm-50 rounded font-medium hover:bg-warm-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="text-xs px-2 py-1 bg-accent-600 text-white rounded font-medium hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {pending ? '...' : 'Set'}
       </button>

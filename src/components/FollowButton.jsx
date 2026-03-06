@@ -24,10 +24,10 @@ export default function FollowButton({ targetUserId, isFollowing: initialFollowi
     <button
       onClick={handleClick}
       disabled={isPending}
-      className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 ${
+      className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors disabled:opacity-50 ${
         isFollowing
           ? 'bg-warm-100 text-warm-700 hover:bg-warm-200'
-          : 'bg-warm-800 text-warm-50 hover:bg-warm-900'
+          : 'bg-accent-600 text-white hover:bg-accent-700'
       }`}
     >
       {isFollowing ? 'Following' : 'Follow'}

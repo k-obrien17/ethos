@@ -191,13 +191,13 @@ export default async function ExpertProfilePage({ params }) {
           </h2>
           <div className="space-y-4">
             {featuredAnswers.map((answer) => (
-              <article key={answer.id} className="bg-amber-50/50 rounded-lg border border-amber-200 p-5">
+              <article key={answer.id} className="bg-accent-50/50 rounded-lg border border-accent-100 p-5">
                 <Link href={`/q/${answer.questions.slug}`} className="block mb-2">
                   <div className="flex items-center gap-2 mb-1">
-                    <svg className="w-3.5 h-3.5 text-amber-600" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="w-3.5 h-3.5 text-accent-600" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10 1l2.39 6.34H19l-5.3 3.85L15.3 18 10 13.82 4.7 18l1.61-6.81L1 7.34h6.61L10 1z" />
                     </svg>
-                    <span className="text-xs font-medium text-amber-700">Featured</span>
+                    <span className="text-xs font-medium text-accent-600">Featured</span>
                     {answer.questions.category && (
                       <span className="text-xs text-warm-500">{answer.questions.category}</span>
                     )}
@@ -224,9 +224,9 @@ export default async function ExpertProfilePage({ params }) {
           All Answers ({allAnswers.length})
         </h2>
         {allAnswers.length > 0 ? (
-          <div className="space-y-6">
+          <div className="divide-y divide-warm-100">
             {allAnswers.map((answer) => (
-              <article key={answer.id} className="bg-white rounded-lg border border-warm-200 p-6">
+              <article key={answer.id} className="py-6">
                 <Link href={`/q/${answer.questions.slug}`} className="block mb-3">
                   <div className="flex items-center gap-2 mb-1">
                     {answer.questions.category && (
@@ -244,7 +244,7 @@ export default async function ExpertProfilePage({ params }) {
                 </Link>
 
                 {answer.featured_at && (
-                  <div className="flex items-center gap-1.5 mb-3 text-xs font-medium text-amber-700">
+                  <div className="flex items-center gap-1.5 mb-3 text-xs font-medium text-accent-600">
                     <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10 1l2.39 6.34H19l-5.3 3.85L15.3 18 10 13.82 4.7 18l1.61-6.81L1 7.34h6.61L10 1z" />
                     </svg>

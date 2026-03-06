@@ -29,7 +29,7 @@ export default function InviteGenerator() {
             defaultValue={5}
             min={1}
             max={20}
-            className="w-20 px-3 py-2 border border-warm-200 rounded-lg text-sm"
+            className="w-20 px-3 py-2 border border-warm-200 rounded-md text-sm"
           />
         </div>
         <div>
@@ -40,13 +40,13 @@ export default function InviteGenerator() {
             defaultValue={30}
             min={1}
             max={365}
-            className="w-24 px-3 py-2 border border-warm-200 rounded-lg text-sm"
+            className="w-24 px-3 py-2 border border-warm-200 rounded-md text-sm"
           />
         </div>
         <button
           type="submit"
           disabled={pending}
-          className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 disabled:opacity-50 transition-colors"
+          className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 disabled:opacity-50 transition-colors"
         >
           {pending ? 'Generating...' : 'Generate'}
         </button>

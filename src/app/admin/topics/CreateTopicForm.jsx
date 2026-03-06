@@ -20,7 +20,7 @@ export default function CreateTopicForm() {
           minLength={2}
           maxLength={50}
           placeholder="e.g., Leadership"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-sm text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-sm text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
       </div>
       <div>
@@ -33,13 +33,13 @@ export default function CreateTopicForm() {
           rows={2}
           maxLength={200}
           placeholder="Short description of this topic"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-sm text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300 resize-y"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-sm text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 resize-y"
         />
       </div>
       <button
         type="submit"
         disabled={pending}
-        className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {pending ? 'Creating...' : 'Create Topic'}
       </button>

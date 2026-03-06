@@ -67,7 +67,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
   // Already answered this question
   if (hasAnswered) {
     return (
-      <div className="p-4 bg-warm-100 rounded-lg text-warm-600 text-sm">
+      <div className="py-4 text-warm-500 text-sm">
         You have already answered this question.
       </div>
     )
@@ -76,11 +76,11 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
   // Budget exhausted (Layer 1: client UX enforcement)
   if (remaining <= 0) {
     return (
-      <div className="p-4 bg-warm-100 rounded-lg">
-        <p className="text-warm-600 text-sm">
+      <div className="py-4">
+        <p className="text-warm-500 text-sm">
           You have used all {budgetLimit} answers this month.
         </p>
-        <p className="text-warm-500 text-xs mt-1">
+        <p className="text-warm-400 text-xs mt-1">
           Your budget resets at the start of next month.
         </p>
       </div>
@@ -88,7 +88,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
   }
 
   return (
-    <div className="bg-white rounded-lg border border-warm-200 p-6">
+    <div className="border border-warm-200 rounded-md p-6">
       <div className="flex items-center justify-between mb-3">
         <p className="text-sm font-medium text-warm-800">
           Your answer
@@ -99,7 +99,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
       <form action={formAction}>
         <input type="hidden" name="questionId" value={questionId} />
 
-        <div className="border border-warm-200 rounded-lg overflow-hidden">
+        <div className="border border-warm-200 rounded-md overflow-hidden">
           {/* Write / Preview tabs */}
           <div className="flex border-b border-warm-200 bg-warm-50">
             <button
@@ -107,7 +107,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
               onClick={() => setShowPreview(false)}
               className={`px-4 py-2 text-sm font-medium transition-colors ${
                 !showPreview
-                  ? 'text-warm-900 bg-white border-b-2 border-warm-800'
+                  ? 'text-warm-900 bg-white border-b-2 border-accent-600'
                   : 'text-warm-500 hover:text-warm-700'
               }`}
             >
@@ -118,7 +118,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
               onClick={() => setShowPreview(true)}
               className={`px-4 py-2 text-sm font-medium transition-colors ${
                 showPreview
-                  ? 'text-warm-900 bg-white border-b-2 border-warm-800'
+                  ? 'text-warm-900 bg-white border-b-2 border-accent-600'
                   : 'text-warm-500 hover:text-warm-700'
               }`}
             >
@@ -154,7 +154,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
                   required: true,
                   minLength: 10,
                   className:
-                    'w-full px-3 py-2 text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 resize-y border-0',
+                    'w-full px-3 py-2 text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 resize-y border-0',
                 })}
           />
         </div>
@@ -162,13 +162,13 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
         <div className="flex items-center justify-between mt-3">
           <div className="text-xs text-warm-400 space-x-3">
             <span>{wordCount} {wordCount === 1 ? 'word' : 'words'}</span>
-            {content && <span>· Draft saved</span>}
+            {content && <span>&middot; Draft saved</span>}
           </div>
 
           <button
             type="submit"
             disabled={pending || content.trim().length < 10}
-            className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {pending ? 'Submitting...' : 'Submit Answer'}
           </button>
@@ -176,7 +176,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
 
         {/* AI rejection message */}
         {state?.aiRejected && (
-          <div className="mt-3 text-sm bg-red-50 border border-red-200 px-4 py-3 rounded-lg">
+          <div className="mt-3 text-sm bg-red-50 border border-red-200 px-4 py-3 rounded-md">
             <p className="font-semibold text-red-800">AI-generated content detected</p>
             <p className="text-red-700 mt-1">
               Ethos is a human-only platform. Your answer was flagged as AI-written and cannot be published. Rewrite it in your own words and try again.
@@ -186,14 +186,14 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
 
         {/* Error message */}
         {state?.error && !state?.aiRejected && (
-          <p className="mt-3 text-sm text-red-600 bg-red-50 px-3 py-2 rounded">
+          <p className="mt-3 text-sm text-red-600 bg-red-50 px-3 py-2 rounded-md">
             {state.error}
           </p>
         )}
 
         {/* Success message */}
         {state?.success && (
-          <p className="mt-3 text-sm text-green-700 bg-green-50 px-3 py-2 rounded">
+          <p className="mt-3 text-sm text-green-700 bg-green-50 px-3 py-2 rounded-md">
             Answer submitted successfully.
           </p>
         )}

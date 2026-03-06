@@ -116,96 +116,77 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Landing hero for logged-out visitors */}
       {!user && (
-        <section className="text-center py-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-warm-900 leading-tight">
+        <section className="py-12 text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold text-warm-900 leading-tight tracking-tight">
             What you choose to answer<br />reveals what you stand for.
           </h1>
-          <p className="text-warm-600 mt-3 max-w-md mx-auto">
-            Ethos is a human-only thought leadership platform. One question per day. Limited answers per month. Every response is a statement of what matters to you.
+          <p className="text-warm-500 mt-4 max-w-md mx-auto text-base leading-relaxed">
+            One curated question per day. Limited answers per month. Every response is a statement of what matters to you.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+          <div className="flex items-center justify-center gap-4 mt-8">
             <Link
               href="/login"
-              className="px-6 py-3 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 transition-colors"
+              className="px-6 py-2.5 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
             >
               Join Ethos
             </Link>
             <Link
               href="/questions"
-              className="px-6 py-3 text-warm-600 text-sm font-medium hover:text-warm-800 transition-colors"
+              className="text-warm-500 text-sm font-medium hover:text-warm-800 transition-colors"
             >
               Browse questions
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 text-left max-w-lg mx-auto">
-            <div className="p-4 bg-white rounded-lg border border-warm-200">
-              <p className="text-sm font-semibold text-warm-800">One daily question</p>
-              <p className="text-xs text-warm-500 mt-1">Curated topics that demand real thought.</p>
-            </div>
-            <div className="p-4 bg-white rounded-lg border border-warm-200">
-              <p className="text-sm font-semibold text-warm-800">Limited budget</p>
-              <p className="text-xs text-warm-500 mt-1">Choose wisely. Every answer counts.</p>
-            </div>
-            <div className="p-4 bg-white rounded-lg border border-warm-200">
-              <p className="text-sm font-semibold text-warm-800">Human only</p>
-              <p className="text-xs text-warm-500 mt-1">AI-generated content is detected and blocked.</p>
-            </div>
-          </div>
+          <p className="text-warm-400 text-xs mt-6">
+            Human-only platform &middot; Invite required &middot; No AI-generated content
+          </p>
         </section>
       )}
 
       {/* Today's question */}
       {todayQuestion ? (
         <section>
-          <p className="text-xs font-medium text-warm-500 uppercase tracking-wide mb-2">
+          <p className="text-xs font-medium text-warm-400 uppercase tracking-widest mb-3">
             Today&apos;s Question
           </p>
-          <div className="p-6 bg-white rounded-lg border-2 border-warm-300">
-            {todayQuestion.category && (
-              <span className="text-xs font-medium text-warm-500 uppercase tracking-wide">
-                {todayQuestion.category}
-              </span>
-            )}
-            <h1 className="text-2xl font-bold text-warm-900 mt-1">
-              {todayQuestion.body}
-            </h1>
-            {todayQuestion.question_topics?.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {todayQuestion.question_topics.map((qt) => qt.topics && (
-                  <Link
-                    key={qt.topics.slug}
-                    href={`/topics/${qt.topics.slug}`}
-                    className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
-                  >
-                    {qt.topics.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-            <p className="text-sm text-warm-500 mt-3">
-              {todayAnswers.length} {todayAnswers.length === 1 ? 'expert has' : 'experts have'} answered
-            </p>
-          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-warm-900 leading-snug tracking-tight">
+            {todayQuestion.body}
+          </h1>
+          {todayQuestion.question_topics?.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-3">
+              {todayQuestion.question_topics.map((qt) => qt.topics && (
+                <Link
+                  key={qt.topics.slug}
+                  href={`/topics/${qt.topics.slug}`}
+                  className="text-xs px-2.5 py-1 rounded-md bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
+                >
+                  {qt.topics.name}
+                </Link>
+              ))}
+            </div>
+          )}
+          <p className="text-sm text-warm-400 mt-4">
+            {todayAnswers.length} {todayAnswers.length === 1 ? 'perspective' : 'perspectives'}
+          </p>
 
           {/* First-answer nudge for authenticated users with 0 answers */}
           {showNudge && todayQuestion && (
-            <div className="mt-4 p-3 bg-warm-100 rounded-lg text-center">
-              <p className="text-warm-700 text-sm">
+            <div className="mt-6 py-3 border-t border-warm-100 text-center">
+              <p className="text-warm-500 text-sm">
                 This is your first day on Ethos.{' '}
-                <Link href={`/q/${todayQuestion.slug}`} className="font-medium underline hover:text-warm-900">
-                  Answer today&apos;s question
+                <Link href={`/q/${todayQuestion.slug}`} className="text-accent-600 font-medium hover:text-accent-700">
+                  Share your perspective
                 </Link>
-                {' '}to get started.
               </p>
             </div>
           )}
 
           {/* Today's answers */}
           {todayAnswers.length > 0 && (
-            <div className="mt-6 space-y-4">
+            <div className="mt-8 divide-y divide-warm-100">
               {todayAnswers.map((answer) => (
                 <AnswerCard
                   key={answer.id}
@@ -223,18 +204,18 @@ export default async function HomePage() {
           )}
 
           {todayAnswers.length === 0 && (
-            <p className="mt-4 text-warm-500 text-sm">
-              No answers yet. Be the first expert to weigh in.
+            <p className="mt-6 text-warm-400 text-sm">
+              No perspectives yet. Be the first to share yours.
             </p>
           )}
         </section>
       ) : (
-        <section className="text-center py-12">
+        <section className="text-center py-16">
           <h1 className="text-2xl font-bold text-warm-900 mb-2">Ethos</h1>
-          <p className="text-warm-600">
+          <p className="text-warm-500">
             What you choose to answer reveals what you stand for.
           </p>
-          <p className="text-warm-500 text-sm mt-2">
+          <p className="text-warm-400 text-sm mt-2">
             No question published yet today. Check back soon.
           </p>
         </section>
@@ -244,17 +225,17 @@ export default async function HomePage() {
       {recentQuestions && recentQuestions.length > 0 && (
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-warm-800">
+            <h2 className="text-base font-semibold text-warm-800">
               Recent Questions
             </h2>
             <Link
               href="/questions"
-              className="text-sm text-warm-500 hover:text-warm-700"
+              className="text-sm text-accent-600 hover:text-accent-700 font-medium"
             >
               View all
             </Link>
           </div>
-          <div className="space-y-3">
+          <div className="divide-y divide-warm-100">
             {recentQuestions.map((q) => (
               <QuestionCard
                 key={q.id}

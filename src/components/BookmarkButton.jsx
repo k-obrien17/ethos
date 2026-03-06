@@ -20,7 +20,7 @@ export default function BookmarkButton({ questionId, isBookmarked, className = '
       disabled={isPending}
       className={`inline-flex items-center gap-1 text-sm transition-colors ${
         optimisticBookmarked
-          ? 'text-amber-600 hover:text-amber-700'
+          ? 'text-accent-600 hover:text-accent-700'
           : 'text-warm-400 hover:text-warm-600'
       } disabled:opacity-50 ${className}`}
       aria-label={optimisticBookmarked ? 'Remove bookmark' : 'Save for later'}

@@ -22,7 +22,7 @@ export default function EmailPreferencesForm({ preferences }) {
             type="checkbox"
             name={key}
             defaultChecked={preferences?.[key] !== false}
-            className="mt-1 rounded border-warm-300 text-warm-800 focus:ring-warm-500"
+            className="mt-1 rounded border-warm-300 text-accent-600 focus:ring-accent-500"
           />
           <div>
             <p className="text-sm font-medium text-warm-900">{label}</p>
@@ -35,7 +35,7 @@ export default function EmailPreferencesForm({ preferences }) {
         <button
           type="submit"
           disabled={pending}
-          className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 disabled:opacity-50 transition-colors"
+          className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 disabled:opacity-50 transition-colors"
         >
           {pending ? 'Saving...' : 'Save Preferences'}
         </button>

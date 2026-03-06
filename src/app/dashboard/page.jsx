@@ -227,7 +227,7 @@ export default async function DashboardPage() {
           </p>
           <Link
             href={`/q/${todayQuestion.slug}`}
-            className="inline-block mt-3 px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 transition-colors"
+            className="inline-block mt-3 px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
           >
             Answer today&apos;s question
           </Link>

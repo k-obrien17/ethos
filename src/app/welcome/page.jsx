@@ -50,15 +50,15 @@ export default async function WelcomePage() {
         <h2 className="text-sm font-semibold text-warm-800 mb-3">How Ethos works</h2>
         <div className="space-y-3 text-sm text-warm-600">
           <div className="flex gap-3">
-            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-warm-800 text-warm-50 flex items-center justify-center text-xs font-bold">1</span>
+            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold">1</span>
             <p>One curated question is published every day.</p>
           </div>
           <div className="flex gap-3">
-            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-warm-800 text-warm-50 flex items-center justify-center text-xs font-bold">2</span>
+            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold">2</span>
             <p>You have a limited number of answers per month. Choose which questions matter to you.</p>
           </div>
           <div className="flex gap-3">
-            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-warm-800 text-warm-50 flex items-center justify-center text-xs font-bold">3</span>
+            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold">3</span>
             <p>All answers must be human-written. AI-generated content is detected and blocked.</p>
           </div>
         </div>

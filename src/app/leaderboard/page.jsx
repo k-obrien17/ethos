@@ -75,7 +75,7 @@ export default async function LeaderboardPage() {
             >
               {/* Rank */}
               <span className={`text-lg font-bold w-8 text-center flex-shrink-0 ${
-                i === 0 ? 'text-amber-500' : i === 1 ? 'text-warm-400' : i === 2 ? 'text-amber-700' : 'text-warm-300'
+                i === 0 ? 'text-accent-600' : i === 1 ? 'text-warm-500' : i === 2 ? 'text-accent-500' : 'text-warm-300'
               }`}>
                 {i + 1}
               </span>

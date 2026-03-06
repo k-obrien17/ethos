@@ -77,7 +77,7 @@ export default function QuestionForm({ question, topics = [], selectedTopicIds =
           maxLength={500}
           rows={4}
           placeholder="What leadership principle do you find hardest to practice consistently?"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300 resize-y"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 resize-y"
         />
         <p className="text-xs text-warm-400 mt-1">
           {body.length}/500 characters
@@ -101,7 +101,7 @@ export default function QuestionForm({ question, topics = [], selectedTopicIds =
             minLength={3}
             maxLength={80}
             placeholder="what-leadership-principle"
-            className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+            className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           />
         </div>
         <p className="text-xs text-warm-400 mt-1">
@@ -120,7 +120,7 @@ export default function QuestionForm({ question, topics = [], selectedTopicIds =
           type="text"
           defaultValue={question?.category ?? ''}
           placeholder="leadership"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
       </div>
 
@@ -140,7 +140,7 @@ export default function QuestionForm({ question, topics = [], selectedTopicIds =
                   onClick={() => toggleTopic(topic.id)}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                     isSelected
-                      ? 'bg-warm-800 text-warm-50'
+                      ? 'bg-accent-600 text-white'
                       : 'border border-warm-300 text-warm-600 hover:border-warm-400 hover:text-warm-700'
                   }`}
                 >
@@ -166,7 +166,7 @@ export default function QuestionForm({ question, topics = [], selectedTopicIds =
             name="status"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="px-3 py-2 border border-warm-200 rounded-lg text-warm-900 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+            className="px-3 py-2 border border-warm-200 rounded-md text-warm-900 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           >
             <option value="draft">Draft</option>
             <option value="scheduled">Scheduled</option>
@@ -192,7 +192,7 @@ export default function QuestionForm({ question, topics = [], selectedTopicIds =
           type="date"
           defaultValue={question?.publish_date ?? ''}
           required={status === 'scheduled'}
-          className="px-3 py-2 border border-warm-200 rounded-lg text-warm-900 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="px-3 py-2 border border-warm-200 rounded-md text-warm-900 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
         {status === 'scheduled' && (
           <p className="text-xs text-warm-400 mt-1">
@@ -206,7 +206,7 @@ export default function QuestionForm({ question, topics = [], selectedTopicIds =
         <button
           type="submit"
           disabled={pending}
-          className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {pending
             ? (isEdit ? 'Saving...' : 'Creating...')

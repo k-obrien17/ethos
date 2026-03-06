@@ -38,34 +38,23 @@ export default async function Header() {
   }
 
   return (
-    <header className="border-b border-warm-200 bg-warm-50 relative">
-      <nav className="mx-auto max-w-2xl px-4 py-3 sm:py-4 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold text-warm-900">
+    <header className="border-b border-warm-200 bg-white/80 backdrop-blur-sm sticky top-0 z-30">
+      <nav className="mx-auto max-w-2xl px-4 py-3 flex items-center justify-between">
+        <Link href="/" className="text-lg font-semibold text-warm-900 tracking-tight">
           Ethos
         </Link>
         {/* Desktop nav */}
-        <div className="hidden sm:flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-5">
           <SearchBar />
-          <Link href="/trending" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
-            Trending
-          </Link>
-          <Link href="/leaderboard" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
-            Leaderboard
-          </Link>
-          <Link href="/topics" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
+          <Link href="/topics" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
             Topics
           </Link>
-          <Link href="/questions" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
+          <Link href="/questions" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
             Archive
           </Link>
           {user && (
-            <Link href="/following" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
+            <Link href="/following" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
               Following
-            </Link>
-          )}
-          {user && (
-            <Link href="/questions/upcoming" className="text-warm-600 hover:text-warm-900 text-sm font-medium">
-              Upcoming
             </Link>
           )}
           {user && <NotificationBell unreadCount={unreadCount} />}

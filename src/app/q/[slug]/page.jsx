@@ -177,12 +177,12 @@ export default async function QuestionPage({ params }) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {/* Question */}
       <section>
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-3">
           {question.category && (
-            <span className="text-xs font-medium text-warm-500 uppercase tracking-wide">
+            <span className="text-xs font-medium text-warm-400 uppercase tracking-widest">
               {question.category}
             </span>
           )}
@@ -197,24 +197,24 @@ export default async function QuestionPage({ params }) {
           )}
           <ShareButton url={`/q/${slug}`} title={question.body} />
         </div>
-        <h1 className="text-2xl font-bold text-warm-900">
+        <h1 className="text-2xl sm:text-3xl font-bold text-warm-900 leading-snug tracking-tight">
           {question.body}
         </h1>
         {question.question_topics?.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-2">
+          <div className="flex flex-wrap gap-2 mt-3">
             {question.question_topics.map((qt) => qt.topics && (
               <Link
                 key={qt.topics.slug}
                 href={`/topics/${qt.topics.slug}`}
-                className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
+                className="text-xs px-2.5 py-1 rounded-md bg-warm-100 text-warm-500 font-medium hover:bg-warm-200 hover:text-warm-600 transition-colors"
               >
                 {qt.topics.name}
               </Link>
             ))}
           </div>
         )}
-        <p className="text-sm text-warm-500 mt-3">
-          {answerCount} {answerCount === 1 ? 'expert' : 'experts'} chose to answer
+        <p className="text-sm text-warm-400 mt-4">
+          {answerCount} {answerCount === 1 ? 'perspective' : 'perspectives'}
         </p>
       </section>
 
@@ -222,19 +222,19 @@ export default async function QuestionPage({ params }) {
       {answerFormProps ? (
         <AnswerForm {...answerFormProps} />
       ) : (
-        <div className="p-4 bg-warm-100 rounded-lg text-center">
-          <p className="text-warm-600 text-sm">
-            <Link href="/login" className="font-medium underline hover:text-warm-800">
+        <div className="py-4 text-center">
+          <p className="text-warm-500 text-sm">
+            <Link href="/login" className="text-accent-600 font-medium hover:text-accent-700">
               Sign in
             </Link>
-            {' '}to share your answer.
+            {' '}to share your perspective.
           </p>
         </div>
       )}
 
       {/* Answers */}
       {answerCount > 0 ? (
-        <section className="space-y-4">
+        <section className="divide-y divide-warm-100">
           {sortedAnswers.map((answer) => (
             <AnswerCard
               key={answer.id}
@@ -250,8 +250,8 @@ export default async function QuestionPage({ params }) {
           ))}
         </section>
       ) : (
-        <p className="text-warm-500 text-sm py-8 text-center">
-          No answers yet. Be the first expert to weigh in.
+        <p className="text-warm-400 text-sm py-8 text-center">
+          No perspectives yet. Be the first to share yours.
         </p>
       )}
     </div>

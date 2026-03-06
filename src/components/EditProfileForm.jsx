@@ -33,7 +33,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
           required
           minLength={2}
           maxLength={80}
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
       </div>
 
@@ -53,7 +53,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
             required
             minLength={3}
             maxLength={40}
-            className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+            className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           />
         </div>
         <p className="text-xs text-warm-400 mt-1">
@@ -73,7 +73,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
           defaultValue={profile.headline ?? ''}
           maxLength={120}
           placeholder="VP of Engineering at Acme"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
       </div>
 
@@ -89,7 +89,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
           defaultValue={profile.organization ?? ''}
           maxLength={100}
           placeholder="Acme Corp"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
       </div>
 
@@ -105,7 +105,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
           rows={3}
           maxLength={500}
           placeholder="Tell others about your expertise..."
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300 resize-y"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 resize-y"
         />
       </div>
 
@@ -121,7 +121,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
           defaultValue={profile.linkedin_url ?? ''}
           maxLength={200}
           placeholder="https://linkedin.com/in/yourprofile"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
       </div>
 
@@ -137,7 +137,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
           defaultValue={profile.twitter_url ?? ''}
           maxLength={200}
           placeholder="https://x.com/yourhandle"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
       </div>
 
@@ -153,7 +153,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
           defaultValue={profile.website_url ?? ''}
           maxLength={200}
           placeholder="https://yoursite.com"
-          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+          className="w-full px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
         />
       </div>
 
@@ -162,7 +162,7 @@ export default function EditProfileForm({ profile, redirectTo }) {
         <button
           type="submit"
           disabled={pending}
-          className="px-4 py-2 bg-warm-800 text-warm-50 rounded-lg text-sm font-medium hover:bg-warm-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {pending ? 'Saving...' : 'Save Profile'}
         </button>

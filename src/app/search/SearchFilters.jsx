@@ -46,7 +46,7 @@ export default function SearchFilters({ topics = [] }) {
             onClick={() => updateParam('type', opt.value)}
             className={`text-sm px-3 py-1.5 rounded-full border font-medium transition-colors ${
               currentType === opt.value
-                ? 'bg-warm-800 text-warm-50 border-warm-800'
+                ? 'bg-accent-600 text-white border-accent-600'
                 : 'bg-white text-warm-600 border-warm-300 hover:border-warm-400'
             }`}
           >
@@ -60,7 +60,7 @@ export default function SearchFilters({ topics = [] }) {
         <select
           value={currentTopic}
           onChange={(e) => updateParam('topic', e.target.value)}
-          className="text-sm border border-warm-300 rounded-lg px-3 py-1.5 bg-white text-warm-700 focus:outline-none focus:ring-2 focus:ring-warm-400"
+          className="text-sm border border-warm-300 rounded-md px-3 py-1.5 bg-white text-warm-700 focus:outline-none focus:ring-2 focus:ring-accent-500"
         >
           <option value="">All topics</option>
           {topics.map((t) => (
@@ -73,7 +73,7 @@ export default function SearchFilters({ topics = [] }) {
         <select
           value={currentRange}
           onChange={(e) => updateParam('range', e.target.value)}
-          className="text-sm border border-warm-300 rounded-lg px-3 py-1.5 bg-white text-warm-700 focus:outline-none focus:ring-2 focus:ring-warm-400"
+          className="text-sm border border-warm-300 rounded-md px-3 py-1.5 bg-white text-warm-700 focus:outline-none focus:ring-2 focus:ring-accent-500"
         >
           {DATE_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
