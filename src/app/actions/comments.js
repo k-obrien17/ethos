@@ -25,6 +25,8 @@ export async function addComment(prevState, formData) {
   await supabase.rpc('increment_comment_count', { p_answer_id: answerId })
 
   revalidatePath('/')
+  revalidatePath('/q', 'layout')
+  revalidatePath('/answers', 'layout')
   return { success: true }
 }
 
@@ -45,5 +47,7 @@ export async function deleteComment(commentId, answerId) {
   await supabase.rpc('decrement_comment_count', { p_answer_id: answerId })
 
   revalidatePath('/')
+  revalidatePath('/q', 'layout')
+  revalidatePath('/answers', 'layout')
   return { success: true }
 }

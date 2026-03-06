@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useActionState } from 'react'
+import { useState, useEffect, useActionState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 import { addComment, deleteComment } from '@/app/actions/comments'
@@ -12,9 +12,9 @@ export default function CommentSection({ answerId, comments = [], currentUserId 
   const [deletingId, setDeletingId] = useState(null)
 
   // Clear input on success
-  if (state?.success && body) {
-    setBody('')
-  }
+  useEffect(() => {
+    if (state?.success) setBody('')
+  }, [state])
 
   async function handleDelete(commentId) {
     setDeletingId(commentId)

@@ -36,13 +36,13 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
     return () => clearTimeout(timer)
   }, [content, draftKey])
 
-  // Clear draft on successful submission
+  // Clear draft on successful submission or AI rejection
   useEffect(() => {
-    if (state?.success) {
+    if (state?.success || state?.aiRejected) {
       localStorage.removeItem(draftKey)
       setContent('')
     }
-  }, [state?.success, draftKey])
+  }, [state?.success, state?.aiRejected, draftKey])
 
   // Already answered this question
   if (hasAnswered) {

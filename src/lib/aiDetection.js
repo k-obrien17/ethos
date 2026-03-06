@@ -11,7 +11,10 @@ export async function detectAI(answerText) {
   }
 
   try {
-    const response = await client.messages.create({
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('AI detection timed out')), 5000)
+    )
+    const response = await Promise.race([client.messages.create({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 150,
       messages: [
@@ -43,7 +46,7 @@ Answer to analyze:
 ${answerText}`,
         },
       ],
-    })
+    }), timeout])
 
     const text = response.content[0].text.trim()
     const result = JSON.parse(text)
