@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import { submitAnswer } from '@/app/actions/answers'
 import BudgetIndicator from '@/components/BudgetIndicator'
+import { saveDraft } from '@/app/actions/drafts'
 
 const MARKDOWN_STYLES = "prose-answer"
 
-export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAnswered }) {
+export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAnswered, serverDraft }) {
   const router = useRouter()
   const [state, formAction, pending] = useActionState(submitAnswer, null)
   const [content, setContent] = useState('')
@@ -20,23 +21,30 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
     ? content.trim().split(/\s+/).length
     : 0
 
-  // Restore draft from localStorage on mount
+  // Restore draft from server or localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem(draftKey)
-    if (saved) setContent(saved)
-  }, [draftKey])
+    if (saved) {
+      setContent(saved)
+    } else if (serverDraft) {
+      setContent(serverDraft)
+    }
+  }, [draftKey, serverDraft])
 
-  // Auto-save draft with 500ms debounce
+  // Auto-save draft with 500ms debounce (localStorage) + 3s debounce (server)
   useEffect(() => {
     if (!content) {
       localStorage.removeItem(draftKey)
       return
     }
-    const timer = setTimeout(() => {
+    const localTimer = setTimeout(() => {
       localStorage.setItem(draftKey, content)
     }, 500)
-    return () => clearTimeout(timer)
-  }, [content, draftKey])
+    const serverTimer = setTimeout(() => {
+      saveDraft(questionId, content)
+    }, 3000)
+    return () => { clearTimeout(localTimer); clearTimeout(serverTimer) }
+  }, [content, draftKey, questionId])
 
   // Clear draft on successful submission or AI rejection
   useEffect(() => {

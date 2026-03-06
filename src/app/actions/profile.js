@@ -18,6 +18,9 @@ export async function updateProfile(prevState, formData) {
   const headline = formData.get('headline')?.trim() || null
   const bio = formData.get('bio')?.trim() || null
   const organization = formData.get('organization')?.trim() || null
+  const linkedinUrl = formData.get('linkedin_url')?.trim() || null
+  const twitterUrl = formData.get('twitter_url')?.trim() || null
+  const websiteUrl = formData.get('website_url')?.trim() || null
 
   // Validate display_name
   if (!displayName || displayName.length < 2) {
@@ -61,6 +64,9 @@ export async function updateProfile(prevState, formData) {
       headline,
       bio,
       organization,
+      linkedin_url: linkedinUrl,
+      twitter_url: twitterUrl,
+      website_url: websiteUrl,
     })
     .eq('id', user.id)
 

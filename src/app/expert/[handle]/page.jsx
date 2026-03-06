@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
+import FollowButton from '@/components/FollowButton'
+import ShareButton from '@/components/ShareButton'
 
 export const revalidate = 300
 
@@ -47,6 +49,8 @@ export default async function ExpertProfilePage({ params }) {
   const supabase = await createClient()
   const now = new Date()
 
+  const { data: { user } } = await supabase.auth.getUser()
+
   // Fetch profile by handle
   const { data: profile } = await supabase
     .from('profiles')
@@ -56,32 +60,38 @@ export default async function ExpertProfilePage({ params }) {
 
   if (!profile) notFound()
 
-  // Fetch all answers with question context
-  const { data: answers } = await supabase
-    .from('answers')
-    .select(`
-      *,
-      questions!inner (
-        id, body, slug, category, publish_date
-      )
-    `)
-    .eq('expert_id', profile.id)
-    .order('created_at', { ascending: false })
+  // Parallel: answers, follow status, monthly question count
+  const [{ data: answers }, followResult, { count: totalQuestionsThisMonth }] = await Promise.all([
+    supabase
+      .from('answers')
+      .select(`*, questions!inner(id, body, slug, category, publish_date)`)
+      .eq('expert_id', profile.id)
+      .order('created_at', { ascending: false }),
+    user
+      ? supabase
+          .from('follows')
+          .select('follower_id')
+          .eq('follower_id', user.id)
+          .eq('following_id', profile.id)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
+    supabase
+      .from('questions')
+      .select('*', { count: 'exact', head: true })
+      .lte('publish_date', now.toISOString().slice(0, 10))
+      .gte('publish_date', new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10))
+      .in('status', ['scheduled', 'published']),
+  ])
 
+  const isFollowing = !!followResult?.data
   const allAnswers = answers ?? []
   const totalLikes = allAnswers.reduce((sum, a) => sum + (a.like_count ?? 0), 0)
+  const featuredAnswers = allAnswers.filter(a => a.featured_at)
 
-  // Monthly stats
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
-  const todayStr = now.toISOString().slice(0, 10)
   const monthlyAnswerCount = allAnswers.filter(a => a.created_at >= startOfMonth).length
 
-  const { count: totalQuestionsThisMonth } = await supabase
-    .from('questions')
-    .select('*', { count: 'exact', head: true })
-    .lte('publish_date', todayStr)
-    .gte('publish_date', startOfMonth.slice(0, 10))
-    .in('status', ['scheduled', 'published'])
+  const isOwnProfile = user?.id === profile.id
 
   return (
     <div className="space-y-8">
@@ -98,27 +108,47 @@ export default async function ExpertProfilePage({ params }) {
             {profile.display_name?.charAt(0)?.toUpperCase()}
           </div>
         )}
-        <div className="min-w-0">
-          <h1 className="text-2xl font-bold text-warm-900">
-            {profile.display_name}
-          </h1>
-          {profile.headline && (
-            <p className="text-warm-600 mt-0.5">{profile.headline}</p>
-          )}
-          {profile.organization && (
-            <p className="text-warm-500 text-sm">{profile.organization}</p>
-          )}
-          <p className="text-warm-400 text-sm mt-1">@{profile.handle}</p>
-          {profile.linkedin_url && (
-            <a
-              href={profile.linkedin_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-warm-500 hover:text-warm-700 mt-1 inline-block"
-            >
-              LinkedIn
-            </a>
-          )}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h1 className="text-2xl font-bold text-warm-900">
+                {profile.display_name}
+              </h1>
+              {profile.headline && (
+                <p className="text-warm-600 mt-0.5">{profile.headline}</p>
+              )}
+              {profile.organization && (
+                <p className="text-warm-500 text-sm">{profile.organization}</p>
+              )}
+            </div>
+            {user && !isOwnProfile && (
+              <FollowButton targetUserId={profile.id} isFollowing={isFollowing} />
+            )}
+          </div>
+          <div className="flex items-center gap-3 mt-2 text-sm text-warm-500">
+            <span>@{profile.handle}</span>
+            <span>{profile.follower_count ?? 0} followers</span>
+            <span>{profile.following_count ?? 0} following</span>
+          </div>
+          {/* Social links */}
+          <div className="flex items-center gap-3 mt-2">
+            {profile.linkedin_url && (
+              <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-sm text-warm-500 hover:text-[#0A66C2]">
+                LinkedIn
+              </a>
+            )}
+            {profile.twitter_url && (
+              <a href={profile.twitter_url} target="_blank" rel="noopener noreferrer" className="text-sm text-warm-500 hover:text-warm-800">
+                X / Twitter
+              </a>
+            )}
+            {profile.website_url && (
+              <a href={profile.website_url} target="_blank" rel="noopener noreferrer" className="text-sm text-warm-500 hover:text-warm-700">
+                Website
+              </a>
+            )}
+            <ShareButton url={`/expert/${profile.handle}`} title={`${profile.display_name} on Ethos`} />
+          </div>
         </div>
       </section>
 
@@ -153,26 +183,51 @@ export default async function ExpertProfilePage({ params }) {
         </div>
       </section>
 
-      {totalQuestionsThisMonth > 0 && (
-        <p className="text-sm text-warm-500 mt-1">
-          Answered {monthlyAnswerCount} of {totalQuestionsThisMonth} questions this month
-        </p>
+      {/* Best answers (featured) */}
+      {featuredAnswers.length > 0 && (
+        <section>
+          <h2 className="text-lg font-semibold text-warm-800 mb-4">
+            Best Answers
+          </h2>
+          <div className="space-y-4">
+            {featuredAnswers.map((answer) => (
+              <article key={answer.id} className="bg-amber-50/50 rounded-lg border border-amber-200 p-5">
+                <Link href={`/q/${answer.questions.slug}`} className="block mb-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <svg className="w-3.5 h-3.5 text-amber-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10 1l2.39 6.34H19l-5.3 3.85L15.3 18 10 13.82 4.7 18l1.61-6.81L1 7.34h6.61L10 1z" />
+                    </svg>
+                    <span className="text-xs font-medium text-amber-700">Featured</span>
+                    {answer.questions.category && (
+                      <span className="text-xs text-warm-500">{answer.questions.category}</span>
+                    )}
+                  </div>
+                  <p className="font-semibold text-warm-900 hover:underline text-sm">
+                    {answer.questions.body}
+                  </p>
+                </Link>
+                <div className="prose-answer text-sm">
+                  <ReactMarkdown>{answer.body.length > 300 ? answer.body.slice(0, 300) + '...' : answer.body}</ReactMarkdown>
+                </div>
+                <Link href={`/answers/${answer.id}`} className="text-xs text-warm-500 hover:text-warm-700 mt-2 inline-block">
+                  Read full answer →
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
       )}
 
-      {/* Answer archive */}
+      {/* All answers */}
       <section>
         <h2 className="text-lg font-semibold text-warm-800 mb-4">
-          Answers
+          All Answers ({allAnswers.length})
         </h2>
         {allAnswers.length > 0 ? (
           <div className="space-y-6">
             {allAnswers.map((answer) => (
               <article key={answer.id} className="bg-white rounded-lg border border-warm-200 p-6">
-                {/* Question context */}
-                <Link
-                  href={`/q/${answer.questions.slug}`}
-                  className="block mb-3"
-                >
+                <Link href={`/q/${answer.questions.slug}`} className="block mb-3">
                   <div className="flex items-center gap-2 mb-1">
                     {answer.questions.category && (
                       <span className="text-xs font-medium text-warm-500 uppercase tracking-wide">
@@ -188,7 +243,6 @@ export default async function ExpertProfilePage({ params }) {
                   </p>
                 </Link>
 
-                {/* Featured badge */}
                 {answer.featured_at && (
                   <div className="flex items-center gap-1.5 mb-3 text-xs font-medium text-amber-700">
                     <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
@@ -198,20 +252,18 @@ export default async function ExpertProfilePage({ params }) {
                   </div>
                 )}
 
-                {/* Answer body */}
                 <div className="prose-answer">
                   <ReactMarkdown>{answer.body}</ReactMarkdown>
                 </div>
 
-                {/* Footer */}
                 <div className="flex items-center justify-between mt-4 pt-3 border-t border-warm-100 text-xs text-warm-400">
                   <span>{answer.word_count} words</span>
-                  <Link
-                    href={`/answers/${answer.id}`}
-                    className="hover:text-warm-600"
-                  >
-                    Link
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <ShareButton url={`/answers/${answer.id}`} title={`${profile.display_name} on Ethos`} />
+                    <Link href={`/answers/${answer.id}`} className="hover:text-warm-600">
+                      Link
+                    </Link>
+                  </div>
                 </div>
               </article>
             ))}

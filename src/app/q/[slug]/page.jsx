@@ -64,7 +64,7 @@ export default async function QuestionPage({ params }) {
   const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
 
   // Parallel: answers + bookmark + user budget/profile (all depend on question.id or user)
-  const [{ data: answers }, bookmarkResult, userProfileResult, budgetResult] =
+  const [{ data: answers }, bookmarkResult, userProfileResult, budgetResult, draftResult] =
     await Promise.all([
       supabase
         .from('answers')
@@ -102,6 +102,14 @@ export default async function QuestionPage({ params }) {
             .eq('expert_id', user.id)
             .gte('created_at', startOfMonth)
         : Promise.resolve({ count: 0 }),
+      user
+        ? supabase
+            .from('answer_drafts')
+            .select('body')
+            .eq('user_id', user.id)
+            .eq('question_id', question.id)
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
     ])
 
   const isBookmarked = !!bookmarkResult.data
@@ -164,6 +172,7 @@ export default async function QuestionPage({ params }) {
       budgetUsed: budgetResult.count ?? 0,
       budgetLimit: userProfileResult.data?.answer_limit ?? 3,
       hasAnswered,
+      serverDraft: draftResult.data?.body || null,
     }
   }
 
@@ -186,7 +195,7 @@ export default async function QuestionPage({ params }) {
               isBookmarked={isBookmarked}
             />
           )}
-          <ShareButton />
+          <ShareButton url={`/q/${slug}`} title={question.body} />
         </div>
         <h1 className="text-2xl font-bold text-warm-900">
           {question.body}

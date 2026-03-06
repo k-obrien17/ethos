@@ -109,6 +109,54 @@ export default function EditProfileForm({ profile, redirectTo }) {
         />
       </div>
 
+      {/* LinkedIn URL */}
+      <div>
+        <label htmlFor="linkedin_url" className="block text-sm font-medium text-warm-700 mb-1">
+          LinkedIn URL
+        </label>
+        <input
+          id="linkedin_url"
+          name="linkedin_url"
+          type="url"
+          defaultValue={profile.linkedin_url ?? ''}
+          maxLength={200}
+          placeholder="https://linkedin.com/in/yourprofile"
+          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+        />
+      </div>
+
+      {/* Twitter / X URL */}
+      <div>
+        <label htmlFor="twitter_url" className="block text-sm font-medium text-warm-700 mb-1">
+          X / Twitter URL
+        </label>
+        <input
+          id="twitter_url"
+          name="twitter_url"
+          type="url"
+          defaultValue={profile.twitter_url ?? ''}
+          maxLength={200}
+          placeholder="https://x.com/yourhandle"
+          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+        />
+      </div>
+
+      {/* Website URL */}
+      <div>
+        <label htmlFor="website_url" className="block text-sm font-medium text-warm-700 mb-1">
+          Website
+        </label>
+        <input
+          id="website_url"
+          name="website_url"
+          type="url"
+          defaultValue={profile.website_url ?? ''}
+          maxLength={200}
+          placeholder="https://yoursite.com"
+          className="w-full px-3 py-2 border border-warm-200 rounded-lg text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-warm-300 focus:border-warm-300"
+        />
+      </div>
+
       {/* Submit */}
       <div className="flex items-center gap-3">
         <button

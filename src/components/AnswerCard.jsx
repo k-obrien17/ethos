@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { editAnswer } from '@/app/actions/answers'
 import LikeButton from '@/components/LikeButton'
 import CommentSection from '@/components/CommentSection'
+import ShareButton from '@/components/ShareButton'
 
 export default function AnswerCard({
   answer,
@@ -218,6 +219,7 @@ export default function AnswerCard({
               Edit ({minutesRemaining}m left)
             </button>
           )}
+          <ShareButton url={`/answers/${answer.id}`} title={`${expert.display_name} on Ethos`} />
           <Link href={`/answers/${answer.id}`} className="hover:text-warm-600">
             Link
           </Link>
