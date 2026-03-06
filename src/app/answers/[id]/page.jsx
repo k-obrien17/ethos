@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import EditableAnswerCard from '@/components/EditableAnswerCard'
+import AnswerCard from '@/components/AnswerCard'
 import ShareButton from '@/components/ShareButton'
 import ViewTracker from '@/components/ViewTracker'
 
@@ -137,7 +137,7 @@ export default async function AnswerPage({ params }) {
       </div>
 
       {/* The answer */}
-      <EditableAnswerCard
+      <AnswerCard
         answer={answer}
         expert={answer.profiles}
         monthlyUsage={null}
