@@ -17,8 +17,12 @@ export default function CommentSection({ answerId, comments = [], currentUserId 
   }, [state])
 
   async function handleDelete(commentId) {
+    if (!confirm('Delete this comment?')) return
     setDeletingId(commentId)
-    await deleteComment(commentId, answerId)
+    const result = await deleteComment(commentId, answerId)
+    if (result?.error) {
+      alert(result.error)
+    }
     setDeletingId(null)
   }
 

@@ -25,20 +25,24 @@ export async function updateSession(request) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
-
-  // Protected route redirects
+  // Only check auth for protected routes
   const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
   const isDashboardRoute = request.nextUrl.pathname.startsWith('/dashboard')
 
-  if (!user && (isAdminRoute || isDashboardRoute)) {
+  if (!isAdminRoute && !isDashboardRoute) {
+    return supabaseResponse
+  }
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 
-  // Admin role enforcement (fast reject in middleware)
-  if (user && isAdminRoute) {
+  // Admin role enforcement (only for /admin routes)
+  if (isAdminRoute) {
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')

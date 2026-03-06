@@ -24,9 +24,17 @@ export async function addComment(prevState, formData) {
 
   await supabase.rpc('increment_comment_count', { p_answer_id: answerId })
 
-  revalidatePath('/')
-  revalidatePath('/q', 'layout')
-  revalidatePath('/answers', 'layout')
+  // Fetch the answer's question slug for targeted revalidation
+  const { data: answer } = await supabase
+    .from('answers')
+    .select('questions!inner(slug)')
+    .eq('id', answerId)
+    .single()
+
+  if (answer?.questions?.slug) {
+    revalidatePath(`/q/${answer.questions.slug}`)
+  }
+  revalidatePath(`/answers/${answerId}`)
   return { success: true }
 }
 
@@ -46,8 +54,15 @@ export async function deleteComment(commentId, answerId) {
 
   await supabase.rpc('decrement_comment_count', { p_answer_id: answerId })
 
-  revalidatePath('/')
-  revalidatePath('/q', 'layout')
-  revalidatePath('/answers', 'layout')
+  const { data: answer } = await supabase
+    .from('answers')
+    .select('questions!inner(slug)')
+    .eq('id', answerId)
+    .single()
+
+  if (answer?.questions?.slug) {
+    revalidatePath(`/q/${answer.questions.slug}`)
+  }
+  revalidatePath(`/answers/${answerId}`)
   return { success: true }
 }

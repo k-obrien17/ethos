@@ -17,7 +17,11 @@ export default function LikeButton({ answerId, likeCount, isLiked, isAuthenticat
     if (!isAuthenticated) return
     startTransition(async () => {
       setOptimistic(optimistic)
-      await toggleLike(answerId)
+      const result = await toggleLike(answerId)
+      if (result?.error) {
+        // Revert optimistic state on failure
+        setOptimistic({ count: likeCount, liked: isLiked })
+      }
     })
   }
 

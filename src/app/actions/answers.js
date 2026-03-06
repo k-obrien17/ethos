@@ -150,11 +150,7 @@ export async function submitAnswer(prevState, formData) {
     return { error: 'Failed to submit answer. Please try again.' }
   }
 
-  // Revalidate cached pages so the new answer appears
-  revalidatePath('/')
-  revalidatePath('/questions')
-
-  // Revalidate the specific question page
+  // Revalidate the specific question page and homepage (shows today's answers)
   const { data: question } = await supabase
     .from('questions')
     .select('slug')
@@ -164,6 +160,7 @@ export async function submitAnswer(prevState, formData) {
   if (question?.slug) {
     revalidatePath(`/q/${question.slug}`)
   }
+  revalidatePath('/')
 
   return { success: true, answerId: data?.id }
 }
@@ -216,7 +213,6 @@ export async function editAnswer(prevState, formData) {
   if (answer.questions?.slug) {
     revalidatePath(`/q/${answer.questions.slug}`)
   }
-  revalidatePath('/')
 
   return { success: true }
 }
