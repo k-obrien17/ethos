@@ -11,7 +11,7 @@ export async function toggleFollow(targetUserId) {
   if (!user) return { error: 'You must be signed in.' }
   if (user.id === targetUserId) return { error: "You can't follow yourself." }
 
-  const rl = rateLimit({ key: `follow:${user.id}`, limit: 30, windowMs: 15 * 60 * 1000 })
+  const rl = await rateLimit({ key: `follow:${user.id}`, limit: 30, windowMs: 15 * 60 * 1000 })
   if (!rl.success) return { error: 'Too many actions. Please slow down.' }
 
   const { data: existing } = await supabase
@@ -30,10 +30,15 @@ export async function toggleFollow(targetUserId) {
 
     if (error) return { error: 'Failed to unfollow.' }
 
-    await Promise.all([
+    // Await both RPCs and handle errors — if either fails, log but don't break
+    const [followerResult, followingResult] = await Promise.all([
       supabase.rpc('decrement_follower_count', { p_user_id: targetUserId }),
       supabase.rpc('decrement_following_count', { p_user_id: user.id }),
     ])
+
+    if (followerResult.error || followingResult.error) {
+      console.error('[follows] Count decrement failed:', followerResult.error, followingResult.error)
+    }
 
     return { following: false }
   } else {
@@ -46,12 +51,17 @@ export async function toggleFollow(targetUserId) {
       return { error: 'Failed to follow.' }
     }
 
-    await Promise.all([
+    // Await both RPCs
+    const [followerResult, followingResult] = await Promise.all([
       supabase.rpc('increment_follower_count', { p_user_id: targetUserId }),
       supabase.rpc('increment_following_count', { p_user_id: user.id }),
     ])
 
-    // Notification (fire-and-forget)
+    if (followerResult.error || followingResult.error) {
+      console.error('[follows] Count increment failed:', followerResult.error, followingResult.error)
+    }
+
+    // Notification (fire-and-forget is acceptable here — not a count)
     supabase.from('notifications').insert({
       user_id: targetUserId,
       type: 'follow',

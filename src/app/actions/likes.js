@@ -11,7 +11,7 @@ export async function toggleLike(answerId) {
   if (!user) return { error: 'You must be signed in.' }
 
   // Rate limit: 60 likes per 15 minutes
-  const rl = rateLimit({ key: `like:${user.id}`, limit: 60, windowMs: 15 * 60 * 1000 })
+  const rl = await rateLimit({ key: `like:${user.id}`, limit: 60, windowMs: 15 * 60 * 1000 })
   if (!rl.success) return { error: 'Too many actions. Please slow down.' }
 
   // Check if already liked
@@ -33,7 +33,8 @@ export async function toggleLike(answerId) {
     if (error) return { error: 'Failed to unlike.' }
 
     // Decrement count
-    await supabase.rpc('decrement_like_count', { p_answer_id: answerId })
+    const { error: rpcError } = await supabase.rpc('decrement_like_count', { p_answer_id: answerId })
+    if (rpcError) console.error('[likes] Decrement failed:', rpcError)
 
     return { liked: false }
   } else {
@@ -48,7 +49,8 @@ export async function toggleLike(answerId) {
     }
 
     // Increment count
-    await supabase.rpc('increment_like_count', { p_answer_id: answerId })
+    const { error: rpcError } = await supabase.rpc('increment_like_count', { p_answer_id: answerId })
+    if (rpcError) console.error('[likes] Increment failed:', rpcError)
 
     // Create notification for answer author (fire-and-forget)
     const { data: answer } = await supabase

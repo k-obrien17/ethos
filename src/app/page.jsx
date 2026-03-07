@@ -121,7 +121,7 @@ export default async function HomePage() {
       {!user && (
         <section className="py-12 text-center">
           <h1 className="text-3xl sm:text-4xl font-bold text-warm-900 leading-tight tracking-tight">
-            What you choose to answer<br />reveals what you stand for.
+            The only destination for<br />curated, human expertise.
           </h1>
           <p className="text-warm-500 mt-4 max-w-md mx-auto text-base leading-relaxed">
             One curated question per day. Limited answers per month. Every response is a statement of what matters to you.

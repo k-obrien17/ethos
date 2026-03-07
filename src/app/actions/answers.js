@@ -84,7 +84,7 @@ export async function submitAnswer(prevState, formData) {
   }
 
   // Rate limit: 10 submissions per hour per user
-  const rl = rateLimit({ key: `submit:${user.id}`, limit: 10, windowMs: 60 * 60 * 1000 })
+  const rl = await rateLimit({ key: `submit:${user.id}`, limit: 10, windowMs: 60 * 60 * 1000 })
   if (!rl.success) return { error: 'Too many submissions. Please try again later.' }
 
   const questionId = formData.get('questionId')

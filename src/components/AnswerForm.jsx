@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useActionState } from 'react'
+import { useState, useEffect, useRef, useActionState } from 'react'
 import { useRouter } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import { submitAnswer } from '@/app/actions/answers'
@@ -15,6 +15,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
   const [content, setContent] = useState('')
   const [showPreview, setShowPreview] = useState(false)
   const draftKey = `ethos_draft_${questionId}`
+  const submittedRef = useRef(false)
 
   const remaining = budgetLimit - budgetUsed
   const wordCount = content.trim()
@@ -32,16 +33,17 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
   }, [draftKey, serverDraft])
 
   // Auto-save draft with 500ms debounce (localStorage) + 3s debounce (server)
+  // Skip saves after successful submission to prevent stale draft recreation
   useEffect(() => {
-    if (!content) {
-      localStorage.removeItem(draftKey)
+    if (!content || submittedRef.current) {
+      if (!content) localStorage.removeItem(draftKey)
       return
     }
     const localTimer = setTimeout(() => {
-      localStorage.setItem(draftKey, content)
+      if (!submittedRef.current) localStorage.setItem(draftKey, content)
     }, 500)
     const serverTimer = setTimeout(() => {
-      saveDraft(questionId, content)
+      if (!submittedRef.current) saveDraft(questionId, content)
     }, 3000)
     return () => { clearTimeout(localTimer); clearTimeout(serverTimer) }
   }, [content, draftKey, questionId])
@@ -49,6 +51,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
   // Clear draft on successful submission or AI rejection
   useEffect(() => {
     if (state?.success || state?.aiRejected) {
+      submittedRef.current = true
       localStorage.removeItem(draftKey)
       setContent('')
     }

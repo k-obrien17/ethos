@@ -9,7 +9,7 @@ export async function submitReport(prevState, formData) {
 
   if (!user) return { error: 'You must be signed in.' }
 
-  const rl = rateLimit({ key: `report:${user.id}`, limit: 10, windowMs: 60 * 60 * 1000 })
+  const rl = await rateLimit({ key: `report:${user.id}`, limit: 10, windowMs: 60 * 60 * 1000 })
   if (!rl.success) return { error: 'Too many reports. Please try again later.' }
 
   const answerId = formData.get('answerId') || null

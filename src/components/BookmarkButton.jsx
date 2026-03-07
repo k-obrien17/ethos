@@ -10,7 +10,11 @@ export default function BookmarkButton({ questionId, isBookmarked, className = '
   function handleClick() {
     startTransition(async () => {
       setOptimisticBookmarked(!optimisticBookmarked)
-      await toggleBookmark(questionId)
+      const result = await toggleBookmark(questionId)
+      if (result?.error) {
+        // Revert on failure
+        setOptimisticBookmarked(isBookmarked)
+      }
     })
   }
 

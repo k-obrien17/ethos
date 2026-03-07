@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: 'Invalid or missing API key' }, { status: 401 })
   }
 
-  const rl = rateLimit({ key: `api:${apiKey.id}`, limit: 100, windowMs: 60 * 60 * 1000 })
+  const rl = await rateLimit({ key: `api:${apiKey.id}`, limit: 100, windowMs: 60 * 60 * 1000 })
   if (!rl.success) {
     return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
   }
