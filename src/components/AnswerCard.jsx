@@ -29,7 +29,7 @@ export default function AnswerCard({
   })
   const [state, formAction, pending] = useActionState(editAnswer, null)
 
-  const isOwner = currentUserId === expert.id
+  const isOwner = currentUserId && expert?.id && currentUserId === expert.id
   const canEdit = isOwner && minutesRemaining > 0
 
   // Update countdown every 30 seconds
@@ -41,45 +41,64 @@ export default function AnswerCard({
       setMinutesRemaining(remaining)
       if (remaining <= 0) {
         clearInterval(interval)
-        setEditing(false)
+        // Don't auto-close editing — let user submit and get server-side error
+        // so they can copy their edited text before losing it
       }
     }, 30000)
 
     return () => clearInterval(interval)
   }, [isOwner, editWindowExpiresAt])
 
-  // Handle successful edit — exit edit mode
+  // Handle edit result — exit on success, preserve content on error
   useEffect(() => {
     if (state?.success && editing) {
       setEditing(false)
     }
-  }, [state?.success, editing])
+    // If edit window closed while editing, show error but keep content so user can copy it
+    if (state?.error && editing) {
+      // Don't auto-close — let user see the error and copy their text
+    }
+  }, [state?.success, state?.error, editing])
 
-  // --- Shared header ---
-  const expertHeader = (
-    <Link href={`/expert/${expert.handle}`} className="flex items-center gap-3 mb-4 group">
-      {expert.avatar_url ? (
+  // --- Shared header (null-safe for deleted profiles) ---
+  const displayName = expert?.display_name ?? 'Unknown Expert'
+  const handle = expert?.handle
+  const avatarUrl = expert?.avatar_url
+
+  const headerContent = (
+    <>
+      {avatarUrl ? (
         <img
-          src={expert.avatar_url}
-          alt={expert.display_name}
+          src={avatarUrl}
+          alt={displayName}
           className="w-9 h-9 rounded-full object-cover"
         />
       ) : (
         <div className="w-9 h-9 rounded-full bg-warm-100 flex items-center justify-center text-warm-500 font-medium text-sm">
-          {expert.display_name?.charAt(0)?.toUpperCase()}
+          {displayName.charAt(0).toUpperCase()}
         </div>
       )}
       <div>
         <p className="text-sm font-medium text-warm-900 group-hover:text-accent-600 transition-colors">
-          {expert.display_name}
+          {displayName}
         </p>
-        {monthlyUsage != null && expert.answer_limit != null && (
+        {monthlyUsage != null && expert?.answer_limit != null && (
           <p className="text-xs text-warm-400">
             {monthlyUsage} of {expert.answer_limit} this month
           </p>
         )}
       </div>
+    </>
+  )
+
+  const expertHeader = handle ? (
+    <Link href={`/expert/${handle}`} className="flex items-center gap-3 mb-4 group">
+      {headerContent}
     </Link>
+  ) : (
+    <div className="flex items-center gap-3 mb-4">
+      {headerContent}
+    </div>
   )
 
   const featuredBadge = featured && (

@@ -25,7 +25,7 @@ export default async function NotificationsPage() {
       .select(`
         id, type, body, read_at, created_at,
         actor:profiles!notifications_actor_id_fkey(display_name, avatar_url),
-        answer:answers!notifications_answer_id_fkey(id, body, questions!inner(slug, body))
+        answer:answers!notifications_answer_id_fkey(id, body, questions(slug, body))
       `)
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })

@@ -77,12 +77,20 @@ export default function CommentSection({ answerId, comments: initialComments = [
 
   async function handleDelete(commentId) {
     if (!confirm('Delete this comment?')) return
-    const removed = localComments.find(c => c.id === commentId)
+    const idx = localComments.findIndex(c => c.id === commentId)
+    const removed = localComments[idx]
     setLocalComments(prev => prev.filter(c => c.id !== commentId))
     setDeletingId(commentId)
     const result = await deleteComment(commentId, answerId)
     if (result?.error) {
-      if (removed) setLocalComments(prev => [...prev, removed])
+      // Revert at original position to maintain thread order
+      if (removed) {
+        setLocalComments(prev => {
+          const next = [...prev]
+          next.splice(idx, 0, removed)
+          return next
+        })
+      }
       alert(result.error)
     }
     setDeletingId(null)

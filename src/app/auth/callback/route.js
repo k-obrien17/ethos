@@ -14,9 +14,10 @@ export async function GET(request) {
       const { data: { user } } = await supabase.auth.getUser()
 
       if (user) {
-        // Claim invite code if provided (fire-and-forget, don't block login)
+        // Claim invite code atomically — the .is('claimed_by', null) WHERE clause
+        // prevents double-claims. We await to ensure it completes before continuing.
         if (inviteCode) {
-          supabase
+          const { data: claimed, error: claimError } = await supabase
             .from('invites')
             .update({
               claimed_by: user.id,
@@ -24,23 +25,16 @@ export async function GET(request) {
             })
             .eq('code', inviteCode)
             .is('claimed_by', null)
-            .then(() => {
-              // Also record who invited this user
-              supabase
-                .from('invites')
-                .select('created_by')
-                .eq('code', inviteCode)
-                .single()
-                .then(({ data: invite }) => {
-                  if (invite?.created_by) {
-                    supabase
-                      .from('profiles')
-                      .update({ invited_by: invite.created_by })
-                      .eq('id', user.id)
-                      .then(() => {})
-                  }
-                })
-            })
+            .select('created_by')
+            .maybeSingle()
+
+          // If claim succeeded, record who invited this user
+          if (claimed?.created_by && !claimError) {
+            await supabase
+              .from('profiles')
+              .update({ invited_by: claimed.created_by })
+              .eq('id', user.id)
+          }
         }
 
         // Check if profile is complete (new users have null headline)
