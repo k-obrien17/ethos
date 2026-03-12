@@ -61,8 +61,12 @@ export default async function HomePage() {
             .from('topic_follows')
             .select('topic_id')
             .eq('user_id', user.id),
+          supabase
+            .from('follows')
+            .select('following_id')
+            .eq('follower_id', user.id),
         ])
-      : Promise.resolve([{ count: 0 }, { data: [] }]),
+      : Promise.resolve([{ count: 0 }, { data: [] }, { data: [] }]),
     todayQuestion
       ? supabase
           .from('answers')
@@ -104,11 +108,21 @@ export default async function HomePage() {
   const followedTopicIds = user
     ? (userMeta[1].data ?? []).map(f => f.topic_id)
     : []
+  const followedExpertIds = new Set(
+    user ? (userMeta[2].data ?? []).map(f => f.following_id) : []
+  )
 
   const unsorted = answersResult.data ?? []
   const todayAnswers = unsorted.sort((a, b) => {
+    // Featured always first
     if (a.featured_at && !b.featured_at) return -1
     if (!a.featured_at && b.featured_at) return 1
+    // Followed experts next
+    const aFollowed = followedExpertIds.has(a.expert_id)
+    const bFollowed = followedExpertIds.has(b.expert_id)
+    if (aFollowed && !bFollowed) return -1
+    if (!aFollowed && bFollowed) return 1
+    // Then chronological
     return new Date(b.created_at) - new Date(a.created_at)
   })
 
