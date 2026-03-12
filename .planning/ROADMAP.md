@@ -77,11 +77,11 @@ Plans:
   1. User can browse a dedicated expert directory page and sort/filter experts by answer count, selectivity score, recent activity, and topic
   2. Each expert profile displays auto-generated topic expertise tags derived from which topics they have answered, reflecting their actual focus areas
   3. Admin can select an expert for a rotating homepage spotlight, and that featured expert appears prominently to all users
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 13-01: TBD
-- [ ] 13-02: TBD
+- [ ] 13-01-PLAN.md — Expert directory page with sort/filter + auto-generated topic expertise tags on cards and profiles
+- [ ] 13-02-PLAN.md — Admin featured expert selection + homepage spotlight section
 
 ### Progress
 
@@ -90,7 +90,7 @@ Plans:
 | 10. Topic Taxonomy & Browse | 2/2 | Complete    | 2026-02-28 |
 | 11. Search | 2/2 | Complete    | 2026-02-28 |
 | 12. Content Surfacing | 2/2 | Complete    | 2026-03-12 |
-| 13. Expert Directory | 0/? | Not started | - |
+| 13. Expert Directory | 0/2 | Planning complete | - |
 
 ---
 
