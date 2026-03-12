@@ -31,6 +31,9 @@ export default async function AdminLayout({ children }) {
         <Link href="/admin/topics" className="text-sm font-medium text-warm-700 hover:text-warm-900 transition-colors">
           Topics
         </Link>
+        <Link href="/admin/experts" className="text-sm font-medium text-warm-700 hover:text-warm-900 transition-colors">
+          Experts
+        </Link>
         <Link href="/admin/invites" className="text-sm font-medium text-warm-700 hover:text-warm-900 transition-colors">
           Invites
         </Link>
