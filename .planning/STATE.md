@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-03-12T18:14:38.437Z"
+last_updated: "2026-03-12T18:26:36.604Z"
 progress:
-  total_phases: 14
+  total_phases: 15
   completed_phases: 5
-  total_plans: 9
-  completed_plans: 11
+  total_plans: 11
+  completed_plans: 12
 ---
 
 # Project State: Ethos
@@ -22,10 +22,10 @@ See: .planning/PROJECT.md (updated 2026-03-12)
 
 ## Current Position
 
-Phase: 14 of 16 (Comments)
-Plan: 1 of 1 complete
-Status: Phase 14 complete
-Last activity: 2026-03-12 -- Phase 14 Comments complete
+Phase: 15 of 16 (Follow Experts)
+Plan: 2 of 2 complete
+Status: Phase 15 plan 02 complete
+Last activity: 2026-03-12 -- Phase 15-02 follow-expert feed prioritization complete
 
 Progress: [███░░░░░░░] 33%
 
@@ -63,6 +63,7 @@ Recent decisions affecting current work:
 - Follow experts reuses same UX patterns as follow-topics from v3
 - Added profile existence check as defense-in-depth in addComment server action
 - Allowed self-reply on comments (users can add follow-ups to own comments)
+- [Phase 15-02]: Used Set for O(1) followedExpertIds lookup in feed sort comparator
 
 ### Pending Todos
 
@@ -77,5 +78,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-12
-Stopped at: Completed 14-01-PLAN.md (Comments hardening)
+Stopped at: Completed 15-02-PLAN.md (Follow-expert feed prioritization)
 Resume file: None
