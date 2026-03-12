@@ -21,7 +21,26 @@ export async function generateMetadata({ params }) {
   if (!profile) return { title: 'Expert not found' }
 
   const title = profile.display_name
-  const description = profile.headline || profile.bio?.slice(0, 150) || `${profile.display_name} on Ethos`
+  let description = profile.headline || profile.bio?.slice(0, 150) || `${profile.display_name} on Ethos`
+
+  // Append top expertise topics if available
+  const { data: expertAnswers } = await supabase
+    .from('answers')
+    .select('question_id')
+    .eq('expert_id', (await supabase.from('profiles').select('id').eq('handle', handle).single()).data?.id)
+  if (expertAnswers?.length) {
+    const qIds = [...new Set(expertAnswers.map(a => a.question_id))]
+    const { data: qts } = await supabase
+      .from('question_topics')
+      .select('question_id, topics(name)')
+      .in('question_id', qIds)
+    if (qts?.length) {
+      const tc = {}
+      for (const qt of qts) { if (qt.topics) tc[qt.topics.name] = (tc[qt.topics.name] || 0) + 1 }
+      const topTopics = Object.entries(tc).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([n]) => n)
+      if (topTopics.length) description += ` | Expertise: ${topTopics.join(', ')}`
+    }
+  }
 
   return {
     title,
@@ -60,8 +79,8 @@ export default async function ExpertProfilePage({ params }) {
 
   if (!profile) notFound()
 
-  // Parallel: answers, follow status, monthly question count
-  const [{ data: answers }, followResult, { count: totalQuestionsThisMonth }] = await Promise.all([
+  // Parallel: answers, follow status, monthly question count, question_topics for expertise
+  const [{ data: answers }, followResult, { count: totalQuestionsThisMonth }, { data: questionTopics }] = await Promise.all([
     supabase
       .from('answers')
       .select(`*, questions!inner(id, body, slug, category, publish_date)`)
@@ -81,6 +100,9 @@ export default async function ExpertProfilePage({ params }) {
       .lte('publish_date', now.toISOString().slice(0, 10))
       .gte('publish_date', new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10))
       .in('status', ['scheduled', 'published']),
+    supabase
+      .from('question_topics')
+      .select('question_id, topics(id, name, slug)')
   ])
 
   const isFollowing = !!followResult?.data
@@ -90,6 +112,20 @@ export default async function ExpertProfilePage({ params }) {
 
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
   const monthlyAnswerCount = allAnswers.filter(a => a.created_at >= startOfMonth).length
+
+  // Derive topic expertise from answered questions
+  const questionIds = new Set(allAnswers.map(a => a.question_id))
+  const topicCounts = {}
+  for (const qt of questionTopics ?? []) {
+    if (questionIds.has(qt.question_id) && qt.topics) {
+      const tid = qt.topics.id
+      if (!topicCounts[tid]) topicCounts[tid] = { ...qt.topics, count: 0 }
+      topicCounts[tid].count += 1
+    }
+  }
+  const expertiseTags = Object.values(topicCounts)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5)
 
   const isOwnProfile = user?.id === profile.id
 
@@ -156,6 +192,24 @@ export default async function ExpertProfilePage({ params }) {
       {profile.bio && (
         <section className="text-warm-700 leading-relaxed">
           {profile.bio}
+        </section>
+      )}
+
+      {/* Expertise */}
+      {expertiseTags.length > 0 && (
+        <section>
+          <h2 className="text-lg font-semibold text-warm-800 mb-3">Expertise</h2>
+          <div className="flex flex-wrap gap-2">
+            {expertiseTags.map(t => (
+              <Link
+                key={t.id}
+                href={`/topics/${t.slug}`}
+                className="text-xs px-2.5 py-1 rounded-md bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
+              >
+                {t.name} ({t.count})
+              </Link>
+            ))}
+          </div>
         </section>
       )}
 
