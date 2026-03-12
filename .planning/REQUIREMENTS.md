@@ -28,8 +28,8 @@ Requirements for Social & Engagement milestone. Each maps to roadmap phases.
 - [x] **NOTF-03**: User receives in-app notification when someone replies to their comment
 - [x] **NOTF-04**: User receives in-app notification when a followed expert posts an answer
 - [x] **NOTF-05**: User receives in-app notification when their answer is featured
-- [ ] **NOTF-06**: User receives email for notifications based on their email preferences
-- [ ] **NOTF-07**: User can configure notification preferences (per-type on/off)
+- [x] **NOTF-06**: User receives email for notifications based on their email preferences
+- [x] **NOTF-07**: User can configure notification preferences (per-type on/off)
 
 ## v3 Requirements (Complete)
 
@@ -78,8 +78,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NOTF-03 | Phase 16 | Complete |
 | NOTF-04 | Phase 16 | Complete |
 | NOTF-05 | Phase 16 | Complete |
-| NOTF-06 | Phase 16 | Pending |
-| NOTF-07 | Phase 16 | Pending |
+| NOTF-06 | Phase 16 | Complete |
+| NOTF-07 | Phase 16 | Complete |
 
 **Coverage:**
 - v4 requirements: 15 total

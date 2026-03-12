@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-03-12T20:15:27Z"
+last_updated: "2026-03-12T20:19:32Z"
 progress:
-  total_phases: 15
+  total_phases: 16
   completed_phases: 6
   total_plans: 11
-  completed_plans: 14
+  completed_plans: 15
 ---
 
 # Project State: Ethos
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-03-12)
 ## Current Position
 
 Phase: 16 of 16 (Notifications)
-Plan: 1 of 2 complete
-Status: Phase 16 plan 01 complete
-Last activity: 2026-03-12 -- Phase 16-01 notification types complete
+Plan: 2 of 2 complete
+Status: Phase 16 complete
+Last activity: 2026-03-12 -- Phase 16-02 notification preferences and email digest complete
 
-Progress: [███░░░░░░░] 33%
+Progress: [██████████] 100%
 
 ## Current Milestone
 
@@ -66,6 +66,7 @@ Recent decisions affecting current work:
 - [Phase 15-01]: FollowButtonSmall uses stopPropagation pattern for buttons inside Link wrappers; follows query runs in parallel with existing fetches
 - [Phase 15-02]: Used Set for O(1) followedExpertIds lookup in feed sort comparator
 - [Phase 16-01]: Used admin client for follower notification fan-out (bypasses RLS); skip reply notification when parent author is answer author (avoids duplicate)
+- [Phase 16-02]: Dual-toggle preference pattern (_inapp/_email suffixed keys in JSONB); excluded featured_answer from digest (already real-time email)
 
 ### Pending Todos
 
@@ -81,5 +82,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-12
-Stopped at: Completed 16-01-PLAN.md (Notification types)
+Stopped at: Completed 16-02-PLAN.md (Notification preferences and email digest)
 Resume file: None
