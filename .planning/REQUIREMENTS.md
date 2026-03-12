@@ -27,9 +27,9 @@ Requirements for Discovery & Content Organization milestone. Each maps to roadma
 
 ### Expert Directory
 
-- [ ] **EXPR-01**: User can browse an expert directory page with search, sort by activity/selectivity/answer count
-- [ ] **EXPR-02**: Expert profiles display auto-generated topic expertise tags based on their answer history
-- [ ] **EXPR-03**: Admin can curate a rotating featured expert spotlight on the homepage
+- [x] **EXPR-01**: User can browse an expert directory page with search, sort by activity/selectivity/answer count
+- [x] **EXPR-02**: Expert profiles display auto-generated topic expertise tags based on their answer history
+- [x] **EXPR-03**: Admin can curate a rotating featured expert spotlight on the homepage
 
 ## Future Requirements
 
@@ -70,9 +70,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SURF-01 | Phase 12 | Complete |
 | SURF-02 | Phase 12 | Complete |
 | SURF-03 | Phase 12 | Complete |
-| EXPR-01 | Phase 13 | Pending |
-| EXPR-02 | Phase 13 | Pending |
-| EXPR-03 | Phase 13 | Pending |
+| EXPR-01 | Phase 13 | Complete |
+| EXPR-02 | Phase 13 | Complete |
+| EXPR-03 | Phase 13 | Complete |
 
 **Coverage:**
 - v3 requirements: 12 total
@@ -81,4 +81,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-02-27*
-*Last updated: 2026-02-28 after roadmap creation*
+*Last updated: 2026-03-11 — all v3 requirements complete*
