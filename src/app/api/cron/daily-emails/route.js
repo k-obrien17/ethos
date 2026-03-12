@@ -16,7 +16,7 @@ export async function GET(request) {
   const isFirstOfMonth = today.getDate() === 1
   const isMonday = today.getDay() === 1
 
-  const results = { daily: 0, budget_reset: 0, weekly_recap: 0, bookmark_live: 0, errors: 0 }
+  const results = { daily: 0, budget_reset: 0, weekly_recap: 0, bookmark_live: 0, notification_digest: 0, errors: 0 }
 
   try {
     // Get all profiles with their preferences
@@ -261,6 +261,80 @@ export async function GET(request) {
           if (error) { results.errors++ } else { results.weekly_recap++ }
         }
       }
+    }
+    // === Activity Notification Digest ===
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+
+    for (const profile of profiles) {
+      const email = emailMap[profile.id]
+      if (!email) continue
+
+      // Check which notification email types they opted into
+      const prefs = profile.email_preferences || {}
+      const enabledTypes = []
+      if (prefs.comments_email) enabledTypes.push('comment')
+      if (prefs.comment_replies_email) enabledTypes.push('comment_reply')
+      if (prefs.follows_email) enabledTypes.push('follow')
+      if (prefs.followed_expert_posts_email) enabledTypes.push('followed_expert_posted')
+      // Note: featured_answer email is already handled in real-time by toggleFeaturedAnswer, skip here
+
+      if (enabledTypes.length === 0) continue
+
+      const { data: unreadNotifs } = await admin
+        .from('notifications')
+        .select(`
+          type, body, created_at,
+          actor:profiles!notifications_actor_id_fkey(display_name),
+          answer:answers!notifications_answer_id_fkey(id, body, questions(slug, body))
+        `)
+        .eq('user_id', profile.id)
+        .is('read_at', null)
+        .in('type', enabledTypes)
+        .gte('created_at', yesterday)
+        .order('created_at', { ascending: false })
+        .limit(20)
+
+      if (!unreadNotifs || unreadNotifs.length === 0) continue
+
+      const notifItems = unreadNotifs.map(n => {
+        const actor = escapeHtml(n.actor?.display_name || 'Someone')
+        const questionBody = n.answer?.questions?.body
+        const questionSlug = n.answer?.questions?.slug
+        let action = ''
+        switch (n.type) {
+          case 'comment': action = 'commented on your answer'; break
+          case 'comment_reply': action = 'replied to your comment'; break
+          case 'follow': action = 'started following you'; break
+          case 'followed_expert_posted': action = 'posted a new answer'; break
+        }
+        let context = ''
+        if (questionBody && questionSlug) {
+          context = ` on <a href="${siteUrl}/q/${questionSlug}" style="color:#44403c;">"${escapeHtml(questionBody.slice(0, 50))}${questionBody.length > 50 ? '...' : ''}"</a>`
+        }
+        return `<li style="margin-bottom:8px;font-size:14px;color:#44403c;"><strong>${actor}</strong> ${action}${context}</li>`
+      }).join('')
+
+      const content = `
+        <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">Activity on Ethos</h2>
+        <p style="font-size:14px;color:#44403c;margin:0 0 16px;">
+          Hi ${escapeHtml(profile.display_name || 'there')}, here's what happened since your last visit.
+        </p>
+        <ul style="padding-left:20px;margin:0 0 20px;">${notifItems}</ul>
+        <div style="text-align:center;">
+          <a href="${siteUrl}/dashboard/notifications" style="display:inline-block;padding:10px 24px;background-color:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">
+            View all notifications
+          </a>
+        </div>
+      `
+
+      const unsubscribeUrl = getUnsubscribeUrl(profile.unsubscribe_token, 'notification_digest')
+      const { error } = await sendEmail({
+        to: email,
+        subject: `${unreadNotifs.length} new notification${unreadNotifs.length > 1 ? 's' : ''} on Ethos`,
+        html: emailLayout(content, unsubscribeUrl),
+      })
+
+      if (error) { results.errors++ } else { results.notification_digest++ }
     }
   } catch (err) {
     console.error('[cron] daily-emails error:', err)
