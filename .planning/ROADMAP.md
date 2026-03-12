@@ -117,7 +117,9 @@
   2. When a followed expert posts a new answer, the user receives an in-app notification linking to that answer
   3. User receives email digests for notification types they have opted into, delivered via the existing Resend cron infrastructure
   4. User can visit a notification preferences page and toggle each notification type (comments, follows, followed-expert posts, featured) on or off independently for both in-app and email channels
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 16-01-PLAN.md — Missing notification types (comment-reply, followed-expert-posted) + feed UI
+- [ ] 16-02-PLAN.md — Notification preferences (in-app + email toggles) + email digest cron
 
 ### Progress
 
@@ -125,8 +127,8 @@
 |-------|----------------|--------|-----------|
 | 14. Comments | 1/1 | Complete    | 2026-03-12 |
 | 15. Follow Experts | 2/2 | Complete    | 2026-03-12 |
-| 16. Notifications | 0/? | Not started | - |
+| 16. Notifications | 0/2 | In progress | - |
 
 ---
 
-*Last updated: 2026-03-12 -- v4 roadmap created*
+*Last updated: 2026-03-12 -- Phase 16 planned*
