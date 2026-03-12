@@ -30,7 +30,7 @@ function CommentItem({ comment, currentUserId, answerId, onDelete, deletingId, o
           <span className="text-xs text-warm-400">
             {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
           </span>
-          {currentUserId && currentUserId !== comment.user_id && (
+          {currentUserId && (
             <button
               onClick={() => onReply(comment)}
               className="text-xs text-warm-400 hover:text-warm-600 transition-colors"
