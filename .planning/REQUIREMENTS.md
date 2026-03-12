@@ -65,27 +65,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CMNT-01 | TBD | Pending |
-| CMNT-02 | TBD | Pending |
-| CMNT-03 | TBD | Pending |
-| CMNT-04 | TBD | Pending |
-| CMNT-05 | TBD | Pending |
-| FLLW-01 | TBD | Pending |
-| FLLW-02 | TBD | Pending |
-| FLLW-03 | TBD | Pending |
-| NOTF-01 | TBD | Pending |
-| NOTF-02 | TBD | Pending |
-| NOTF-03 | TBD | Pending |
-| NOTF-04 | TBD | Pending |
-| NOTF-05 | TBD | Pending |
-| NOTF-06 | TBD | Pending |
-| NOTF-07 | TBD | Pending |
+| CMNT-01 | Phase 14 | Pending |
+| CMNT-02 | Phase 14 | Pending |
+| CMNT-03 | Phase 14 | Pending |
+| CMNT-04 | Phase 14 | Pending |
+| CMNT-05 | Phase 14 | Pending |
+| FLLW-01 | Phase 15 | Pending |
+| FLLW-02 | Phase 15 | Pending |
+| FLLW-03 | Phase 15 | Pending |
+| NOTF-01 | Phase 16 | Pending |
+| NOTF-02 | Phase 16 | Pending |
+| NOTF-03 | Phase 16 | Pending |
+| NOTF-04 | Phase 16 | Pending |
+| NOTF-05 | Phase 16 | Pending |
+| NOTF-06 | Phase 16 | Pending |
+| NOTF-07 | Phase 16 | Pending |
 
 **Coverage:**
 - v4 requirements: 15 total
-- Mapped to phases: 0
-- Unmapped: 15 ⚠️
+- Mapped to phases: 15
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-12*
-*Last updated: 2026-03-12 after initial definition*
+*Last updated: 2026-03-12 after roadmap creation*
