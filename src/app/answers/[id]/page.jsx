@@ -90,17 +90,39 @@ export default async function AnswerPage({ params }) {
     .eq('answer_id', id)
     .order('created_at', { ascending: true })
 
-  // Check if user has liked this answer
-  let isLiked = false
-  if (user) {
-    const { data: like } = await supabase
-      .from('answer_likes')
-      .select('user_id')
-      .eq('user_id', user.id)
-      .eq('answer_id', id)
-      .maybeSingle()
-    isLiked = !!like
-  }
+  // Parallel: like status + more from expert + other perspectives
+  const [likeResult, { data: moreFromExpert }, { data: otherPerspectives }] = await Promise.all([
+    user
+      ? supabase
+          .from('answer_likes')
+          .select('user_id')
+          .eq('user_id', user.id)
+          .eq('answer_id', id)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
+    supabase
+      .from('answers')
+      .select(`
+        id, body, like_count, created_at,
+        questions!inner(body, slug, publish_date)
+      `)
+      .eq('expert_id', answer.profiles.id)
+      .neq('id', answer.id)
+      .order('created_at', { ascending: false })
+      .limit(3),
+    supabase
+      .from('answers')
+      .select(`
+        id, body, like_count, created_at,
+        profiles!answers_expert_id_fkey(display_name, handle, avatar_url)
+      `)
+      .eq('question_id', answer.questions.id)
+      .neq('id', answer.id)
+      .order('like_count', { ascending: false })
+      .limit(4),
+  ])
+
+  const isLiked = !!likeResult.data
 
   return (
     <div className="space-y-8">
@@ -148,16 +170,104 @@ export default async function AnswerPage({ params }) {
         editWindowExpiresAt={new Date(answer.created_at).getTime() + 15 * 60 * 1000}
       />
 
-      {/* Link to see all answers + share */}
-      <div className="flex items-center justify-center gap-4">
-        <Link
-          href={`/q/${answer.questions.slug}`}
-          className="text-sm text-warm-600 hover:text-warm-800"
-        >
-          See all answers to this question &rarr;
-        </Link>
+      {/* Share utility bar */}
+      <div className="flex items-center justify-center">
         <ShareButton />
       </div>
+
+      {/* More from this expert */}
+      {(moreFromExpert ?? []).length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-semibold text-warm-800">
+              More from {answer.profiles.display_name}
+            </h3>
+            <Link
+              href={`/expert/${answer.profiles.handle}`}
+              className="text-xs text-accent-600 hover:text-accent-700 font-medium"
+            >
+              View all
+            </Link>
+          </div>
+          <div className="divide-y divide-warm-100">
+            {moreFromExpert.map((a) => (
+              <div key={a.id} className="py-3">
+                <Link href={`/q/${a.questions?.slug}`} className="text-sm font-medium text-warm-900 hover:text-accent-600 transition-colors leading-snug">
+                  {a.questions?.body}
+                </Link>
+                <p className="text-sm text-warm-500 mt-1 leading-relaxed">
+                  {a.body.replace(/[#*_~`>\[\]()!|-]/g, '').slice(0, 150).trim()}{a.body.length > 150 ? '...' : ''}
+                </p>
+                <div className="flex items-center gap-3 mt-1.5 text-xs text-warm-400">
+                  <span>{format(new Date(a.created_at), 'MMM d, yyyy')}</span>
+                  {(a.like_count ?? 0) > 0 && (
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3 h-3 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                      </svg>
+                      {a.like_count}
+                    </span>
+                  )}
+                  <Link href={`/answers/${a.id}`} className="text-accent-600 hover:text-accent-700 font-medium ml-auto">
+                    Read
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Other perspectives on this question */}
+      {(otherPerspectives ?? []).length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-semibold text-warm-800">
+              Other perspectives on this question
+            </h3>
+            <Link
+              href={`/q/${answer.questions.slug}`}
+              className="text-xs text-accent-600 hover:text-accent-700 font-medium"
+            >
+              View all
+            </Link>
+          </div>
+          <div className="divide-y divide-warm-100">
+            {otherPerspectives.map((a) => (
+              <div key={a.id} className="py-3">
+                <div className="flex items-center gap-2 mb-1.5">
+                  {a.profiles?.avatar_url ? (
+                    <img src={a.profiles.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-warm-200 flex items-center justify-center text-warm-500 text-xs font-medium">
+                      {a.profiles?.display_name?.charAt(0)?.toUpperCase()}
+                    </div>
+                  )}
+                  <Link href={`/expert/${a.profiles?.handle}`} className="text-sm font-medium text-warm-700 hover:text-warm-900">
+                    {a.profiles?.display_name}
+                  </Link>
+                </div>
+                <p className="text-sm text-warm-500 leading-relaxed">
+                  {a.body.replace(/[#*_~`>\[\]()!|-]/g, '').slice(0, 200).trim()}{a.body.length > 200 ? '...' : ''}
+                </p>
+                <div className="flex items-center gap-3 mt-1.5 text-xs text-warm-400">
+                  {(a.like_count ?? 0) > 0 && (
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3 h-3 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                      </svg>
+                      {a.like_count}
+                    </span>
+                  )}
+                  <Link href={`/answers/${a.id}`} className="text-accent-600 hover:text-accent-700 font-medium ml-auto">
+                    Read
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       <ViewTracker answerId={id} />
     </div>
