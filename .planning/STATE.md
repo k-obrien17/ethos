@@ -15,24 +15,22 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-27)
+See: .planning/PROJECT.md (updated 2026-03-12)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v3 Discovery & Content Organization — Phase 13 in progress
+**Current focus:** v4 Social & Engagement — Defining requirements
 
 ## Current Position
 
-Phase: 13 of 13 (Expert Directory)
-Plan: 2 of 2 complete
-Status: Complete
-Last activity: 2026-03-11 — completed plan 13-02 (featured expert spotlight)
-
-Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 13)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-12 — Milestone v4 started
 
 ## Current Milestone
 
-**Milestone:** v3 (Discovery & Content Organization)
-**Status:** Milestone complete
+**Milestone:** v4 (Social & Engagement)
+**Status:** Defining requirements
 
 ## Milestone History
 
@@ -40,6 +38,7 @@ Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 13
 |-----------|--------|--------|-------------|----------|
 | v1 — Beta Launch | Complete | 5 phases, 15 plans | 38 (37 pass, 1 manual) | `.planning/milestones/v1-*` |
 | v2 — Engagement | Complete | 4 phases, 10 plans | 24 (24 pass) | `.planning/milestones/v2-*` |
+| v3 — Discovery | Complete | 4 phases, 8 plans | 12 (12 pass) | `.planning/milestones/v3-*` |
 
 ## Phase History
 

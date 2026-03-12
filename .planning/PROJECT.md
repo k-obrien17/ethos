@@ -8,26 +8,25 @@ A public content platform where influencers and subject-matter experts answer on
 
 The limited answer budget turns every response into a statement of identity — what you choose to answer reveals what you stand for.
 
-## Current Milestone: v3 Discovery & Content Organization
+## Current Milestone: v4 Social & Engagement
 
-**Goal:** Make every answer findable — by topic, by search, by quality signal — so users always have a reason to browse.
+**Goal:** Make the platform feel alive — experts discuss each other's answers, users follow experts they admire, and everyone gets notified when something they care about happens.
 
 **Target features:**
-- Full-text search across questions, answers, and experts
-- Topic taxonomy for questions with browse-by-topic pages
-- Trending/popular content surfacing on homepage
-- Answer archives for past questions
-- Expert directory with topic filtering
-- Related content connections (other answers, more from expert)
+- Comments on answers (experts + invited users, one-level threading)
+- Follow experts (same UX as follow-topics, feed personalization)
+- Full notification system (in-app + email): new comments, new followers, followed-expert posts, featured answers, milestones
 
 ## Current State
 
-**Shipped:** v2 (engagement & retention) — 2026-02-25
-**Previous:** v1 (beta launch) — 2026-02-25
+**Shipped:** v3 (discovery & content organization) — 2026-03-12
+**Previous:** v1 (beta launch) — 2026-02-25, v2 (engagement & retention) — 2026-02-25
 
 v1 includes: auth (Google + LinkedIn), profiles, daily questions, answer submission with three-layer budget enforcement, public feeds, expert profiles with selectivity metrics, editorial admin panel, social sharing with OG images, account deletion, legal pages.
 
 v2 adds: onboarding flow, Markdown preview, 15-min edit window, queue preview, featured answers, email notifications (Resend), bookmarks, view counts.
+
+v3 adds: topic taxonomy with browse-by-topic, full-text search with typeahead, trending content, question archives, expert directory with topic expertise, related content connections, featured expert spotlight.
 
 ## Requirements
 
@@ -47,21 +46,24 @@ See [v1-REQUIREMENTS.md](milestones/v1-REQUIREMENTS.md) for full requirements ar
 
 See [v2-REQUIREMENTS.md](milestones/v2-REQUIREMENTS.md) for full requirements archive.
 
-### Active (v3)
+### Validated (v3)
 
-- [ ] Full-text search across questions, answers, and experts
-- [ ] Topic taxonomy and browse-by-topic pages
-- [ ] Trending/popular content surfacing
-- [ ] Answer archives for past questions
-- [ ] Expert directory with topic filtering
-- [ ] Related content connections
+- [x] 12/12 requirements pass code-level verification
+- [x] 4 phases complete (topics, search, content surfacing, expert directory)
+
+See [v3-REQUIREMENTS.md](milestones/v3-REQUIREMENTS.md) for full requirements archive.
+
+### Active (v4)
+
+- [ ] Comments on answers (experts + invited users, one-level threading)
+- [ ] Follow experts with feed personalization
+- [ ] Notification system (in-app + email) for comments, followers, followed-expert posts, featured, milestones
 
 ### Out of Scope
 
 - Native mobile apps — web-first, responsive design covers mobile
 - AI-generated questions — editorial team curates manually
-- Comments/reactions on answers — keep focused on the answer itself
-- Following/notifications — discovery is feed-based for now
+- Real-time WebSocket notifications — polling or page-load fetch is sufficient at beta scale
 - Gamification (points, badges, leaderboards) — trivializes expertise
 - The existing Tauri desktop app code — clean break, different product
 
@@ -100,4 +102,4 @@ See [v2-REQUIREMENTS.md](milestones/v2-REQUIREMENTS.md) for full requirements ar
 | View counts author-only | Prevents popularity contest, gives authors private engagement signal | Shipped v2 |
 
 ---
-*Last updated: 2026-02-27 after v3 milestone start*
+*Last updated: 2026-03-12 after v4 milestone start*
