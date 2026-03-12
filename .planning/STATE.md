@@ -10,16 +10,16 @@ See: .planning/PROJECT.md (updated 2026-03-12)
 ## Current Position
 
 Phase: 14 of 16 (Comments)
-Plan: --
-Status: Ready to plan
-Last activity: 2026-03-12 -- v4 roadmap created
+Plan: 1 of 1 complete
+Status: Phase 14 complete
+Last activity: 2026-03-12 -- Phase 14 Comments complete
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███░░░░░░░] 33%
 
 ## Current Milestone
 
 **Milestone:** v4 (Social & Engagement)
-**Status:** Ready to plan Phase 14
+**Status:** Phase 14 complete, ready for Phase 15
 
 ## Milestone History
 
@@ -48,6 +48,8 @@ Recent decisions affecting current work:
 - v4 builds on existing v2 notification infrastructure (in-app page at /dashboard/notifications, email via Resend cron)
 - Comments use one-level threading (not infinite nesting) per out-of-scope decision
 - Follow experts reuses same UX patterns as follow-topics from v3
+- Added profile existence check as defense-in-depth in addComment server action
+- Allowed self-reply on comments (users can add follow-ups to own comments)
 
 ### Pending Todos
 
@@ -62,5 +64,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-12
-Stopped at: v4 roadmap created, ready to plan Phase 14
+Stopped at: Completed 14-01-PLAN.md (Comments hardening)
 Resume file: None

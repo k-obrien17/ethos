@@ -80,7 +80,7 @@
 
 ### Phases
 
-- [ ] **Phase 14: Comments** - Experts and invited users can discuss answers with one-level threading
+- [x] **Phase 14: Comments** - Experts and invited users can discuss answers with one-level threading
 - [ ] **Phase 15: Follow Experts** - Users follow experts and get a personalized feed
 - [ ] **Phase 16: Notifications** - In-app and email notifications for comments, follows, new posts, and featured answers
 
@@ -96,7 +96,7 @@
   3. A user can reply to any existing comment, and the reply appears indented one level beneath the parent comment
   4. A user can delete their own comment, and it disappears from the thread
   5. A visitor who is not logged in (or not invited) can read all comments on an answer but sees no input field to post
-**Plans**: TBD
+**Plans**: 1/1 complete
 
 #### Phase 15: Follow Experts
 **Goal**: Users can curate which experts they hear from and see a feed shaped by those choices
@@ -123,7 +123,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 14. Comments | 0/? | Not started | - |
+| 14. Comments | 1/1 | Complete | 2026-03-12 |
 | 15. Follow Experts | 0/? | Not started | - |
 | 16. Notifications | 0/? | Not started | - |
 

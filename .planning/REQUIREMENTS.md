@@ -9,11 +9,11 @@ Requirements for Social & Engagement milestone. Each maps to roadmap phases.
 
 ### Comments
 
-- [ ] **CMNT-01**: Expert can post a comment on any answer
-- [ ] **CMNT-02**: Invited user can post a comment on any answer
-- [ ] **CMNT-03**: User can reply to a comment (one level deep)
-- [ ] **CMNT-04**: User can delete their own comment
-- [ ] **CMNT-05**: Unauthenticated/uninvited users see comments but cannot post
+- [x] **CMNT-01**: Expert can post a comment on any answer
+- [x] **CMNT-02**: Invited user can post a comment on any answer
+- [x] **CMNT-03**: User can reply to a comment (one level deep)
+- [x] **CMNT-04**: User can delete their own comment
+- [x] **CMNT-05**: Unauthenticated/uninvited users see comments but cannot post
 
 ### Follow Experts
 
@@ -65,11 +65,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CMNT-01 | Phase 14 | Pending |
-| CMNT-02 | Phase 14 | Pending |
-| CMNT-03 | Phase 14 | Pending |
-| CMNT-04 | Phase 14 | Pending |
-| CMNT-05 | Phase 14 | Pending |
+| CMNT-01 | Phase 14 | Complete |
+| CMNT-02 | Phase 14 | Complete |
+| CMNT-03 | Phase 14 | Complete |
+| CMNT-04 | Phase 14 | Complete |
+| CMNT-05 | Phase 14 | Complete |
 | FLLW-01 | Phase 15 | Pending |
 | FLLW-02 | Phase 15 | Pending |
 | FLLW-03 | Phase 15 | Pending |
