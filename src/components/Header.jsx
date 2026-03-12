@@ -49,6 +49,9 @@ export default async function Header() {
           <Link href="/topics" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
             Topics
           </Link>
+          <Link href="/experts" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
+            Experts
+          </Link>
           <Link href="/questions" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
             Archive
           </Link>

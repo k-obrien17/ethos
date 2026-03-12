@@ -38,6 +38,9 @@ export default function MobileNav({ isAuthenticated }) {
           <Link href="/leaderboard" onClick={() => setOpen(false)} className="block py-2 text-sm text-warm-600 hover:text-warm-900">
             Leaderboard
           </Link>
+          <Link href="/experts" onClick={() => setOpen(false)} className="block py-2 text-sm text-warm-600 hover:text-warm-900">
+            Experts
+          </Link>
           {isAuthenticated && (
             <>
               <Link href="/following" onClick={() => setOpen(false)} className="block py-2 text-sm text-warm-600 hover:text-warm-900">
