@@ -10,6 +10,15 @@ export async function addComment(prevState, formData) {
 
   if (!user) return { error: 'You must be signed in to comment.' }
 
+  // Defense-in-depth: verify user has a profile (completed invite flow)
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile) return { error: 'You must complete your profile to comment.' }
+
   // Rate limit: 30 comments per 15 minutes
   const rl = await rateLimit({ key: `comment:${user.id}`, limit: 30, windowMs: 15 * 60 * 1000 })
   if (!rl.success) return { error: 'Too many comments. Please slow down.' }
