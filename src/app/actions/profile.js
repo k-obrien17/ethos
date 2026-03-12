@@ -174,11 +174,24 @@ export async function updateEmailPreferences(prevState, formData) {
   if (!user) return { error: 'You must be signed in.' }
 
   const preferences = {
+    // Content emails (email only)
     daily_question: formData.get('daily_question') === 'on',
     weekly_recap: formData.get('weekly_recap') === 'on',
     budget_reset: formData.get('budget_reset') === 'on',
-    featured_answer: formData.get('featured_answer') === 'on',
     bookmark_live: formData.get('bookmark_live') === 'on',
+    // Activity notifications (in-app + email)
+    comments_inapp: formData.get('comments_inapp') === 'on',
+    comments_email: formData.get('comments_email') === 'on',
+    comment_replies_inapp: formData.get('comment_replies_inapp') === 'on',
+    comment_replies_email: formData.get('comment_replies_email') === 'on',
+    follows_inapp: formData.get('follows_inapp') === 'on',
+    follows_email: formData.get('follows_email') === 'on',
+    followed_expert_posts_inapp: formData.get('followed_expert_posts_inapp') === 'on',
+    followed_expert_posts_email: formData.get('followed_expert_posts_email') === 'on',
+    featured_inapp: formData.get('featured_inapp') === 'on',
+    featured_email: formData.get('featured_email') === 'on',
+    // Backward compat: featured_answer maps to featured_email
+    featured_answer: formData.get('featured_email') === 'on',
   }
 
   const { error } = await supabase
