@@ -81,7 +81,7 @@
 ### Phases
 
 - [x] **Phase 14: Comments** - Experts and invited users can discuss answers with one-level threading
-- [ ] **Phase 15: Follow Experts** - Users follow experts and get a personalized feed
+- [x] **Phase 15: Follow Experts** - Users follow experts and get a personalized feed (completed 2026-03-12)
 - [ ] **Phase 16: Notifications** - In-app and email notifications for comments, follows, new posts, and featured answers
 
 ### Phase Details
@@ -124,7 +124,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 14. Comments | 1/1 | Complete    | 2026-03-12 |
-| 15. Follow Experts | 1/2 | In Progress|  |
+| 15. Follow Experts | 2/2 | Complete   | 2026-03-12 |
 | 16. Notifications | 0/? | Not started | - |
 
 ---

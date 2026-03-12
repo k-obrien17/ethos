@@ -63,6 +63,7 @@ Recent decisions affecting current work:
 - Follow experts reuses same UX patterns as follow-topics from v3
 - Added profile existence check as defense-in-depth in addComment server action
 - Allowed self-reply on comments (users can add follow-ups to own comments)
+- [Phase 15-01]: FollowButtonSmall uses stopPropagation pattern for buttons inside Link wrappers; follows query runs in parallel with existing fetches
 - [Phase 15-02]: Used Set for O(1) followedExpertIds lookup in feed sort comparator
 
 ### Pending Todos
@@ -78,5 +79,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-12
-Stopped at: Completed 15-02-PLAN.md (Follow-expert feed prioritization)
+Stopped at: Completed 15-01-PLAN.md (Follow experts from directory)
 Resume file: None

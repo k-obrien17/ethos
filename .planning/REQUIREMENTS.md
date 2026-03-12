@@ -17,9 +17,9 @@ Requirements for Social & Engagement milestone. Each maps to roadmap phases.
 
 ### Follow Experts
 
-- [ ] **FLLW-01**: User can follow/unfollow an expert from their profile or directory
+- [x] **FLLW-01**: User can follow/unfollow an expert from their profile or directory
 - [x] **FLLW-02**: User's feed prioritizes answers from followed experts
-- [ ] **FLLW-03**: User can view a list of experts they follow
+- [x] **FLLW-03**: User can view a list of experts they follow
 
 ### Notifications
 
@@ -70,9 +70,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CMNT-03 | Phase 14 | Complete |
 | CMNT-04 | Phase 14 | Complete |
 | CMNT-05 | Phase 14 | Complete |
-| FLLW-01 | Phase 15 | Pending |
+| FLLW-01 | Phase 15 | Complete |
 | FLLW-02 | Phase 15 | Complete |
-| FLLW-03 | Phase 15 | Pending |
+| FLLW-03 | Phase 15 | Complete |
 | NOTF-01 | Phase 16 | Pending |
 | NOTF-02 | Phase 16 | Pending |
 | NOTF-03 | Phase 16 | Pending |
