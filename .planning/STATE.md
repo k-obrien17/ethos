@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 13 of 13 (Expert Directory)
-Plan: 1 of 2 complete
-Status: In Progress
-Last activity: 2026-03-11 — completed plan 13-01 (expert directory page)
+Plan: 2 of 2 complete
+Status: Complete
+Last activity: 2026-03-11 — completed plan 13-02 (featured expert spotlight)
 
-Progress: [█████░░░░░] 50% (v3 — 1 of 2 plans in phase 13)
+Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 13)
 
 ## Current Milestone
 
@@ -50,14 +50,14 @@ Progress: [█████░░░░░] 50% (v3 — 1 of 2 plans in phase 13)
 | 10 — Topic Taxonomy & Browse | Complete | 2/2 complete |
 | 11 — Search | Complete | 2/2 complete |
 | 12 — Content Surfacing | Complete | 2/2 complete |
-| 13 — Expert Directory | Not started | TBD |
+| 13 — Expert Directory | Complete | 2/2 complete |
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6 (v3)
+- Total plans completed: 8 (v3)
 - Average duration: 3min
-- Total execution time: 16min
+- Total execution time: 23min
 
 | Phase | Plan | Duration | Tasks | Files |
 |-------|------|----------|-------|-------|
@@ -67,6 +67,8 @@ Progress: [█████░░░░░] 50% (v3 — 1 of 2 plans in phase 13)
 | 11 | 02 | 2min | 2 | 4 |
 | 12 | 01 | 2min | 2 | 3 |
 | 12 | 02 | 1min | 1 | 1 |
+| 13 | 01 | 4min | 2 | 4 |
+| 13 | 02 | 3min | 2 | 6 |
 
 *Updated after each plan completion*
 
@@ -93,6 +95,9 @@ Recent decisions affecting current work:
 - Client-side weighted scoring (view_count + like_count*2) for trending answers instead of custom RPC
 - /questions/[slug] redirects to /q/[slug] instead of duplicating question detail page
 - Related content on answer pages uses parallel neq queries for same-expert and same-question answers
+- Expert expertise tags derived from answers -> question_topics -> topics, aggregated per expert
+- Expert directory sort/filter implemented as server-side Link elements (no client component)
+- site_settings key-value table for featured expert and future site-wide config
 
 ### Pending Todos
 
@@ -102,9 +107,10 @@ None.
 
 - v1 + v2 are code-complete but not yet deployed
 - Migration 00013_search_indexes.sql must be applied to Supabase before search is functional
+- Migration 00023_featured_expert.sql must be applied to Supabase for featured expert functionality
 
 ## Session Continuity
 
 Last session: 2026-03-11
-Stopped at: Completed 12-02-PLAN.md (Phase 12 Content Surfacing complete)
+Stopped at: Completed 13-02-PLAN.md (Phase 13 Expert Directory complete)
 Resume file: .planning/phases/13-expert-directory/
