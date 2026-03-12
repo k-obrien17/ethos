@@ -172,6 +172,23 @@ export async function submitAnswer(prevState, formData) {
   }
   revalidatePath('/')
 
+  // Notify followers (fire-and-forget)
+  const admin = createAdminClient()
+  const { data: followers } = await admin
+    .from('follows')
+    .select('follower_id')
+    .eq('following_id', user.id)
+
+  if (followers && followers.length > 0) {
+    const notifications = followers.map(f => ({
+      user_id: f.follower_id,
+      type: 'followed_expert_posted',
+      actor_id: user.id,
+      answer_id: data?.id,
+    }))
+    admin.from('notifications').insert(notifications).then(() => {})
+  }
+
   return { success: true, answerId: data?.id }
 }
 
