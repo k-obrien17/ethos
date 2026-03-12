@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-27)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v3 Discovery & Content Organization — Phase 12 complete
+**Current focus:** v3 Discovery & Content Organization — Phase 13 in progress
 
 ## Current Position
 
-Phase: 12 of 13 (Content Surfacing)
-Plan: 2 of 2 complete
-Status: Complete
-Last activity: 2026-03-11 — completed plan 12-02 (answer page related content)
+Phase: 13 of 13 (Expert Directory)
+Plan: 1 of 2 complete
+Status: In Progress
+Last activity: 2026-03-11 — completed plan 13-01 (expert directory page)
 
-Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 12)
+Progress: [█████░░░░░] 50% (v3 — 1 of 2 plans in phase 13)
 
 ## Current Milestone
 
