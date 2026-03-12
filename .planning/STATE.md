@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-02-28T15:00:51.865Z"
+last_updated: "2026-03-11T14:03:00.000Z"
 progress:
   total_phases: 11
   completed_phases: 2
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-27)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v3 Discovery & Content Organization — Phase 11 in progress
+**Current focus:** v3 Discovery & Content Organization — Phase 12 complete
 
 ## Current Position
 
-Phase: 11 of 13 (Search)
+Phase: 12 of 13 (Content Surfacing)
 Plan: 2 of 2 complete
 Status: Complete
-Last activity: 2026-02-28 — completed plan 11-02 (search bar + typeahead)
+Last activity: 2026-03-11 — completed plan 12-02 (answer page related content)
 
-Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 11)
+Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 12)
 
 ## Current Milestone
 
@@ -49,15 +49,15 @@ Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 11
 | 6-9 (v2) | Complete | See v2 archive |
 | 10 — Topic Taxonomy & Browse | Complete | 2/2 complete |
 | 11 — Search | Complete | 2/2 complete |
-| 12 — Content Surfacing | Not started | TBD |
+| 12 — Content Surfacing | Complete | 2/2 complete |
 | 13 — Expert Directory | Not started | TBD |
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4 (v3)
+- Total plans completed: 6 (v3)
 - Average duration: 3min
-- Total execution time: 13min
+- Total execution time: 16min
 
 | Phase | Plan | Duration | Tasks | Files |
 |-------|------|----------|-------|-------|
@@ -65,6 +65,8 @@ Progress: [██████████] 100% (v3 — 2 of 2 plans in phase 11
 | 10 | 02 | 3min | 2 | 9 |
 | 11 | 01 | 3min | 2 | 6 |
 | 11 | 02 | 2min | 2 | 4 |
+| 12 | 01 | 2min | 2 | 3 |
+| 12 | 02 | 1min | 1 | 1 |
 
 *Updated after each plan completion*
 
@@ -88,10 +90,13 @@ Recent decisions affecting current work:
 - SearchBar is self-contained client component rendered within server component Header
 - Mobile search uses fixed overlay pattern for full-width input on narrow screens
 - Typeahead debounced at 250ms with lightweight searchSuggestions action (7 results max)
+- Client-side weighted scoring (view_count + like_count*2) for trending answers instead of custom RPC
+- /questions/[slug] redirects to /q/[slug] instead of duplicating question detail page
+- Related content on answer pages uses parallel neq queries for same-expert and same-question answers
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
@@ -100,6 +105,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-28
-Stopped at: Completed 11-02-PLAN.md (Phase 11 Search complete)
-Resume file: .planning/phases/12-content-surfacing/
+Last session: 2026-03-11
+Stopped at: Completed 12-02-PLAN.md (Phase 12 Content Surfacing complete)
+Resume file: .planning/phases/13-expert-directory/

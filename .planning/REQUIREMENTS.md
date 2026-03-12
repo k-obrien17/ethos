@@ -21,9 +21,9 @@ Requirements for Discovery & Content Organization milestone. Each maps to roadma
 
 ### Content Surfacing
 
-- [ ] **SURF-01**: User sees a trending section on the homepage showing most-viewed/bookmarked recent answers
-- [ ] **SURF-02**: User can browse past questions with all their answers (answer archives)
-- [ ] **SURF-03**: User sees "more from this expert" and "other answers to this question" links on answer pages
+- [x] **SURF-01**: User sees a trending section on the homepage showing most-viewed/bookmarked recent answers
+- [x] **SURF-02**: User can browse past questions with all their answers (answer archives)
+- [x] **SURF-03**: User sees "more from this expert" and "other answers to this question" links on answer pages
 
 ### Expert Directory
 
@@ -67,9 +67,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TOPC-01 | Phase 10 | Complete |
 | TOPC-02 | Phase 10 | Complete |
 | TOPC-03 | Phase 10 | Complete |
-| SURF-01 | Phase 12 | Pending |
-| SURF-02 | Phase 12 | Pending |
-| SURF-03 | Phase 12 | Pending |
+| SURF-01 | Phase 12 | Complete |
+| SURF-02 | Phase 12 | Complete |
+| SURF-03 | Phase 12 | Complete |
 | EXPR-01 | Phase 13 | Pending |
 | EXPR-02 | Phase 13 | Pending |
 | EXPR-03 | Phase 13 | Pending |
