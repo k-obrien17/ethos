@@ -11,8 +11,8 @@ export default async function HomePage() {
   const today = new Date().toISOString().slice(0, 10)
   const sevenDaysAgo = subDays(new Date(), 7).toISOString()
 
-  // Parallel: auth + today's question + recent questions + trending candidates
-  const [{ data: { user } }, { data: todayQuestion }, { data: recentQuestionsRaw }, { data: trendingRaw }] =
+  // Parallel: auth + today's question + recent questions + trending candidates + featured expert setting
+  const [{ data: { user } }, { data: todayQuestion }, { data: recentQuestionsRaw }, { data: trendingRaw }, { data: featuredSetting }] =
     await Promise.all([
       supabase.auth.getUser(),
       supabase
@@ -40,10 +40,17 @@ export default async function HomePage() {
         .gte('created_at', sevenDaysAgo)
         .order('view_count', { ascending: false })
         .limit(20),
+      supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'featured_expert_id')
+        .maybeSingle(),
     ])
 
-  // Parallel: user-specific queries + today's answers (depends on todayQuestion + user)
-  const [userMeta, answersResult] = await Promise.all([
+  const featuredExpertId = featuredSetting?.value || null
+
+  // Parallel: user-specific queries + today's answers + featured expert data
+  const [userMeta, answersResult, featuredExpertResult] = await Promise.all([
     user
       ? Promise.all([
           supabase
@@ -71,6 +78,26 @@ export default async function HomePage() {
           .eq('question_id', todayQuestion.id)
           .order('created_at', { ascending: false })
       : Promise.resolve({ data: [] }),
+    featuredExpertId
+      ? Promise.all([
+          supabase
+            .from('profiles')
+            .select('id, display_name, handle, avatar_url, headline, bio, follower_count')
+            .eq('id', featuredExpertId)
+            .single(),
+          supabase
+            .from('answers')
+            .select('question_id')
+            .eq('expert_id', featuredExpertId),
+          supabase
+            .from('answers')
+            .select('*', { count: 'exact', head: true })
+            .eq('expert_id', featuredExpertId),
+          supabase
+            .from('question_topics')
+            .select('question_id, topics(id, name, slug)'),
+        ])
+      : Promise.resolve(null),
   ])
 
   const showNudge = user ? (userMeta[0].count ?? 0) === 0 : false
@@ -122,6 +149,32 @@ export default async function HomePage() {
 
   const plainExcerpt = (text, len) =>
     text.replace(/[#*_~`>\[\]()!|-]/g, '').slice(0, len).trim() + (text.length > len ? '...' : '')
+
+  // Derive featured expert data
+  let featuredExpert = null
+  if (featuredExpertResult) {
+    const [profileResult, expertAnswers, answerCountResult, allQuestionTopics] = featuredExpertResult
+    if (profileResult.data) {
+      const questionIds = new Set((expertAnswers.data ?? []).map(a => a.question_id))
+      const topicCounts = {}
+      for (const qt of allQuestionTopics.data ?? []) {
+        if (questionIds.has(qt.question_id) && qt.topics) {
+          const tid = qt.topics.id
+          if (!topicCounts[tid]) topicCounts[tid] = { ...qt.topics, count: 0 }
+          topicCounts[tid].count += 1
+        }
+      }
+      const expertise = Object.values(topicCounts)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 3)
+
+      featuredExpert = {
+        ...profileResult.data,
+        answerCount: answerCountResult.count ?? 0,
+        expertise,
+      }
+    }
+  }
 
   // Prioritize followed-topic questions for signed-in users
   let recentQuestions = recentQuestionsRaw
@@ -294,6 +347,72 @@ export default async function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* Featured expert spotlight */}
+      {featuredExpert && (
+        <section>
+          <h2 className="text-base font-semibold text-warm-800 mb-4">
+            Featured Expert
+          </h2>
+          <div className="bg-white rounded-lg border border-warm-200 p-6 relative">
+            <div className="absolute top-4 right-4 flex items-center gap-1 text-xs font-medium text-accent-600">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 1l2.39 6.34H19l-5.3 3.85L15.3 18 10 13.82 4.7 18l1.61-6.81L1 7.34h6.61L10 1z" />
+              </svg>
+              Featured
+            </div>
+            <div className="flex items-start gap-4">
+              {featuredExpert.avatar_url ? (
+                <img
+                  src={featuredExpert.avatar_url}
+                  alt={featuredExpert.display_name}
+                  className="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                />
+              ) : (
+                <div className="w-14 h-14 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 font-bold text-lg flex-shrink-0">
+                  {featuredExpert.display_name?.charAt(0)?.toUpperCase()}
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="font-bold text-warm-900">{featuredExpert.display_name}</p>
+                {featuredExpert.headline && (
+                  <p className="text-sm text-warm-600 mt-0.5">{featuredExpert.headline}</p>
+                )}
+                {featuredExpert.bio && (
+                  <p className="text-sm text-warm-500 mt-2 leading-relaxed">
+                    {featuredExpert.bio.length > 150
+                      ? featuredExpert.bio.slice(0, 150).trim() + '...'
+                      : featuredExpert.bio}
+                  </p>
+                )}
+                <div className="flex items-center gap-4 mt-3 text-sm text-warm-500">
+                  <span>{featuredExpert.answerCount} {featuredExpert.answerCount === 1 ? 'answer' : 'answers'}</span>
+                  <span>{featuredExpert.follower_count ?? 0} followers</span>
+                </div>
+                {featuredExpert.expertise.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {featuredExpert.expertise.map(t => (
+                      <Link
+                        key={t.id}
+                        href={`/topics/${t.slug}`}
+                        className="text-xs px-2.5 py-1 rounded-md bg-warm-100 text-warm-600 font-medium hover:bg-warm-200 transition-colors"
+                      >
+                        {t.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                <Link
+                  href={`/expert/${featuredExpert.handle}`}
+                  className="inline-block mt-3 text-sm text-accent-600 hover:text-accent-700 font-medium"
+                >
+                  View profile
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
       )}
