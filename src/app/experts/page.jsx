@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import FollowButtonSmall from '@/components/FollowButtonSmall'
 
 export const revalidate = 300
 
@@ -14,13 +15,21 @@ export default async function ExpertsPage({ searchParams }) {
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10)
 
-  // Parallel fetch: profiles, answers, question_topics with topics, all topics, monthly question count
+  // Auth check for follow buttons
+  const { data: { user } } = await supabase.auth.getUser()
+
+  // Parallel fetch: profiles, answers, question_topics with topics, all topics, monthly question count, user follows
+  const followsQuery = user
+    ? supabase.from('follows').select('following_id').eq('follower_id', user.id)
+    : Promise.resolve({ data: [] })
+
   const [
     { data: profiles },
     { data: answers },
     { data: questionTopics },
     { data: allTopics },
     { count: totalQuestionsThisMonth },
+    { data: userFollows },
   ] = await Promise.all([
     supabase
       .from('profiles')
@@ -41,7 +50,10 @@ export default async function ExpertsPage({ searchParams }) {
       .lte('publish_date', now.toISOString().slice(0, 10))
       .gte('publish_date', startOfMonth)
       .in('status', ['scheduled', 'published']),
+    followsQuery,
   ])
+
+  const followedIds = new Set((userFollows ?? []).map(f => f.following_id))
 
   if (!answers || answers.length === 0) {
     return (
@@ -264,7 +276,7 @@ export default async function ExpertsPage({ searchParams }) {
                   )}
                 </div>
 
-                {/* Stats */}
+                {/* Stats + Follow */}
                 <div className="flex items-center gap-4 flex-shrink-0 text-sm">
                   <div className="text-center">
                     <p className="font-semibold text-warm-900">{entry.answers}</p>
@@ -278,6 +290,12 @@ export default async function ExpertsPage({ searchParams }) {
                     <p className="font-semibold text-warm-900">{entry.likes}</p>
                     <p className="text-xs text-warm-400">{entry.likes === 1 ? 'like' : 'likes'}</p>
                   </div>
+                  {user && user.id !== entry.id && (
+                    <FollowButtonSmall
+                      targetUserId={entry.id}
+                      isFollowing={followedIds.has(entry.id)}
+                    />
+                  )}
                 </div>
               </Link>
             )
