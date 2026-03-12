@@ -63,11 +63,11 @@ Plans:
   1. User sees a trending section on the homepage showing recent answers ranked by engagement (views, bookmarks), updated regularly
   2. User can browse past questions (beyond today's question) and see all answers submitted for each, organized chronologically
   3. On any answer page, user sees "more from this expert" linking to the expert's other answers, and "other answers to this question" linking to peer responses
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 12-01: TBD
-- [ ] 12-02: TBD
+- [ ] 12-01-PLAN.md — Trending homepage section + question archive enhancements
+- [ ] 12-02-PLAN.md — Related content sections on answer pages (more from expert + other perspectives)
 
 #### Phase 13: Expert Directory
 **Goal**: Users can discover experts by topic, activity, and editorial curation
@@ -89,9 +89,9 @@ Plans:
 |-------|----------------|--------|-----------|
 | 10. Topic Taxonomy & Browse | 2/2 | Complete    | 2026-02-28 |
 | 11. Search | 2/2 | Complete    | 2026-02-28 |
-| 12. Content Surfacing | 0/? | Not started | - |
+| 12. Content Surfacing | 0/2 | In progress | - |
 | 13. Expert Directory | 0/? | Not started | - |
 
 ---
 
-*Last updated: 2026-02-28*
+*Last updated: 2026-03-11*
