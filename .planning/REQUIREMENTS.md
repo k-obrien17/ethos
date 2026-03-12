@@ -23,11 +23,11 @@ Requirements for Social & Engagement milestone. Each maps to roadmap phases.
 
 ### Notifications
 
-- [ ] **NOTF-01**: User receives in-app notification when someone comments on their answer
-- [ ] **NOTF-02**: User receives in-app notification when someone follows them
-- [ ] **NOTF-03**: User receives in-app notification when someone replies to their comment
-- [ ] **NOTF-04**: User receives in-app notification when a followed expert posts an answer
-- [ ] **NOTF-05**: User receives in-app notification when their answer is featured
+- [x] **NOTF-01**: User receives in-app notification when someone comments on their answer
+- [x] **NOTF-02**: User receives in-app notification when someone follows them
+- [x] **NOTF-03**: User receives in-app notification when someone replies to their comment
+- [x] **NOTF-04**: User receives in-app notification when a followed expert posts an answer
+- [x] **NOTF-05**: User receives in-app notification when their answer is featured
 - [ ] **NOTF-06**: User receives email for notifications based on their email preferences
 - [ ] **NOTF-07**: User can configure notification preferences (per-type on/off)
 
@@ -73,11 +73,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FLLW-01 | Phase 15 | Complete |
 | FLLW-02 | Phase 15 | Complete |
 | FLLW-03 | Phase 15 | Complete |
-| NOTF-01 | Phase 16 | Pending |
-| NOTF-02 | Phase 16 | Pending |
-| NOTF-03 | Phase 16 | Pending |
-| NOTF-04 | Phase 16 | Pending |
-| NOTF-05 | Phase 16 | Pending |
+| NOTF-01 | Phase 16 | Complete |
+| NOTF-02 | Phase 16 | Complete |
+| NOTF-03 | Phase 16 | Complete |
+| NOTF-04 | Phase 16 | Complete |
+| NOTF-05 | Phase 16 | Complete |
 | NOTF-06 | Phase 16 | Pending |
 | NOTF-07 | Phase 16 | Pending |
 

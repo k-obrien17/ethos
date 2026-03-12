@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-03-12T18:30:30.853Z"
+last_updated: "2026-03-12T20:15:27Z"
 progress:
   total_phases: 15
   completed_phases: 6
   total_plans: 11
-  completed_plans: 13
+  completed_plans: 14
 ---
 
 # Project State: Ethos
@@ -22,10 +22,10 @@ See: .planning/PROJECT.md (updated 2026-03-12)
 
 ## Current Position
 
-Phase: 15 of 16 (Follow Experts)
-Plan: 2 of 2 complete
-Status: Phase 15 plan 02 complete
-Last activity: 2026-03-12 -- Phase 15-02 follow-expert feed prioritization complete
+Phase: 16 of 16 (Notifications)
+Plan: 1 of 2 complete
+Status: Phase 16 plan 01 complete
+Last activity: 2026-03-12 -- Phase 16-01 notification types complete
 
 Progress: [███░░░░░░░] 33%
 
@@ -65,6 +65,7 @@ Recent decisions affecting current work:
 - Allowed self-reply on comments (users can add follow-ups to own comments)
 - [Phase 15-01]: FollowButtonSmall uses stopPropagation pattern for buttons inside Link wrappers; follows query runs in parallel with existing fetches
 - [Phase 15-02]: Used Set for O(1) followedExpertIds lookup in feed sort comparator
+- [Phase 16-01]: Used admin client for follower notification fan-out (bypasses RLS); skip reply notification when parent author is answer author (avoids duplicate)
 
 ### Pending Todos
 
@@ -75,9 +76,10 @@ None.
 - v1 + v2 are code-complete but not yet deployed
 - Migration 00013_search_indexes.sql must be applied to Supabase before search is functional
 - Migration 00023_featured_expert.sql must be applied to Supabase for featured expert functionality
+- Migration 00025_notification_types.sql must be applied to Supabase for new notification types
 
 ## Session Continuity
 
 Last session: 2026-03-12
-Stopped at: Completed 15-01-PLAN.md (Follow experts from directory)
+Stopped at: Completed 16-01-PLAN.md (Notification types)
 Resume file: None
