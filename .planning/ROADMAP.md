@@ -89,7 +89,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 10. Topic Taxonomy & Browse | 2/2 | Complete    | 2026-02-28 |
 | 11. Search | 2/2 | Complete    | 2026-02-28 |
-| 12. Content Surfacing | 2/2 | Complete   | 2026-03-12 |
+| 12. Content Surfacing | 2/2 | Complete    | 2026-03-12 |
 | 13. Expert Directory | 0/? | Not started | - |
 
 ---
