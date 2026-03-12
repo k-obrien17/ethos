@@ -124,7 +124,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 14. Comments | 1/1 | Complete    | 2026-03-12 |
-| 15. Follow Experts | 2/2 | Complete   | 2026-03-12 |
+| 15. Follow Experts | 2/2 | Complete    | 2026-03-12 |
 | 16. Notifications | 0/? | Not started | - |
 
 ---
