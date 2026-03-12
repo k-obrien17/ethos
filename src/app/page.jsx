@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { subDays } from 'date-fns'
 import QuestionCard from '@/components/QuestionCard'
 import AnswerCard from '@/components/AnswerCard'
 import Link from 'next/link'
@@ -8,9 +9,10 @@ export const revalidate = 60
 export default async function HomePage() {
   const supabase = await createClient()
   const today = new Date().toISOString().slice(0, 10)
+  const sevenDaysAgo = subDays(new Date(), 7).toISOString()
 
-  // Parallel: auth + today's question + recent questions
-  const [{ data: { user } }, { data: todayQuestion }, { data: recentQuestionsRaw }] =
+  // Parallel: auth + today's question + recent questions + trending candidates
+  const [{ data: { user } }, { data: todayQuestion }, { data: recentQuestionsRaw }, { data: trendingRaw }] =
     await Promise.all([
       supabase.auth.getUser(),
       supabase
@@ -28,6 +30,16 @@ export default async function HomePage() {
         .in('status', ['scheduled', 'published'])
         .order('publish_date', { ascending: false })
         .limit(10),
+      supabase
+        .from('answers')
+        .select(`
+          id, body, view_count, like_count, created_at,
+          profiles!answers_expert_id_fkey(display_name, handle, avatar_url),
+          questions!inner(body, slug)
+        `)
+        .gte('created_at', sevenDaysAgo)
+        .order('view_count', { ascending: false })
+        .limit(20),
     ])
 
   // Parallel: user-specific queries + today's answers (depends on todayQuestion + user)
@@ -100,6 +112,16 @@ export default async function HomePage() {
     }
     userLikedAnswerIds = new Set((likesResult.data ?? []).map(l => l.answer_id))
   }
+
+  // Compute trending: score = view_count + (like_count * 2), take top 5
+  const trendingAnswers = (trendingRaw ?? [])
+    .filter(a => (a.view_count ?? 0) > 0 || (a.like_count ?? 0) > 0)
+    .map(a => ({ ...a, score: (a.view_count ?? 0) + (a.like_count ?? 0) * 2 }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+
+  const plainExcerpt = (text, len) =>
+    text.replace(/[#*_~`>\[\]()!|-]/g, '').slice(0, len).trim() + (text.length > len ? '...' : '')
 
   // Prioritize followed-topic questions for signed-in users
   let recentQuestions = recentQuestionsRaw
@@ -218,6 +240,61 @@ export default async function HomePage() {
           <p className="text-warm-400 text-sm mt-2">
             No question published yet today. Check back soon.
           </p>
+        </section>
+      )}
+
+      {/* Trending this week */}
+      {trendingAnswers.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-base font-semibold text-warm-800">
+              Trending This Week
+            </h2>
+            <Link
+              href="/trending"
+              className="text-sm text-accent-600 hover:text-accent-700 font-medium"
+            >
+              See all
+            </Link>
+          </div>
+          <div className="divide-y divide-warm-100">
+            {trendingAnswers.map((answer) => (
+              <div key={answer.id} className="py-4">
+                <div className="flex items-center gap-2 mb-2">
+                  {answer.profiles?.avatar_url ? (
+                    <img src={answer.profiles.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-warm-200 flex items-center justify-center text-warm-500 text-xs font-medium">
+                      {answer.profiles?.display_name?.charAt(0)?.toUpperCase()}
+                    </div>
+                  )}
+                  <Link href={`/expert/${answer.profiles?.handle}`} className="text-sm font-medium text-warm-700 hover:text-warm-900">
+                    {answer.profiles?.display_name}
+                  </Link>
+                </div>
+                <Link href={`/q/${answer.questions?.slug}`} className="block text-sm font-semibold text-warm-900 hover:text-accent-600 transition-colors mb-1">
+                  {answer.questions?.body}
+                </Link>
+                <p className="text-sm text-warm-500 leading-relaxed mb-2">
+                  {plainExcerpt(answer.body, 200)}
+                </p>
+                <div className="flex items-center gap-3 text-xs text-warm-400">
+                  {(answer.view_count ?? 0) > 0 && <span>{answer.view_count} views</span>}
+                  {(answer.like_count ?? 0) > 0 && (
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3.5 h-3.5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                      </svg>
+                      {answer.like_count}
+                    </span>
+                  )}
+                  <Link href={`/answers/${answer.id}`} className="text-accent-600 hover:text-accent-700 font-medium ml-auto">
+                    Read more
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
       )}
 
