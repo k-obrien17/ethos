@@ -32,7 +32,7 @@ export default async function FollowingPage() {
             Follow experts to see their answers here.
           </p>
           <Link
-            href="/leaderboard"
+            href="/experts"
             className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
           >
             Discover experts
@@ -41,6 +41,13 @@ export default async function FollowingPage() {
       </div>
     )
   }
+
+  // Get profile details for followed experts
+  const { data: followedProfiles } = await supabase
+    .from('profiles')
+    .select('id, handle, display_name, avatar_url, headline, organization, follower_count')
+    .in('id', followingIds)
+    .order('display_name', { ascending: true })
 
   // Get recent answers from followed experts
   const { data: answers } = await supabase
@@ -90,6 +97,45 @@ export default async function FollowingPage() {
           {followingIds.length} {followingIds.length === 1 ? 'expert' : 'experts'}
         </span>
       </div>
+
+      {/* Your Experts section */}
+      {(followedProfiles ?? []).length > 0 && (
+        <div>
+          <h2 className="text-sm font-semibold text-warm-700 mb-3">Your Experts</h2>
+          <div className="flex flex-wrap gap-3">
+            {(followedProfiles ?? []).map(profile => (
+              <Link
+                key={profile.id}
+                href={`/expert/${profile.handle}`}
+                className="bg-white rounded-lg border border-warm-200 p-3 flex items-center gap-3 hover:border-warm-300 transition-colors"
+              >
+                {profile.avatar_url ? (
+                  <img
+                    src={profile.avatar_url}
+                    alt={profile.display_name}
+                    className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 font-medium text-xs flex-shrink-0">
+                    {profile.display_name?.charAt(0)?.toUpperCase()}
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="font-medium text-sm text-warm-900 truncate">{profile.display_name}</p>
+                  <p className="text-xs text-warm-500 truncate">
+                    {profile.headline || profile.organization || `${profile.follower_count ?? 0} followers`}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recent from your experts */}
+      {allAnswers.length > 0 && (
+        <h2 className="text-sm font-semibold text-warm-700">Recent from your experts</h2>
+      )}
 
       {allAnswers.length > 0 ? (
         <div className="space-y-4">
