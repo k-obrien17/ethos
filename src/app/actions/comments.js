@@ -57,6 +57,29 @@ export async function addComment(prevState, formData) {
     }).then(() => {})
   }
 
+  // Notify parent comment author on reply (fire-and-forget)
+  if (parentId) {
+    const { data: parentComment } = await supabase
+      .from('answer_comments')
+      .select('user_id')
+      .eq('id', parentId)
+      .single()
+
+    if (
+      parentComment &&
+      parentComment.user_id !== user.id &&
+      parentComment.user_id !== answer?.expert_id
+    ) {
+      supabase.from('notifications').insert({
+        user_id: parentComment.user_id,
+        type: 'comment_reply',
+        actor_id: user.id,
+        answer_id: answerId,
+        body: body.slice(0, 100),
+      }).then(() => {})
+    }
+  }
+
   if (answer?.questions?.slug) {
     revalidatePath(`/q/${answer.questions.slug}`)
   }
