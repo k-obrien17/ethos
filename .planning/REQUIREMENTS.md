@@ -9,9 +9,9 @@ Requirements for Scale & Infrastructure milestone. Each maps to roadmap phases.
 
 ### Deploy Pipeline
 
-- [ ] **DPLY-01**: GitHub Actions CI runs lint and build checks on every push
+- [x] **DPLY-01**: GitHub Actions CI runs lint and build checks on every push
 - [ ] **DPLY-02**: Vercel preview deployments are created for every pull request
-- [ ] **DPLY-03**: Database migrations have a documented workflow (apply before deploy, rollback plan)
+- [x] **DPLY-03**: Database migrations have a documented workflow (apply before deploy, rollback plan)
 - [ ] **DPLY-04**: Production deploys require passing CI checks before merge to main
 
 ### Caching
@@ -67,9 +67,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DPLY-01 | Phase 21 | Pending |
+| DPLY-01 | Phase 21 | Complete |
 | DPLY-02 | Phase 21 | Pending |
-| DPLY-03 | Phase 21 | Pending |
+| DPLY-03 | Phase 21 | Complete |
 | DPLY-04 | Phase 21 | Pending |
 | CACH-01 | Phase 22 | Pending |
 | CACH-02 | Phase 22 | Pending |

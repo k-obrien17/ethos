@@ -243,7 +243,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 21. Deploy Pipeline | 0/2 | Planned | - |
+| 21. Deploy Pipeline | 1/2 | In Progress|  |
 | 22. Caching & Static Generation | 0/? | Not started | - |
 | 23. Monitoring | 0/? | Not started | - |
 
