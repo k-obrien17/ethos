@@ -17,10 +17,10 @@ Requirements for Growth & Polish milestone. Each maps to roadmap phases.
 
 ### Analytics
 
-- [ ] **ANLY-01**: Vercel Analytics is integrated and tracking page views and Web Vitals
-- [ ] **ANLY-02**: Admin can view a dashboard showing DAU, answer submission rates, and expert engagement
+- [x] **ANLY-01**: Vercel Analytics is integrated and tracking page views and Web Vitals
+- [x] **ANLY-02**: Admin can view a dashboard showing DAU, answer submission rates, and expert engagement
 - [ ] **ANLY-03**: Admin dashboard shows growth trends (weekly/monthly comparisons)
-- [ ] **ANLY-04**: Admin can see most popular questions and most active experts
+- [x] **ANLY-04**: Admin can see most popular questions and most active experts
 
 ### Performance
 
@@ -81,10 +81,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEO-03 | Phase 17 | Complete |
 | SEO-04 | Phase 17 | Complete |
 | SEO-05 | Phase 17 | Complete |
-| ANLY-01 | Phase 20 | Pending |
-| ANLY-02 | Phase 20 | Pending |
+| ANLY-01 | Phase 20 | Complete |
+| ANLY-02 | Phase 20 | Complete |
 | ANLY-03 | Phase 20 | Pending |
-| ANLY-04 | Phase 20 | Pending |
+| ANLY-04 | Phase 20 | Complete |
 | PERF-01 | Phase 18 | Complete |
 | PERF-02 | Phase 18 | Complete |
 | PERF-03 | Phase 18 | Complete |
