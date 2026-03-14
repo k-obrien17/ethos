@@ -124,8 +124,36 @@ export default async function AnswerPage({ params }) {
 
   const isLiked = !!likeResult.data
 
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ethos-daily.vercel.app'
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `${answer.profiles?.display_name} on "${answer.questions?.body}"`,
+    articleBody: answer.body,
+    datePublished: answer.created_at,
+    author: {
+      '@type': 'Person',
+      name: answer.profiles?.display_name,
+      url: `${BASE_URL}/expert/${answer.profiles?.handle}`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Ethos',
+      url: BASE_URL,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${BASE_URL}/answers/${answer.id}`,
+    },
+  }
+
   return (
     <div className="space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Question context */}
       <div>
         <Link

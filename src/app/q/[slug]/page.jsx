@@ -176,8 +176,48 @@ export default async function QuestionPage({ params }) {
     }
   }
 
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ethos-daily.vercel.app'
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'QAPage',
+    mainEntity: {
+      '@type': 'Question',
+      name: question.body,
+      text: question.body,
+      dateCreated: question.publish_date,
+      answerCount: sortedAnswers.length,
+      ...(sortedAnswers.length > 0 && {
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: sortedAnswers[0].body?.slice(0, 500),
+          dateCreated: sortedAnswers[0].created_at,
+          author: {
+            '@type': 'Person',
+            name: sortedAnswers[0].profiles?.display_name,
+            url: `${BASE_URL}/expert/${sortedAnswers[0].profiles?.handle}`,
+          },
+        },
+        suggestedAnswer: sortedAnswers.slice(1).map(a => ({
+          '@type': 'Answer',
+          text: a.body?.slice(0, 500),
+          dateCreated: a.created_at,
+          author: {
+            '@type': 'Person',
+            name: a.profiles?.display_name,
+            url: `${BASE_URL}/expert/${a.profiles?.handle}`,
+          },
+        })),
+      }),
+    },
+  }
+
   return (
     <div className="space-y-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Question */}
       <section>
         <div className="flex items-center gap-2 mb-3">
