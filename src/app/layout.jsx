@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google'
+import { Toaster } from 'sonner'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -58,6 +59,7 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
+        <Toaster position="bottom-right" richColors duration={3000} />
       </body>
     </html>
   )
