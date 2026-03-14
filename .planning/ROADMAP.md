@@ -74,15 +74,12 @@
 
 ---
 
-## v4 — Social & Engagement
+## v4 — Social & Engagement (Complete)
 
-**Goal:** Make the platform feel alive -- experts discuss each other's answers, users follow experts they admire, and everyone gets notified when something they care about happens.
+3 phases, 5 plans, 15 requirements. See [v4-REQUIREMENTS.md](milestones/v4-REQUIREMENTS.md) for full archive.
 
-### Phases
-
-- [x] **Phase 14: Comments** - Experts and invited users can discuss answers with one-level threading
-- [x] **Phase 15: Follow Experts** - Users follow experts and get a personalized feed (completed 2026-03-12)
-- [x] **Phase 16: Notifications** - In-app and email notifications for comments, follows, new posts, and featured answers (completed 2026-03-12)
+<details>
+<summary>v4 Phase Details (Phases 14-16)</summary>
 
 ### Phase Details
 
@@ -106,7 +103,7 @@
   1. User can follow or unfollow an expert from the expert's profile page or the expert directory, and the action persists across sessions
   2. User's homepage feed shows answers from followed experts before other answers, without hiding unfollowed content
   3. User can navigate to a dedicated page listing all experts they follow, with links to each expert's profile
-**Plans**: TBD
+**Plans**: 2/2 complete
 
 #### Phase 16: Notifications
 **Goal**: Users stay informed about activity that matters to them without having to check manually
@@ -117,18 +114,84 @@
   2. When a followed expert posts a new answer, the user receives an in-app notification linking to that answer
   3. User receives email digests for notification types they have opted into, delivered via the existing Resend cron infrastructure
   4. User can visit a notification preferences page and toggle each notification type (comments, follows, followed-expert posts, featured) on or off independently for both in-app and email channels
-**Plans**: 2 plans
-- [ ] 16-01-PLAN.md — Missing notification types (comment-reply, followed-expert-posted) + feed UI
-- [ ] 16-02-PLAN.md — Notification preferences (in-app + email toggles) + email digest cron
+**Plans**: 2/2 complete
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 14. Comments | 1/1 | Complete | 2026-03-12 |
+| 15. Follow Experts | 2/2 | Complete | 2026-03-12 |
+| 16. Notifications | 2/2 | Complete | 2026-03-12 |
+
+</details>
+
+---
+
+## v5 — Growth & Polish
+
+**Goal:** Make the platform discoverable, measurable, and fast -- so it's ready for real growth beyond the initial beta cohort.
+
+### Phases
+
+- [ ] **Phase 17: SEO** - Search engines can discover and richly index all public content
+- [ ] **Phase 18: Performance** - All pages load fast with optimized assets and Core Web Vitals scores
+- [ ] **Phase 19: UX Polish** - Error states, empty states, action feedback, and accessibility create a reliable experience
+- [ ] **Phase 20: Analytics** - Admin can measure platform health and growth through integrated analytics
+
+### Phase Details
+
+#### Phase 17: SEO
+**Goal**: Search engines can discover, crawl, and richly index every public page on the platform
+**Depends on**: v4 complete (phases 14-16)
+**Requirements**: SEO-01, SEO-02, SEO-03, SEO-04, SEO-05
+**Success Criteria** (what must be TRUE):
+  1. Every public page (question, answer, expert profile, topic) renders a unique meta title and description visible in browser tabs and search result previews
+  2. Question and answer pages include JSON-LD structured data that passes Google's Rich Results Test
+  3. Visiting /sitemap.xml returns a valid sitemap listing all published questions, expert profiles, and topic pages -- and it updates as new content is added
+  4. Every page has a canonical URL in the `<head>`, and no duplicate URLs appear in search indexes
+  5. Visiting /robots.txt shows crawlers allowed on public routes and blocked from /admin and /dashboard paths
+**Plans**: TBD
+
+#### Phase 18: Performance
+**Goal**: Every page loads fast with optimized images, minimal layout shift, and visible loading states
+**Depends on**: v4 complete (phases 14-16); independent of Phase 17
+**Requirements**: PERF-01, PERF-02, PERF-03
+**Success Criteria** (what must be TRUE):
+  1. All key pages (homepage, question, answer, expert profile) score 90+ on Lighthouse performance with LCP under 2.5s and CLS under 0.1
+  2. All images use next/image with appropriate sizing, lazy loading, and modern formats (WebP/AVIF)
+  3. Users see content-shaped skeleton placeholders instead of blank screens while data loads on the homepage, question feed, and expert directory
+**Plans**: TBD
+
+#### Phase 19: UX Polish
+**Goal**: Users encounter clear feedback at every interaction -- errors are handled gracefully, empty states guide action, and the interface is accessible
+**Depends on**: Phase 18 (skeleton patterns established in Phase 18 inform loading UX consistency)
+**Requirements**: UXP-01, UXP-02, UXP-03, UXP-04
+**Success Criteria** (what must be TRUE):
+  1. When a page or component fails to load, users see a friendly error message with a retry option instead of a blank screen or crash
+  2. Pages with no content (no answers yet, no followers, no bookmarks) show contextual guidance pointing users to a next action
+  3. After completing actions (saving an answer, following an expert, deleting a comment), users see a brief toast notification confirming what happened
+  4. All interactive elements (buttons, links, form controls) have visible focus indicators, ARIA labels, and work with keyboard-only navigation
+**Plans**: TBD
+
+#### Phase 20: Analytics
+**Goal**: Admin can see how the platform is performing and where growth is happening
+**Depends on**: Phase 18 (performance baseline established before measuring)
+**Requirements**: ANLY-01, ANLY-02, ANLY-03, ANLY-04
+**Success Criteria** (what must be TRUE):
+  1. Vercel Analytics script is loaded on all pages, and page views and Web Vitals data appear in the Vercel dashboard
+  2. Admin can visit an analytics page showing daily active users, answer submission rates, and expert engagement metrics
+  3. Admin dashboard displays weekly and monthly comparison charts showing growth trends over time
+  4. Admin can see a ranked list of most popular questions (by views/answers) and most active experts (by answer count/engagement)
+**Plans**: TBD
 
 ### Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 14. Comments | 1/1 | Complete    | 2026-03-12 |
-| 15. Follow Experts | 2/2 | Complete    | 2026-03-12 |
-| 16. Notifications | 2/2 | Complete    | 2026-03-12 |
+| 17. SEO | 0/? | Not started | - |
+| 18. Performance | 0/? | Not started | - |
+| 19. UX Polish | 0/? | Not started | - |
+| 20. Analytics | 0/? | Not started | - |
 
 ---
 
-*Last updated: 2026-03-12 -- Phase 16 planned*
+*Last updated: 2026-03-14 -- v5 roadmap created*

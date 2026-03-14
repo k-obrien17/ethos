@@ -76,28 +76,28 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEO-01 | TBD | Pending |
-| SEO-02 | TBD | Pending |
-| SEO-03 | TBD | Pending |
-| SEO-04 | TBD | Pending |
-| SEO-05 | TBD | Pending |
-| ANLY-01 | TBD | Pending |
-| ANLY-02 | TBD | Pending |
-| ANLY-03 | TBD | Pending |
-| ANLY-04 | TBD | Pending |
-| PERF-01 | TBD | Pending |
-| PERF-02 | TBD | Pending |
-| PERF-03 | TBD | Pending |
-| UXP-01 | TBD | Pending |
-| UXP-02 | TBD | Pending |
-| UXP-03 | TBD | Pending |
-| UXP-04 | TBD | Pending |
+| SEO-01 | Phase 17 | Pending |
+| SEO-02 | Phase 17 | Pending |
+| SEO-03 | Phase 17 | Pending |
+| SEO-04 | Phase 17 | Pending |
+| SEO-05 | Phase 17 | Pending |
+| ANLY-01 | Phase 20 | Pending |
+| ANLY-02 | Phase 20 | Pending |
+| ANLY-03 | Phase 20 | Pending |
+| ANLY-04 | Phase 20 | Pending |
+| PERF-01 | Phase 18 | Pending |
+| PERF-02 | Phase 18 | Pending |
+| PERF-03 | Phase 18 | Pending |
+| UXP-01 | Phase 19 | Pending |
+| UXP-02 | Phase 19 | Pending |
+| UXP-03 | Phase 19 | Pending |
+| UXP-04 | Phase 19 | Pending |
 
 **Coverage:**
 - v5 requirements: 16 total
-- Mapped to phases: 0
-- Unmapped: 16 ⚠️
+- Mapped to phases: 16
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-14*
-*Last updated: 2026-03-14 after initial definition*
+*Last updated: 2026-03-14 after roadmap creation*
