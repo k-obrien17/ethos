@@ -1,5 +1,7 @@
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -61,6 +63,8 @@ export default function RootLayout({ children }) {
         </main>
         <Footer />
         <Toaster position="bottom-right" richColors duration={3000} />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
