@@ -36,10 +36,23 @@
 .prose-answer ol { @apply list-decimal ml-5; }
 .prose-answer li { @apply mb-1; }
 
+/* Skip to main content link for keyboard/screen reader users */
+.skip-link {
+  @apply absolute -top-10 left-4 bg-accent-600 text-white px-4 py-2 rounded-md z-50 text-sm font-medium;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  @apply top-4;
+}
+
 /* Global focus-visible ring for interactive elements */
 a:focus-visible,
 button:focus-visible,
-[role="button"]:focus-visible {
+[role="button"]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
   @apply outline-2 outline-offset-2 outline-accent-500 rounded-sm;
 }
 
