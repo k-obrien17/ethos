@@ -6,6 +6,12 @@ import Link from 'next/link'
 
 export const revalidate = 60
 
+export const metadata = {
+  title: 'Ethos — What You Choose to Answer Reveals What You Stand For',
+  description: 'A thought leadership platform where experts answer one curated question per day. Browse expert perspectives on today\'s most important questions.',
+  alternates: { canonical: '/' },
+}
+
 export default async function HomePage() {
   const supabase = await createClient()
   const today = new Date().toISOString().slice(0, 10)

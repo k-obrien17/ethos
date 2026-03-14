@@ -10,8 +10,8 @@ export const revalidate = 300
 export async function generateMetadata({ searchParams }) {
   const params = await searchParams
   const q = params.q
-  if (q) return { title: `Search: ${q}` }
-  return { title: 'Search' }
+  if (q) return { title: `Search: ${q}`, alternates: { canonical: '/search' } }
+  return { title: 'Search', alternates: { canonical: '/search' } }
 }
 
 function buildSearchUrl(baseParams, overrides) {

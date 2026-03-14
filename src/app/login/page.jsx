@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Note: metadata for this page is defined in login/layout.jsx since this is a client component
+
 export default function LoginPage() {
   const supabase = createClient()
   const searchParams = useSearchParams()
