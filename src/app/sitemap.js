@@ -5,7 +5,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ethos-daily.vercel
 export default async function sitemap() {
   const supabase = createAdminClient()
 
-  const [{ data: questions }, { data: profiles }, { data: topics }] = await Promise.all([
+  const [{ data: questions }, { data: profiles }, { data: topics }, { data: answers }] = await Promise.all([
     supabase
       .from('questions')
       .select('slug, publish_date')
@@ -20,6 +20,10 @@ export default async function sitemap() {
       .from('topics')
       .select('slug')
       .order('name'),
+    supabase
+      .from('answers')
+      .select('id, created_at')
+      .order('created_at', { ascending: false }),
   ])
 
   const staticPages = [
@@ -44,11 +48,18 @@ export default async function sitemap() {
     priority: 0.6,
   }))
 
+  const answerPages = (answers ?? []).map(a => ({
+    url: `${BASE_URL}/answers/${a.id}`,
+    lastModified: a.created_at ? new Date(a.created_at) : new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.5,
+  }))
+
   const topicPages = (topics ?? []).map(t => ({
     url: `${BASE_URL}/topics/${t.slug}`,
     changeFrequency: 'weekly',
     priority: 0.5,
   }))
 
-  return [...staticPages, ...questionPages, ...profilePages, ...topicPages]
+  return [...staticPages, ...questionPages, ...answerPages, ...profilePages, ...topicPages]
 }
