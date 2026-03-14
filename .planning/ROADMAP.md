@@ -196,7 +196,7 @@
 |-------|----------------|--------|-----------|
 | 17. SEO | 2/2 | Complete    | 2026-03-14 |
 | 18. Performance | 2/2 | Complete    | 2026-03-14 |
-| 19. UX Polish | 3/3 | Complete   | 2026-03-14 |
+| 19. UX Polish | 3/3 | Complete    | 2026-03-14 |
 | 20. Analytics | 0/? | Not started | - |
 
 ---
