@@ -3,6 +3,7 @@ import { subDays } from 'date-fns'
 import QuestionCard from '@/components/QuestionCard'
 import AnswerCard from '@/components/AnswerCard'
 import Link from 'next/link'
+import Avatar from '@/components/Avatar'
 
 export const revalidate = 60
 
@@ -334,13 +335,7 @@ export default async function HomePage() {
             {trendingAnswers.map((answer) => (
               <div key={answer.id} className="py-4">
                 <div className="flex items-center gap-2 mb-2">
-                  {answer.profiles?.avatar_url ? (
-                    <img src={answer.profiles.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover" />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-warm-200 flex items-center justify-center text-warm-500 text-xs font-medium">
-                      {answer.profiles?.display_name?.charAt(0)?.toUpperCase()}
-                    </div>
-                  )}
+                  <Avatar src={answer.profiles?.avatar_url} alt={answer.profiles?.display_name || 'Expert'} size={32} />
                   <Link href={`/expert/${answer.profiles?.handle}`} className="text-sm font-medium text-warm-700 hover:text-warm-900">
                     {answer.profiles?.display_name}
                   </Link>
@@ -385,17 +380,7 @@ export default async function HomePage() {
               Featured
             </div>
             <div className="flex items-start gap-4">
-              {featuredExpert.avatar_url ? (
-                <img
-                  src={featuredExpert.avatar_url}
-                  alt={featuredExpert.display_name}
-                  className="w-14 h-14 rounded-full object-cover flex-shrink-0"
-                />
-              ) : (
-                <div className="w-14 h-14 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 font-bold text-lg flex-shrink-0">
-                  {featuredExpert.display_name?.charAt(0)?.toUpperCase()}
-                </div>
-              )}
+              <Avatar src={featuredExpert.avatar_url} alt={featuredExpert.display_name || 'Expert'} size={56} />
               <div className="min-w-0 flex-1">
                 <p className="font-bold text-warm-900">{featuredExpert.display_name}</p>
                 {featuredExpert.headline && (

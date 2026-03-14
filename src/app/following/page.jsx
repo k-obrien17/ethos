@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import AnswerCard from '@/components/AnswerCard'
+import Avatar from '@/components/Avatar'
 
 export const metadata = {
   title: 'Following',
@@ -109,17 +110,7 @@ export default async function FollowingPage() {
                 href={`/expert/${profile.handle}`}
                 className="bg-white rounded-lg border border-warm-200 p-3 flex items-center gap-3 hover:border-warm-300 transition-colors"
               >
-                {profile.avatar_url ? (
-                  <img
-                    src={profile.avatar_url}
-                    alt={profile.display_name}
-                    className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 font-medium text-xs flex-shrink-0">
-                    {profile.display_name?.charAt(0)?.toUpperCase()}
-                  </div>
-                )}
+                <Avatar src={profile.avatar_url} alt={profile.display_name} size={32} />
                 <div className="min-w-0">
                   <p className="font-medium text-sm text-warm-900 truncate">{profile.display_name}</p>
                   <p className="text-xs text-warm-500 truncate">

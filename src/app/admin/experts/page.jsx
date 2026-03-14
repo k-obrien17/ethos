@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import SetFeaturedButton from './SetFeaturedButton'
+import Avatar from '@/components/Avatar'
 
 export const metadata = { title: 'Experts — Admin' }
 
@@ -67,17 +68,7 @@ export default async function AdminExpertsPage() {
               className="flex items-center justify-between gap-4 py-3 border-b border-warm-100 last:border-b-0"
             >
               <div className="flex items-center gap-3 min-w-0 flex-1">
-                {expert.avatar_url ? (
-                  <img
-                    src={expert.avatar_url}
-                    alt={expert.display_name}
-                    className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 text-xs font-medium flex-shrink-0">
-                    {expert.display_name?.charAt(0)?.toUpperCase()}
-                  </div>
-                )}
+                <Avatar src={expert.avatar_url} alt={expert.display_name} size={32} />
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-warm-900 truncate">
                     {expert.display_name}

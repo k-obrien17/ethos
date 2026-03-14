@@ -3,6 +3,7 @@ import { subDays } from 'date-fns'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import ShareButton from '@/components/ShareButton'
+import Avatar from '@/components/Avatar'
 
 export const revalidate = 300
 
@@ -60,13 +61,7 @@ export default async function TrendingPage() {
 
                   {/* Expert */}
                   <Link href={`/expert/${answer.profiles.handle}`} className="flex items-center gap-2 mb-3">
-                    {answer.profiles.avatar_url ? (
-                      <img src={answer.profiles.avatar_url} alt="" className="w-6 h-6 rounded-full object-cover" />
-                    ) : (
-                      <div className="w-6 h-6 rounded-full bg-warm-200 flex items-center justify-center text-warm-500 text-xs font-medium">
-                        {answer.profiles.display_name?.charAt(0)?.toUpperCase()}
-                      </div>
-                    )}
+                    <Avatar src={answer.profiles.avatar_url} alt={answer.profiles.display_name || 'Expert'} size={24} />
                     <span className="text-sm text-warm-700">{answer.profiles.display_name}</span>
                     {answer.profiles.headline && (
                       <span className="text-xs text-warm-400 hidden sm:inline">{answer.profiles.headline}</span>

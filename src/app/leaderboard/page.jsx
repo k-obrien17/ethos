@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import Avatar from '@/components/Avatar'
 
 export const revalidate = 300
 
@@ -81,17 +82,7 @@ export default async function LeaderboardPage() {
               </span>
 
               {/* Avatar */}
-              {profile.avatar_url ? (
-                <img
-                  src={profile.avatar_url}
-                  alt={profile.display_name}
-                  className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 font-medium text-sm flex-shrink-0">
-                  {profile.display_name?.charAt(0)?.toUpperCase()}
-                </div>
-              )}
+              <Avatar src={profile.avatar_url} alt={profile.display_name} size={40} />
 
               {/* Info */}
               <div className="min-w-0 flex-1">

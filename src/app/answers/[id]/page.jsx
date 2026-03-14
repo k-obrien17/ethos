@@ -5,6 +5,7 @@ import Link from 'next/link'
 import AnswerCard from '@/components/AnswerCard'
 import ShareButton from '@/components/ShareButton'
 import ViewTracker from '@/components/ViewTracker'
+import Avatar from '@/components/Avatar'
 
 export const revalidate = 3600
 
@@ -265,13 +266,7 @@ export default async function AnswerPage({ params }) {
             {otherPerspectives.map((a) => (
               <div key={a.id} className="py-3">
                 <div className="flex items-center gap-2 mb-1.5">
-                  {a.profiles?.avatar_url ? (
-                    <img src={a.profiles.avatar_url} alt="" className="w-8 h-8 rounded-full object-cover" />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-warm-200 flex items-center justify-center text-warm-500 text-xs font-medium">
-                      {a.profiles?.display_name?.charAt(0)?.toUpperCase()}
-                    </div>
-                  )}
+                  <Avatar src={a.profiles?.avatar_url} alt={a.profiles?.display_name || 'Expert'} size={32} />
                   <Link href={`/expert/${a.profiles?.handle}`} className="text-sm font-medium text-warm-700 hover:text-warm-900">
                     {a.profiles?.display_name}
                   </Link>

@@ -6,6 +6,7 @@ import DeleteAccountSection from '@/components/DeleteAccountSection'
 import VerifyEmailBanner from '@/components/VerifyEmailBanner'
 import BookmarkButton from '@/components/BookmarkButton'
 import { format } from 'date-fns'
+import Avatar from '@/components/Avatar'
 
 export const metadata = {
   title: 'Dashboard',
@@ -86,17 +87,7 @@ export default async function DashboardPage() {
     <div className="space-y-8">
       {/* Profile header */}
       <section className="flex items-start gap-4">
-        {profile?.avatar_url ? (
-          <img
-            src={profile.avatar_url}
-            alt={profile.display_name}
-            className="w-16 h-16 rounded-full object-cover flex-shrink-0"
-          />
-        ) : (
-          <div className="w-16 h-16 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 font-bold text-xl flex-shrink-0">
-            {profile?.display_name?.charAt(0)?.toUpperCase()}
-          </div>
-        )}
+        <Avatar src={profile?.avatar_url} alt={profile?.display_name || 'User'} size={64} />
         <div className="min-w-0">
           <h1 className="text-2xl font-bold text-warm-900">
             {profile?.display_name}

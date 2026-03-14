@@ -8,6 +8,7 @@ import LikeButton from '@/components/LikeButton'
 import CommentSection from '@/components/CommentSection'
 import ShareButton from '@/components/ShareButton'
 import ReportButton from '@/components/ReportButton'
+import Avatar from '@/components/Avatar'
 
 export default function AnswerCard({
   answer,
@@ -67,17 +68,7 @@ export default function AnswerCard({
 
   const headerContent = (
     <>
-      {avatarUrl ? (
-        <img
-          src={avatarUrl}
-          alt={displayName}
-          className="w-9 h-9 rounded-full object-cover"
-        />
-      ) : (
-        <div className="w-9 h-9 rounded-full bg-warm-100 flex items-center justify-center text-warm-500 font-medium text-sm">
-          {displayName.charAt(0).toUpperCase()}
-        </div>
-      )}
+      <Avatar src={avatarUrl} alt={displayName} size={36} />
       <div>
         <p className="text-sm font-medium text-warm-900 group-hover:text-accent-600 transition-colors">
           {displayName}

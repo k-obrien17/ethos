@@ -5,6 +5,7 @@ import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import FollowButton from '@/components/FollowButton'
 import ShareButton from '@/components/ShareButton'
+import Avatar from '@/components/Avatar'
 
 export const revalidate = 300
 
@@ -134,17 +135,7 @@ export default async function ExpertProfilePage({ params }) {
     <div className="space-y-8">
       {/* Profile header */}
       <section className="flex items-start gap-4">
-        {profile.avatar_url ? (
-          <img
-            src={profile.avatar_url}
-            alt={profile.display_name}
-            className="w-16 h-16 rounded-full object-cover flex-shrink-0"
-          />
-        ) : (
-          <div className="w-16 h-16 rounded-full bg-warm-200 flex items-center justify-center text-warm-600 font-bold text-xl flex-shrink-0">
-            {profile.display_name?.charAt(0)?.toUpperCase()}
-          </div>
-        )}
+        <Avatar src={profile.avatar_url} alt={profile.display_name} size={64} />
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
             <div>

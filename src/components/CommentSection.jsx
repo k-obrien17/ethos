@@ -4,21 +4,12 @@ import { useState, useEffect, useActionState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 import { addComment, deleteComment } from '@/app/actions/comments'
+import Avatar from '@/components/Avatar'
 
 function CommentItem({ comment, currentUserId, answerId, onDelete, deletingId, onReply }) {
   return (
     <div className="flex gap-2">
-      {comment.profiles?.avatar_url ? (
-        <img
-          src={comment.profiles.avatar_url}
-          alt={comment.profiles.display_name}
-          className="w-6 h-6 rounded-full object-cover flex-shrink-0 mt-0.5"
-        />
-      ) : (
-        <div className="w-6 h-6 rounded-full bg-warm-200 flex items-center justify-center text-warm-500 text-xs font-medium flex-shrink-0 mt-0.5">
-          {comment.profiles?.display_name?.charAt(0)?.toUpperCase()}
-        </div>
-      )}
+      <Avatar src={comment.profiles?.avatar_url} alt={comment.profiles?.display_name || 'User'} size={24} className="mt-0.5" />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <Link
