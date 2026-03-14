@@ -36,14 +36,15 @@ export default function DeleteAccountSection() {
   }
 
   return (
-    <div className="bg-red-50 border border-red-200 rounded-lg p-4 space-y-3">
-      <p className="text-sm text-red-800 font-medium">
+    <div role="alertdialog" aria-labelledby="delete-confirm-title" className="bg-red-50 border border-red-200 rounded-lg p-4 space-y-3">
+      <p id="delete-confirm-title" className="text-sm text-red-800 font-medium">
         Are you sure? This will permanently delete your profile and all your answers.
       </p>
       <div className="flex items-center gap-3">
         <button
           onClick={handleDelete}
           disabled={pending}
+          aria-label="Delete your account"
           className="px-3 py-1.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 disabled:opacity-50"
         >
           {pending ? 'Deleting...' : 'Yes, delete my account'}

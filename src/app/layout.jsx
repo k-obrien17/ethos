@@ -34,6 +34,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-warm-50 text-warm-900 antialiased min-h-screen">
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -55,7 +56,7 @@ export default function RootLayout({ children }) {
           }}
         />
         <Header />
-        <main className="mx-auto max-w-2xl px-4 py-10">
+        <main id="main-content" className="mx-auto max-w-2xl px-4 py-10">
           {children}
         </main>
         <Footer />

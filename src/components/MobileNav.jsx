@@ -11,7 +11,8 @@ export default function MobileNav({ isAuthenticated }) {
       <button
         onClick={() => setOpen(!open)}
         className="p-2 text-warm-500 hover:text-warm-900"
-        aria-label="Toggle menu"
+        aria-label="Toggle navigation menu"
+        aria-expanded={open}
       >
         {open ? (
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,7 +26,7 @@ export default function MobileNav({ isAuthenticated }) {
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-full bg-white border-b border-warm-200 z-50 px-4 py-3 space-y-1">
+        <div role="dialog" aria-label="Navigation menu" className="absolute left-0 right-0 top-full bg-white border-b border-warm-200 z-50 px-4 py-3 space-y-1">
           <Link href="/topics" onClick={() => setOpen(false)} className="block py-2 text-sm text-warm-600 hover:text-warm-900">
             Topics
           </Link>

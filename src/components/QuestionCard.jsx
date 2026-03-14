@@ -5,7 +5,7 @@ export default function QuestionCard({ question, answerCount }) {
   const topics = question.question_topics?.map((qt) => qt.topics).filter(Boolean) ?? []
 
   return (
-    <div className="py-4">
+    <div role="article" className="py-4">
       <Link
         href={`/q/${question.slug}`}
         className="block group outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 rounded-sm"
