@@ -9,11 +9,11 @@ Requirements for Growth & Polish milestone. Each maps to roadmap phases.
 
 ### SEO
 
-- [ ] **SEO-01**: All public pages have unique meta titles and descriptions
+- [x] **SEO-01**: All public pages have unique meta titles and descriptions
 - [x] **SEO-02**: Question and answer pages include JSON-LD structured data (Article schema)
 - [x] **SEO-03**: Dynamic sitemap.xml includes all published questions, expert profiles, and topic pages
-- [ ] **SEO-04**: All pages have canonical URLs to prevent duplicate content
-- [ ] **SEO-05**: robots.txt allows crawlers on public pages and blocks admin/dashboard routes
+- [x] **SEO-04**: All pages have canonical URLs to prevent duplicate content
+- [x] **SEO-05**: robots.txt allows crawlers on public pages and blocks admin/dashboard routes
 
 ### Analytics
 
@@ -76,11 +76,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEO-01 | Phase 17 | Pending |
+| SEO-01 | Phase 17 | Complete |
 | SEO-02 | Phase 17 | Complete |
 | SEO-03 | Phase 17 | Complete |
-| SEO-04 | Phase 17 | Pending |
-| SEO-05 | Phase 17 | Pending |
+| SEO-04 | Phase 17 | Complete |
+| SEO-05 | Phase 17 | Complete |
 | ANLY-01 | Phase 20 | Pending |
 | ANLY-02 | Phase 20 | Pending |
 | ANLY-03 | Phase 20 | Pending |

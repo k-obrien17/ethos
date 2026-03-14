@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v5 Growth & Polish -- Phase 17 (SEO) ready to plan
+**Current focus:** v5 Growth & Polish -- Phase 17 (SEO) complete
 
 ## Current Position
 
 Phase: 17 of 20 (SEO)
 Plan: 2 of 2 (complete)
-Status: Phase 17 plans executing
-Last activity: 2026-03-14 -- Completed 17-02-PLAN.md
+Status: Phase 17 complete
+Last activity: 2026-03-14 -- Completed 17-01-PLAN.md (both plans done)
 
 ## Current Milestone
 
@@ -61,6 +61,7 @@ Recent decisions affecting current work:
 - Phase 19 (UX Polish) depends on Phase 18 for skeleton pattern consistency
 - Phase 20 (Analytics) depends on Phase 18 so performance baseline exists before measuring
 - [Phase 17]: Used sortedAnswers for JSON-LD acceptedAnswer; truncated body to 500 chars; answer sitemap entries monthly/0.5 priority
+- [Phase 17-01]: Created login/layout.jsx for metadata since client components cannot export metadata; homepage uses plain title string to override template
 
 ### Pending Todos
 
@@ -76,5 +77,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-14
-Stopped at: Completed 17-02-PLAN.md
+Stopped at: Completed 17-01-PLAN.md (Phase 17 fully complete)
 Resume file: None

@@ -132,7 +132,7 @@
 
 ### Phases
 
-- [ ] **Phase 17: SEO** - Search engines can discover and richly index all public content
+- [x] **Phase 17: SEO** - Search engines can discover and richly index all public content (completed 2026-03-14)
 - [ ] **Phase 18: Performance** - All pages load fast with optimized assets and Core Web Vitals scores
 - [ ] **Phase 19: UX Polish** - Error states, empty states, action feedback, and accessibility create a reliable experience
 - [ ] **Phase 20: Analytics** - Admin can measure platform health and growth through integrated analytics
@@ -189,7 +189,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 17. SEO | 1/2 | In Progress|  |
+| 17. SEO | 2/2 | Complete   | 2026-03-14 |
 | 18. Performance | 0/? | Not started | - |
 | 19. UX Polish | 0/? | Not started | - |
 | 20. Analytics | 0/? | Not started | - |
