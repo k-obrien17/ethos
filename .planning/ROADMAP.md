@@ -188,7 +188,9 @@
   2. Admin can visit an analytics page showing daily active users, answer submission rates, and expert engagement metrics
   3. Admin dashboard displays weekly and monthly comparison charts showing growth trends over time
   4. Admin can see a ranked list of most popular questions (by views/answers) and most active experts (by answer count/engagement)
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 20-01-PLAN.md — Vercel Analytics integration + enhanced admin dashboard (DAU, submission rates, popular questions, active experts)
+- [ ] 20-02-PLAN.md — Growth trend charts with weekly and monthly comparisons
 
 ### Progress
 
@@ -197,7 +199,7 @@
 | 17. SEO | 2/2 | Complete    | 2026-03-14 |
 | 18. Performance | 2/2 | Complete    | 2026-03-14 |
 | 19. UX Polish | 3/3 | Complete    | 2026-03-14 |
-| 20. Analytics | 0/? | Not started | - |
+| 20. Analytics | 0/2 | Not started | - |
 
 ---
 
