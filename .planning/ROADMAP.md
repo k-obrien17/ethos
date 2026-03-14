@@ -161,7 +161,9 @@
   1. All key pages (homepage, question, answer, expert profile) score 90+ on Lighthouse performance with LCP under 2.5s and CLS under 0.1
   2. All images use next/image with appropriate sizing, lazy loading, and modern formats (WebP/AVIF)
   3. Users see content-shaped skeleton placeholders instead of blank screens while data loads on the homepage, question feed, and expert directory
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 18-01-PLAN.md — next/image Avatar component and migration from raw img tags
+- [ ] 18-02-PLAN.md — Loading skeleton pages for all key public routes
 
 #### Phase 19: UX Polish
 **Goal**: Users encounter clear feedback at every interaction -- errors are handled gracefully, empty states guide action, and the interface is accessible
