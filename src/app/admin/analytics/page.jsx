@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { format, subDays, subWeeks, subMonths, startOfDay, startOfWeek, startOfMonth } from 'date-fns'
+import { format, subDays, subWeeks, subMonths, startOfDay, startOfWeek, startOfMonth, endOfWeek, endOfMonth } from 'date-fns'
+import GrowthChart from '@/components/admin/GrowthChart'
 
 export const metadata = { title: 'Analytics' }
 
@@ -48,6 +49,24 @@ export default async function AdminAnalyticsPage() {
     { data: recentAnswers },
     { data: recentSignups },
     { data: allProfiles },
+    // Weekly growth counts
+    { count: thisWeekUsers },
+    { count: lastWeekUsers },
+    { count: thisWeekLikes },
+    { count: lastWeekLikes },
+    { count: thisWeekComments },
+    { count: lastWeekComments },
+    { count: thisWeekFollows },
+    { count: lastWeekFollows },
+    // Monthly growth counts
+    { count: thisMonthUsers },
+    { count: lastMonthUsers },
+    { count: thisMonthLikes },
+    { count: lastMonthLikes },
+    { count: thisMonthComments },
+    { count: lastMonthComments },
+    { count: thisMonthFollows },
+    { count: lastMonthFollows },
   ] = await Promise.all([
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase.from('answers').select('*', { count: 'exact', head: true }),
@@ -68,6 +87,56 @@ export default async function AdminAnalyticsPage() {
     supabase
       .from('profiles')
       .select('id, display_name, handle, follower_count'),
+    // Growth trend counts: weekly (this week vs last week)
+    supabase.from('profiles').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfWeek(now, { weekStartsOn: 1 }).toISOString())
+      .lt('created_at', endOfWeek(now, { weekStartsOn: 1 }).toISOString()),
+    supabase.from('profiles').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }).toISOString())
+      .lt('created_at', startOfWeek(now, { weekStartsOn: 1 }).toISOString()),
+    supabase.from('answer_likes').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfWeek(now, { weekStartsOn: 1 }).toISOString())
+      .lt('created_at', endOfWeek(now, { weekStartsOn: 1 }).toISOString()),
+    supabase.from('answer_likes').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }).toISOString())
+      .lt('created_at', startOfWeek(now, { weekStartsOn: 1 }).toISOString()),
+    supabase.from('answer_comments').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfWeek(now, { weekStartsOn: 1 }).toISOString())
+      .lt('created_at', endOfWeek(now, { weekStartsOn: 1 }).toISOString()),
+    supabase.from('answer_comments').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }).toISOString())
+      .lt('created_at', startOfWeek(now, { weekStartsOn: 1 }).toISOString()),
+    supabase.from('follows').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfWeek(now, { weekStartsOn: 1 }).toISOString())
+      .lt('created_at', endOfWeek(now, { weekStartsOn: 1 }).toISOString()),
+    supabase.from('follows').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }).toISOString())
+      .lt('created_at', startOfWeek(now, { weekStartsOn: 1 }).toISOString()),
+    // Growth trend counts: monthly (this month vs last month)
+    supabase.from('profiles').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfMonth(now).toISOString())
+      .lt('created_at', endOfMonth(now).toISOString()),
+    supabase.from('profiles').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfMonth(subMonths(now, 1)).toISOString())
+      .lt('created_at', startOfMonth(now).toISOString()),
+    supabase.from('answer_likes').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfMonth(now).toISOString())
+      .lt('created_at', endOfMonth(now).toISOString()),
+    supabase.from('answer_likes').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfMonth(subMonths(now, 1)).toISOString())
+      .lt('created_at', startOfMonth(now).toISOString()),
+    supabase.from('answer_comments').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfMonth(now).toISOString())
+      .lt('created_at', endOfMonth(now).toISOString()),
+    supabase.from('answer_comments').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfMonth(subMonths(now, 1)).toISOString())
+      .lt('created_at', startOfMonth(now).toISOString()),
+    supabase.from('follows').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfMonth(now).toISOString())
+      .lt('created_at', endOfMonth(now).toISOString()),
+    supabase.from('follows').select('*', { count: 'exact', head: true })
+      .gte('created_at', startOfMonth(subMonths(now, 1)).toISOString())
+      .lt('created_at', startOfMonth(now).toISOString()),
   ])
 
   const answers = recentAnswers ?? []
@@ -162,6 +231,22 @@ export default async function AdminAnalyticsPage() {
   const invitesClaimed = (inviteStats ?? []).filter(i => i.claimed_at).length
   const invitesTotal = (inviteStats ?? []).length
   const inviteConversion = invitesTotal > 0 ? Math.round((invitesClaimed / invitesTotal) * 100) : 0
+
+  // --- Growth Trends ---
+  const weeklyMetrics = [
+    { label: 'New Answers', current: thisWeekAnswers, previous: lastWeekAnswers },
+    { label: 'New Users', current: thisWeekUsers ?? 0, previous: lastWeekUsers ?? 0 },
+    { label: 'Likes Given', current: thisWeekLikes ?? 0, previous: lastWeekLikes ?? 0 },
+    { label: 'Comments Posted', current: thisWeekComments ?? 0, previous: lastWeekComments ?? 0 },
+    { label: 'New Follows', current: thisWeekFollows ?? 0, previous: lastWeekFollows ?? 0 },
+  ]
+  const monthlyMetrics = [
+    { label: 'New Answers', current: thisMonthAnswers, previous: lastMonthAnswers },
+    { label: 'New Users', current: thisMonthUsers ?? 0, previous: lastMonthUsers ?? 0 },
+    { label: 'Likes Given', current: thisMonthLikes ?? 0, previous: lastMonthLikes ?? 0 },
+    { label: 'Comments Posted', current: thisMonthComments ?? 0, previous: lastMonthComments ?? 0 },
+    { label: 'New Follows', current: thisMonthFollows ?? 0, previous: lastMonthFollows ?? 0 },
+  ]
 
   return (
     <div className="space-y-8">
@@ -297,6 +382,17 @@ export default async function AdminAnalyticsPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Growth Trends */}
+      <section>
+        <h2 className="text-sm font-semibold text-warm-500 uppercase tracking-wide mb-3">
+          Growth Trends
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <GrowthChart title="This Week vs Last Week" metrics={weeklyMetrics} />
+          <GrowthChart title="This Month vs Last Month" metrics={monthlyMetrics} />
         </div>
       </section>
 
