@@ -149,7 +149,9 @@
   3. Visiting /sitemap.xml returns a valid sitemap listing all published questions, expert profiles, and topic pages -- and it updates as new content is added
   4. Every page has a canonical URL in the `<head>`, and no duplicate URLs appear in search indexes
   5. Visiting /robots.txt shows crawlers allowed on public routes and blocked from /admin and /dashboard paths
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 17-01-PLAN.md — Meta titles, descriptions, canonical URLs, and robots.txt verification
+- [ ] 17-02-PLAN.md — JSON-LD structured data on question/answer pages and sitemap enhancements
 
 #### Phase 18: Performance
 **Goal**: Every page loads fast with optimized images, minimal layout shift, and visible loading states
@@ -187,7 +189,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 17. SEO | 0/? | Not started | - |
+| 17. SEO | 0/2 | Planned | - |
 | 18. Performance | 0/? | Not started | - |
 | 19. UX Polish | 0/? | Not started | - |
 | 20. Analytics | 0/? | Not started | - |
