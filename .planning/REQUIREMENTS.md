@@ -3,41 +3,34 @@
 **Defined:** 2026-03-14
 **Core Value:** The limited answer budget turns every response into a statement of identity — what you choose to answer reveals what you stand for.
 
-## v5 Requirements
+## v6 Requirements
 
-Requirements for Growth & Polish milestone. Each maps to roadmap phases.
+Requirements for Scale & Infrastructure milestone. Each maps to roadmap phases.
 
-### SEO
+### Deploy Pipeline
 
-- [x] **SEO-01**: All public pages have unique meta titles and descriptions
-- [x] **SEO-02**: Question and answer pages include JSON-LD structured data (Article schema)
-- [x] **SEO-03**: Dynamic sitemap.xml includes all published questions, expert profiles, and topic pages
-- [x] **SEO-04**: All pages have canonical URLs to prevent duplicate content
-- [x] **SEO-05**: robots.txt allows crawlers on public pages and blocks admin/dashboard routes
+- [ ] **DPLY-01**: GitHub Actions CI runs lint and build checks on every push
+- [ ] **DPLY-02**: Vercel preview deployments are created for every pull request
+- [ ] **DPLY-03**: Database migrations have a documented workflow (apply before deploy, rollback plan)
+- [ ] **DPLY-04**: Production deploys require passing CI checks before merge to main
 
-### Analytics
+### Caching
 
-- [x] **ANLY-01**: Vercel Analytics is integrated and tracking page views and Web Vitals
-- [x] **ANLY-02**: Admin can view a dashboard showing DAU, answer submission rates, and expert engagement
-- [x] **ANLY-03**: Admin dashboard shows growth trends (weekly/monthly comparisons)
-- [x] **ANLY-04**: Admin can see most popular questions and most active experts
+- [ ] **CACH-01**: Static pages (legal, leaderboard) use ISR with appropriate revalidation intervals
+- [ ] **CACH-02**: Dynamic pages use streaming with Suspense boundaries for fast TTFB
+- [ ] **CACH-03**: Supabase query results are cached where appropriate (topic list, site settings)
+- [ ] **CACH-04**: Static assets (fonts, icons) have long-lived cache headers
 
-### Performance
+### Monitoring
 
-- [x] **PERF-01**: All pages score 90+ on Lighthouse performance (LCP < 2.5s, CLS < 0.1)
-- [x] **PERF-02**: Images are optimized with next/image and proper sizing/formats
-- [x] **PERF-03**: Key pages use loading skeletons instead of blank screens during data fetch
+- [ ] **MNTR-01**: Server-side errors are captured with structured logging (route, user, error details)
+- [ ] **MNTR-02**: A /api/health endpoint returns status and basic diagnostics
+- [ ] **MNTR-03**: Admin can view recent errors on an admin monitoring page
+- [ ] **MNTR-04**: External uptime monitoring checks the health endpoint on a schedule
 
-### UX Polish
+## v5 Requirements (Complete)
 
-- [x] **UXP-01**: Error boundaries catch and display friendly error states on all route segments
-- [x] **UXP-02**: Empty states guide users to action (no answers yet, no followers, etc.)
-- [x] **UXP-03**: Toast notifications confirm user actions (saved, deleted, followed, etc.)
-- [x] **UXP-04**: Core interactive elements meet WCAG 2.1 AA accessibility (focus management, ARIA labels, keyboard navigation)
-
-## v4 Requirements (Complete)
-
-See [v4-REQUIREMENTS.md](milestones/v4-REQUIREMENTS.md) for full archive.
+See [v5-REQUIREMENTS.md](milestones/v5-REQUIREMENTS.md) for full archive.
 
 ## Future Requirements
 
@@ -48,14 +41,14 @@ Deferred to future release. Not in current roadmap.
 - **MONET-01**: Premium subscription with enhanced features
 - **MONET-02**: Sponsored/partner questions
 
-### Engagement
-
-- **ENGAGE-01**: Milestone achievements (first answer, 10 followers, etc.)
-
 ### Content Quality
 
 - **QUAL-01**: AI detection enforcement on answer submission
 - **QUAL-02**: Content reporting and moderation tools
+
+### Engagement
+
+- **ENGAGE-01**: Milestone achievements (first answer, 10 followers, etc.)
 
 ## Out of Scope
 
@@ -65,10 +58,8 @@ Deferred to future release. Not in current roadmap.
 | Native mobile apps | Web-first, responsive design covers mobile |
 | Gamification (points, badges, leaderboards) | Trivializes expertise |
 | Real-time notifications (WebSocket) | Polling/page-load fetch sufficient at beta scale |
-| Infinite comment threading | One level deep keeps discussions readable |
-| Milestone achievements | Build when user base is large enough |
-| Full WCAG AAA compliance | AA is the practical standard; AAA is aspirational |
-| Custom analytics platform | Vercel Analytics + custom admin dashboard is sufficient |
+| Full staging environment | Preview deploys sufficient for solo operator |
+| External error tracking (Sentry) | Deferred — build monitoring wiring first, add provider later |
 
 ## Traceability
 
@@ -76,28 +67,24 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEO-01 | Phase 17 | Complete |
-| SEO-02 | Phase 17 | Complete |
-| SEO-03 | Phase 17 | Complete |
-| SEO-04 | Phase 17 | Complete |
-| SEO-05 | Phase 17 | Complete |
-| ANLY-01 | Phase 20 | Complete |
-| ANLY-02 | Phase 20 | Complete |
-| ANLY-03 | Phase 20 | Complete |
-| ANLY-04 | Phase 20 | Complete |
-| PERF-01 | Phase 18 | Complete |
-| PERF-02 | Phase 18 | Complete |
-| PERF-03 | Phase 18 | Complete |
-| UXP-01 | Phase 19 | Complete |
-| UXP-02 | Phase 19 | Complete |
-| UXP-03 | Phase 19 | Complete |
-| UXP-04 | Phase 19 | Complete |
+| DPLY-01 | TBD | Pending |
+| DPLY-02 | TBD | Pending |
+| DPLY-03 | TBD | Pending |
+| DPLY-04 | TBD | Pending |
+| CACH-01 | TBD | Pending |
+| CACH-02 | TBD | Pending |
+| CACH-03 | TBD | Pending |
+| CACH-04 | TBD | Pending |
+| MNTR-01 | TBD | Pending |
+| MNTR-02 | TBD | Pending |
+| MNTR-03 | TBD | Pending |
+| MNTR-04 | TBD | Pending |
 
 **Coverage:**
-- v5 requirements: 16 total
-- Mapped to phases: 16
-- Unmapped: 0
+- v6 requirements: 12 total
+- Mapped to phases: 0
+- Unmapped: 12 ⚠️
 
 ---
 *Requirements defined: 2026-03-14*
-*Last updated: 2026-03-14 after roadmap creation*
+*Last updated: 2026-03-14 after initial definition*
