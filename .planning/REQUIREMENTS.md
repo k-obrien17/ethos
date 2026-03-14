@@ -24,9 +24,9 @@ Requirements for Growth & Polish milestone. Each maps to roadmap phases.
 
 ### Performance
 
-- [ ] **PERF-01**: All pages score 90+ on Lighthouse performance (LCP < 2.5s, CLS < 0.1)
+- [x] **PERF-01**: All pages score 90+ on Lighthouse performance (LCP < 2.5s, CLS < 0.1)
 - [ ] **PERF-02**: Images are optimized with next/image and proper sizing/formats
-- [ ] **PERF-03**: Key pages use loading skeletons instead of blank screens during data fetch
+- [x] **PERF-03**: Key pages use loading skeletons instead of blank screens during data fetch
 
 ### UX Polish
 
@@ -85,9 +85,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ANLY-02 | Phase 20 | Pending |
 | ANLY-03 | Phase 20 | Pending |
 | ANLY-04 | Phase 20 | Pending |
-| PERF-01 | Phase 18 | Pending |
+| PERF-01 | Phase 18 | Complete |
 | PERF-02 | Phase 18 | Pending |
-| PERF-03 | Phase 18 | Pending |
+| PERF-03 | Phase 18 | Complete |
 | UXP-01 | Phase 19 | Pending |
 | UXP-02 | Phase 19 | Pending |
 | UXP-03 | Phase 19 | Pending |

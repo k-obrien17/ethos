@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-last_updated: "2026-03-14T15:10:22.089Z"
+status: in-progress
+last_updated: "2026-03-14T15:35:00Z"
 progress:
   total_phases: 17
   completed_phases: 8
   total_plans: 15
-  completed_plans: 17
+  completed_plans: 18
 ---
 
 # Project State: Ethos
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v5 Growth & Polish -- Phase 17 (SEO) complete
+**Current focus:** v5 Growth & Polish -- Phase 18 (Performance) in progress
 
 ## Current Position
 
-Phase: 17 of 20 (SEO)
+Phase: 18 of 20 (Performance)
 Plan: 2 of 2 (complete)
-Status: Phase 17 complete
-Last activity: 2026-03-14 -- Completed 17-01-PLAN.md (both plans done)
+Status: Phase 18 plan 02 complete
+Last activity: 2026-03-14 -- Completed 18-02-PLAN.md (loading skeletons)
 
 ## Current Milestone
 
@@ -44,9 +44,9 @@ Last activity: 2026-03-14 -- Completed 17-01-PLAN.md (both plans done)
 ## Performance Metrics
 
 **Velocity (v3 baseline):**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 3min
-- Total execution time: 23min
+- Total execution time: 26min
 
 *Updated after each plan completion*
 
@@ -62,6 +62,7 @@ Recent decisions affecting current work:
 - Phase 20 (Analytics) depends on Phase 18 so performance baseline exists before measuring
 - [Phase 17]: Used sortedAnswers for JSON-LD acceptedAnswer; truncated body to 500 chars; answer sitemap entries monthly/0.5 priority
 - [Phase 17-01]: Created login/layout.jsx for metadata since client components cannot export metadata; homepage uses plain title string to override template
+- [Phase 18-02]: Each loading.jsx defines its own local Skeleton helper (no shared import); skeleton shapes match actual page layouts
 
 ### Pending Todos
 
@@ -77,5 +78,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-14
-Stopped at: Completed 17-01-PLAN.md (Phase 17 fully complete)
+Stopped at: Completed 18-02-PLAN.md (loading skeletons)
 Resume file: None
