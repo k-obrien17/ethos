@@ -21,7 +21,15 @@ export default async function LeaderboardPage() {
     return (
       <div className="text-center py-16">
         <h1 className="text-2xl font-bold text-warm-900 mb-2">Leaderboard</h1>
-        <p className="text-warm-500">No answers yet. Check back soon.</p>
+        <div className="text-center py-12">
+          <p className="text-warm-600 mb-2">No answers on the leaderboard yet.</p>
+          <p className="text-warm-500 text-sm mb-4">
+            Once experts start answering, you'll see the most active voices here.
+          </p>
+          <Link href="/experts" className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors">
+            Browse experts
+          </Link>
+        </div>
       </div>
     )
   }

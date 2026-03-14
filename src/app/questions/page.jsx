@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import Link from 'next/link'
 import QuestionCard from '@/components/QuestionCard'
 
 export const revalidate = 300
@@ -63,9 +64,15 @@ export default async function QuestionsPage() {
           ))}
         </div>
       ) : (
-        <p className="text-warm-500 text-sm text-center py-8">
-          No questions published yet.
-        </p>
+        <div className="text-center py-12">
+          <p className="text-warm-600 mb-2">No questions published yet.</p>
+          <p className="text-warm-500 text-sm mb-4">
+            New questions are published regularly. Check back soon or browse past questions.
+          </p>
+          <Link href="/" className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors">
+            Go to today's question
+          </Link>
+        </div>
       )}
     </div>
   )

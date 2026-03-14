@@ -85,9 +85,15 @@ export default async function TopicsPage() {
           })}
         </div>
       ) : (
-        <p className="text-warm-500 text-sm text-center py-8">
-          No topics yet.
-        </p>
+        <div className="text-center py-12">
+          <p className="text-warm-600 mb-2">No topics yet.</p>
+          <p className="text-warm-500 text-sm mb-4">
+            Topics will appear as questions are organized. Browse questions in the meantime.
+          </p>
+          <Link href="/questions" className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors">
+            Browse questions
+          </Link>
+        </div>
       )}
     </div>
   )

@@ -111,8 +111,13 @@ export default async function TrendingPage() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-warm-500">No trending answers this week yet.</p>
-          <p className="text-warm-400 text-sm mt-1">Like answers to help surface the best ones.</p>
+          <p className="text-warm-600 mb-2">No trending answers this week.</p>
+          <p className="text-warm-500 text-sm mb-4">
+            Trending answers are ranked by views and engagement. Check back as more people participate.
+          </p>
+          <Link href="/questions" className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors">
+            Browse all questions
+          </Link>
         </div>
       )}
     </div>
