@@ -30,8 +30,8 @@ Requirements for Growth & Polish milestone. Each maps to roadmap phases.
 
 ### UX Polish
 
-- [ ] **UXP-01**: Error boundaries catch and display friendly error states on all route segments
-- [ ] **UXP-02**: Empty states guide users to action (no answers yet, no followers, etc.)
+- [x] **UXP-01**: Error boundaries catch and display friendly error states on all route segments
+- [x] **UXP-02**: Empty states guide users to action (no answers yet, no followers, etc.)
 - [ ] **UXP-03**: Toast notifications confirm user actions (saved, deleted, followed, etc.)
 - [ ] **UXP-04**: Core interactive elements meet WCAG 2.1 AA accessibility (focus management, ARIA labels, keyboard navigation)
 
@@ -88,8 +88,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PERF-01 | Phase 18 | Complete |
 | PERF-02 | Phase 18 | Complete |
 | PERF-03 | Phase 18 | Complete |
-| UXP-01 | Phase 19 | Pending |
-| UXP-02 | Phase 19 | Pending |
+| UXP-01 | Phase 19 | Complete |
+| UXP-02 | Phase 19 | Complete |
 | UXP-03 | Phase 19 | Pending |
 | UXP-04 | Phase 19 | Pending |
 
