@@ -174,7 +174,10 @@
   2. Pages with no content (no answers yet, no followers, no bookmarks) show contextual guidance pointing users to a next action
   3. After completing actions (saving an answer, following an expert, deleting a comment), users see a brief toast notification confirming what happened
   4. All interactive elements (buttons, links, form controls) have visible focus indicators, ARIA labels, and work with keyboard-only navigation
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 19-01-PLAN.md — Error boundaries for all route segments and enhanced empty states with CTAs
+- [ ] 19-02-PLAN.md — Toast notification system (sonner) with action feedback on all interactive components
+- [ ] 19-03-PLAN.md — Accessibility polish: focus styles, ARIA labels, skip-to-content, keyboard navigation
 
 #### Phase 20: Analytics
 **Goal**: Admin can see how the platform is performing and where growth is happening
