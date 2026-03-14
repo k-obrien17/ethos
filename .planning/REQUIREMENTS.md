@@ -1,39 +1,43 @@
 # Requirements: Ethos
 
-**Defined:** 2026-03-12
+**Defined:** 2026-03-14
 **Core Value:** The limited answer budget turns every response into a statement of identity — what you choose to answer reveals what you stand for.
 
-## v4 Requirements
+## v5 Requirements
 
-Requirements for Social & Engagement milestone. Each maps to roadmap phases.
+Requirements for Growth & Polish milestone. Each maps to roadmap phases.
 
-### Comments
+### SEO
 
-- [x] **CMNT-01**: Expert can post a comment on any answer
-- [x] **CMNT-02**: Invited user can post a comment on any answer
-- [x] **CMNT-03**: User can reply to a comment (one level deep)
-- [x] **CMNT-04**: User can delete their own comment
-- [x] **CMNT-05**: Unauthenticated/uninvited users see comments but cannot post
+- [ ] **SEO-01**: All public pages have unique meta titles and descriptions
+- [ ] **SEO-02**: Question and answer pages include JSON-LD structured data (Article schema)
+- [ ] **SEO-03**: Dynamic sitemap.xml includes all published questions, expert profiles, and topic pages
+- [ ] **SEO-04**: All pages have canonical URLs to prevent duplicate content
+- [ ] **SEO-05**: robots.txt allows crawlers on public pages and blocks admin/dashboard routes
 
-### Follow Experts
+### Analytics
 
-- [x] **FLLW-01**: User can follow/unfollow an expert from their profile or directory
-- [x] **FLLW-02**: User's feed prioritizes answers from followed experts
-- [x] **FLLW-03**: User can view a list of experts they follow
+- [ ] **ANLY-01**: Vercel Analytics is integrated and tracking page views and Web Vitals
+- [ ] **ANLY-02**: Admin can view a dashboard showing DAU, answer submission rates, and expert engagement
+- [ ] **ANLY-03**: Admin dashboard shows growth trends (weekly/monthly comparisons)
+- [ ] **ANLY-04**: Admin can see most popular questions and most active experts
 
-### Notifications
+### Performance
 
-- [x] **NOTF-01**: User receives in-app notification when someone comments on their answer
-- [x] **NOTF-02**: User receives in-app notification when someone follows them
-- [x] **NOTF-03**: User receives in-app notification when someone replies to their comment
-- [x] **NOTF-04**: User receives in-app notification when a followed expert posts an answer
-- [x] **NOTF-05**: User receives in-app notification when their answer is featured
-- [x] **NOTF-06**: User receives email for notifications based on their email preferences
-- [x] **NOTF-07**: User can configure notification preferences (per-type on/off)
+- [ ] **PERF-01**: All pages score 90+ on Lighthouse performance (LCP < 2.5s, CLS < 0.1)
+- [ ] **PERF-02**: Images are optimized with next/image and proper sizing/formats
+- [ ] **PERF-03**: Key pages use loading skeletons instead of blank screens during data fetch
 
-## v3 Requirements (Complete)
+### UX Polish
 
-See [v3-REQUIREMENTS.md](milestones/v3-REQUIREMENTS.md) for full archive.
+- [ ] **UXP-01**: Error boundaries catch and display friendly error states on all route segments
+- [ ] **UXP-02**: Empty states guide users to action (no answers yet, no followers, etc.)
+- [ ] **UXP-03**: Toast notifications confirm user actions (saved, deleted, followed, etc.)
+- [ ] **UXP-04**: Core interactive elements meet WCAG 2.1 AA accessibility (focus management, ARIA labels, keyboard navigation)
+
+## v4 Requirements (Complete)
+
+See [v4-REQUIREMENTS.md](milestones/v4-REQUIREMENTS.md) for full archive.
 
 ## Future Requirements
 
@@ -48,6 +52,11 @@ Deferred to future release. Not in current roadmap.
 
 - **ENGAGE-01**: Milestone achievements (first answer, 10 followers, etc.)
 
+### Content Quality
+
+- **QUAL-01**: AI detection enforcement on answer submission
+- **QUAL-02**: Content reporting and moderation tools
+
 ## Out of Scope
 
 | Feature | Reason |
@@ -57,7 +66,9 @@ Deferred to future release. Not in current roadmap.
 | Gamification (points, badges, leaderboards) | Trivializes expertise |
 | Real-time notifications (WebSocket) | Polling/page-load fetch sufficient at beta scale |
 | Infinite comment threading | One level deep keeps discussions readable |
-| Milestone achievements | Build when user base is large enough for milestones to feel earned |
+| Milestone achievements | Build when user base is large enough |
+| Full WCAG AAA compliance | AA is the practical standard; AAA is aspirational |
+| Custom analytics platform | Vercel Analytics + custom admin dashboard is sufficient |
 
 ## Traceability
 
@@ -65,27 +76,28 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CMNT-01 | Phase 14 | Complete |
-| CMNT-02 | Phase 14 | Complete |
-| CMNT-03 | Phase 14 | Complete |
-| CMNT-04 | Phase 14 | Complete |
-| CMNT-05 | Phase 14 | Complete |
-| FLLW-01 | Phase 15 | Complete |
-| FLLW-02 | Phase 15 | Complete |
-| FLLW-03 | Phase 15 | Complete |
-| NOTF-01 | Phase 16 | Complete |
-| NOTF-02 | Phase 16 | Complete |
-| NOTF-03 | Phase 16 | Complete |
-| NOTF-04 | Phase 16 | Complete |
-| NOTF-05 | Phase 16 | Complete |
-| NOTF-06 | Phase 16 | Complete |
-| NOTF-07 | Phase 16 | Complete |
+| SEO-01 | TBD | Pending |
+| SEO-02 | TBD | Pending |
+| SEO-03 | TBD | Pending |
+| SEO-04 | TBD | Pending |
+| SEO-05 | TBD | Pending |
+| ANLY-01 | TBD | Pending |
+| ANLY-02 | TBD | Pending |
+| ANLY-03 | TBD | Pending |
+| ANLY-04 | TBD | Pending |
+| PERF-01 | TBD | Pending |
+| PERF-02 | TBD | Pending |
+| PERF-03 | TBD | Pending |
+| UXP-01 | TBD | Pending |
+| UXP-02 | TBD | Pending |
+| UXP-03 | TBD | Pending |
+| UXP-04 | TBD | Pending |
 
 **Coverage:**
-- v4 requirements: 15 total
-- Mapped to phases: 15
-- Unmapped: 0
+- v5 requirements: 16 total
+- Mapped to phases: 0
+- Unmapped: 16 ⚠️
 
 ---
-*Requirements defined: 2026-03-12*
-*Last updated: 2026-03-12 after roadmap creation*
+*Requirements defined: 2026-03-14*
+*Last updated: 2026-03-14 after initial definition*
