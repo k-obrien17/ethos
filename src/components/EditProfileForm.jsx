@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useActionState } from 'react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { updateProfile } from '@/app/actions/profile'
 
 export default function EditProfileForm({ profile, redirectTo }) {
@@ -12,11 +13,17 @@ export default function EditProfileForm({ profile, redirectTo }) {
 
   // After successful save, redirect if requested (guard prevents double-nav on re-render)
   useEffect(() => {
-    if (state?.success && redirectTo && !redirected.current) {
-      redirected.current = true
-      router.push(redirectTo)
+    if (state?.success) {
+      toast.success('Profile updated')
+      if (redirectTo && !redirected.current) {
+        redirected.current = true
+        router.push(redirectTo)
+      }
     }
-  }, [state?.success, redirectTo, router])
+    if (state?.error) {
+      toast.error('Failed to update profile')
+    }
+  }, [state?.success, state?.error, redirectTo, router])
 
   return (
     <form action={formAction} className="space-y-4">

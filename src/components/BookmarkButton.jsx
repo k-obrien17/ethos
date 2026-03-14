@@ -1,6 +1,7 @@
 'use client'
 
 import { useTransition, useOptimistic } from 'react'
+import { toast } from 'sonner'
 import { toggleBookmark } from '@/app/actions/bookmarks'
 
 export default function BookmarkButton({ questionId, isBookmarked, className = '' }) {
@@ -9,11 +10,15 @@ export default function BookmarkButton({ questionId, isBookmarked, className = '
 
   function handleClick() {
     startTransition(async () => {
+      const wasBookmarked = optimisticBookmarked
       setOptimisticBookmarked(!optimisticBookmarked)
       const result = await toggleBookmark(questionId)
       if (result?.error) {
         // Revert on failure
         setOptimisticBookmarked(isBookmarked)
+        toast.error('Failed to update bookmark')
+      } else {
+        toast.success(!wasBookmarked ? 'Bookmarked' : 'Bookmark removed')
       }
     })
   }

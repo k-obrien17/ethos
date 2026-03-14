@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { toast } from 'sonner'
 import { toggleFollow } from '@/app/actions/follows'
 
-export default function FollowButtonSmall({ targetUserId, isFollowing: initialFollowing }) {
+export default function FollowButtonSmall({ targetUserId, isFollowing: initialFollowing, displayName }) {
   const [isFollowing, setIsFollowing] = useState(initialFollowing)
   const [isPending, startTransition] = useTransition()
 
@@ -17,8 +18,11 @@ export default function FollowButtonSmall({ targetUserId, isFollowing: initialFo
       const result = await toggleFollow(targetUserId)
       if (result?.error) {
         setIsFollowing(prev)
+        toast.error('Failed to update follow')
       } else if (result?.following !== undefined) {
         setIsFollowing(result.following)
+        const name = displayName || 'user'
+        toast.success(result.following ? `Following ${name}` : `Unfollowed ${name}`)
       }
     })
   }

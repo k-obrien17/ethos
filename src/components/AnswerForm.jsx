@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useActionState } from 'react'
 import { useRouter } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
+import { toast } from 'sonner'
 import { submitAnswer } from '@/app/actions/answers'
 import BudgetIndicator from '@/components/BudgetIndicator'
 import { saveDraft } from '@/app/actions/drafts'
@@ -55,8 +56,15 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
       localStorage.removeItem(draftKey)
       setContent('')
     }
+    if (state?.aiRejected) {
+      toast.error('Answer flagged as AI-generated')
+    }
+    if (state?.error && !state?.aiRejected) {
+      toast.error('Failed to save answer')
+    }
     // Refresh server data so new answer appears instantly
     if (state?.success) {
+      toast.success('Answer saved')
       router.refresh()
       // Scroll to new answer after refresh
       if (state.answerId) {

@@ -1,6 +1,7 @@
 'use client'
 
 import { useOptimistic, useTransition } from 'react'
+import { toast } from 'sonner'
 import { toggleLike } from '@/app/actions/likes'
 
 export default function LikeButton({ answerId, likeCount, isLiked, isAuthenticated }) {
@@ -21,6 +22,7 @@ export default function LikeButton({ answerId, likeCount, isLiked, isAuthenticat
       if (result?.error) {
         // Revert optimistic state on failure
         setOptimistic({ count: likeCount, liked: isLiked })
+        toast.error('Failed to update like')
       }
     })
   }

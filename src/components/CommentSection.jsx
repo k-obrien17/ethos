@@ -3,6 +3,7 @@
 import { useState, useEffect, useActionState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
+import { toast } from 'sonner'
 import { addComment, deleteComment } from '@/app/actions/comments'
 import Avatar from '@/components/Avatar'
 
@@ -63,6 +64,10 @@ export default function CommentSection({ answerId, comments: initialComments = [
     if (state?.success) {
       setBody('')
       setReplyTo(null)
+      toast.success('Comment posted')
+    }
+    if (state?.error) {
+      toast.error('Failed to post comment')
     }
   }, [state])
 
@@ -82,7 +87,9 @@ export default function CommentSection({ answerId, comments: initialComments = [
           return next
         })
       }
-      alert(result.error)
+      toast.error('Failed to delete comment')
+    } else {
+      toast.success('Comment deleted')
     }
     setDeletingId(null)
   }

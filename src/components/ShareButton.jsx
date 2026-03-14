@@ -1,18 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function ShareButton({ url, title }) {
   const [copied, setCopied] = useState(false)
   const [open, setOpen] = useState(false)
 
   async function handleCopy() {
-    const fullUrl = url
-      ? `${window.location.origin}${url}`
-      : window.location.href
-    await navigator.clipboard.writeText(fullUrl)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    try {
+      const fullUrl = url
+        ? `${window.location.origin}${url}`
+        : window.location.href
+      await navigator.clipboard.writeText(fullUrl)
+      setCopied(true)
+      toast.success('Link copied to clipboard')
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      toast.error('Failed to copy link')
+    }
   }
 
   const shareUrl = url
