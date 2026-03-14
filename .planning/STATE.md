@@ -65,6 +65,7 @@ Recent decisions affecting current work:
 - [Phase 18-01]: Used inline style for Avatar fallback div dimensions to support arbitrary size prop; Avatar component has no 'use client' directive
 - [Phase 18-02]: Each loading.jsx defines its own local Skeleton helper (no shared import); skeleton shapes match actual page layouts
 - [Phase 19-01]: Error boundaries consistent with global error.jsx pattern; empty states follow /following page pattern as gold standard
+- [Phase 19-02]: Likes show error-only toasts (too frequent for success feedback); follow buttons accept displayName/topicName for personalized messages
 - [Phase 19-ux-polish]: AnswerCard already uses semantic article element; NotificationBell already has dynamic aria-label with unread count
 
 ### Pending Todos
@@ -81,5 +82,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-14
-Stopped at: Completed 19-03-PLAN.md (accessibility & focus indicators)
+Stopped at: Completed 19-02-PLAN.md (toast notifications)
 Resume file: None
