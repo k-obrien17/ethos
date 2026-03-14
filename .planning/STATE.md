@@ -1,14 +1,14 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: completed
-last_updated: "2026-03-14T17:26:08.632Z"
+milestone: v6
+milestone_name: Scale & Infrastructure
+status: ready_to_plan
+last_updated: "2026-03-14"
 progress:
-  total_phases: 20
-  completed_phases: 11
-  total_plans: 22
-  completed_plans: 24
+  total_phases: 23
+  completed_phases: 20
+  total_plans: 0
+  completed_plans: 0
 ---
 
 # Project State: Ethos
@@ -18,19 +18,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v6 Scale & Infrastructure — Defining requirements
+**Current focus:** v6 Scale & Infrastructure -- Phase 21 (Deploy Pipeline) ready to plan
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-03-14 — Milestone v6 started
+Phase: 21 of 23 (Deploy Pipeline)
+Plan: --
+Status: Ready to plan
+Last activity: 2026-03-14 -- v6 roadmap created
 
 ## Current Milestone
 
 **Milestone:** v6 (Scale & Infrastructure)
-**Status:** Defining requirements
+**Status:** Ready to plan
+**Phases:** 21-23 (3 phases, 12 requirements)
+**Note:** Phases 21 and 22 are independent and can be parallelized.
 
 ## Milestone History
 
@@ -58,18 +60,8 @@ Last activity: 2026-03-14 — Milestone v6 started
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- Phases 17 (SEO) and 18 (Performance) are independent and can be parallelized
-- Phase 19 (UX Polish) depends on Phase 18 for skeleton pattern consistency
-- Phase 20 (Analytics) depends on Phase 18 so performance baseline exists before measuring
-- [Phase 17]: Used sortedAnswers for JSON-LD acceptedAnswer; truncated body to 500 chars; answer sitemap entries monthly/0.5 priority
-- [Phase 17-01]: Created login/layout.jsx for metadata since client components cannot export metadata; homepage uses plain title string to override template
-- [Phase 18-01]: Used inline style for Avatar fallback div dimensions to support arbitrary size prop; Avatar component has no 'use client' directive
-- [Phase 18-02]: Each loading.jsx defines its own local Skeleton helper (no shared import); skeleton shapes match actual page layouts
-- [Phase 19-01]: Error boundaries consistent with global error.jsx pattern; empty states follow /following page pattern as gold standard
-- [Phase 19-02]: Likes show error-only toasts (too frequent for success feedback); follow buttons accept displayName/topicName for personalized messages
-- [Phase 19-ux-polish]: AnswerCard already uses semantic article element; NotificationBell already has dynamic aria-label with unread count
-- [Phase 20]: Bulk fetch 90 days of answers and aggregate in JS for DAU/submission rates/engagement metrics
-- [Phase 20-02]: Used 16 head-only Supabase count queries for growth trend comparisons; reused in-memory answer counts
+- v1 + v2 are code-complete but not yet deployed (deploy pipeline phase will address this)
+- Multiple Supabase migrations pending application (DPLY-03 migration workflow will formalize this)
 
 ### Pending Todos
 
@@ -85,5 +77,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-14
-Stopped at: Completed 20-02-PLAN.md (growth trends) -- Phase 20 complete
+Stopped at: v6 roadmap created, ready to plan Phase 21
 Resume file: None

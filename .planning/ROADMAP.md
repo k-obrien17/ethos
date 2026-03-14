@@ -126,16 +126,12 @@
 
 ---
 
-## v5 — Growth & Polish
+## v5 — Growth & Polish (Complete)
 
-**Goal:** Make the platform discoverable, measurable, and fast -- so it's ready for real growth beyond the initial beta cohort.
+4 phases, 9 plans, 16 requirements. See [v5-REQUIREMENTS.md](milestones/v5-REQUIREMENTS.md) for full archive.
 
-### Phases
-
-- [x] **Phase 17: SEO** - Search engines can discover and richly index all public content (completed 2026-03-14)
-- [x] **Phase 18: Performance** - All pages load fast with optimized assets and Core Web Vitals scores (completed 2026-03-14)
-- [x] **Phase 19: UX Polish** - Error states, empty states, action feedback, and accessibility create a reliable experience (completed 2026-03-14)
-- [x] **Phase 20: Analytics** - Admin can measure platform health and growth through integrated analytics (completed 2026-03-14)
+<details>
+<summary>v5 Phase Details (Phases 17-20)</summary>
 
 ### Phase Details
 
@@ -149,9 +145,7 @@
   3. Visiting /sitemap.xml returns a valid sitemap listing all published questions, expert profiles, and topic pages -- and it updates as new content is added
   4. Every page has a canonical URL in the `<head>`, and no duplicate URLs appear in search indexes
   5. Visiting /robots.txt shows crawlers allowed on public routes and blocked from /admin and /dashboard paths
-**Plans**: 2 plans
-- [ ] 17-01-PLAN.md — Meta titles, descriptions, canonical URLs, and robots.txt verification
-- [ ] 17-02-PLAN.md — JSON-LD structured data on question/answer pages and sitemap enhancements
+**Plans**: 2/2 complete
 
 #### Phase 18: Performance
 **Goal**: Every page loads fast with optimized images, minimal layout shift, and visible loading states
@@ -161,9 +155,7 @@
   1. All key pages (homepage, question, answer, expert profile) score 90+ on Lighthouse performance with LCP under 2.5s and CLS under 0.1
   2. All images use next/image with appropriate sizing, lazy loading, and modern formats (WebP/AVIF)
   3. Users see content-shaped skeleton placeholders instead of blank screens while data loads on the homepage, question feed, and expert directory
-**Plans**: 2 plans
-- [ ] 18-01-PLAN.md — next/image Avatar component and migration from raw img tags
-- [ ] 18-02-PLAN.md — Loading skeleton pages for all key public routes
+**Plans**: 2/2 complete
 
 #### Phase 19: UX Polish
 **Goal**: Users encounter clear feedback at every interaction -- errors are handled gracefully, empty states guide action, and the interface is accessible
@@ -174,10 +166,7 @@
   2. Pages with no content (no answers yet, no followers, no bookmarks) show contextual guidance pointing users to a next action
   3. After completing actions (saving an answer, following an expert, deleting a comment), users see a brief toast notification confirming what happened
   4. All interactive elements (buttons, links, form controls) have visible focus indicators, ARIA labels, and work with keyboard-only navigation
-**Plans**: 3 plans
-- [ ] 19-01-PLAN.md — Error boundaries for all route segments and enhanced empty states with CTAs
-- [ ] 19-02-PLAN.md — Toast notification system (sonner) with action feedback on all interactive components
-- [ ] 19-03-PLAN.md — Accessibility polish: focus styles, ARIA labels, skip-to-content, keyboard navigation
+**Plans**: 3/3 complete
 
 #### Phase 20: Analytics
 **Goal**: Admin can see how the platform is performing and where growth is happening
@@ -188,19 +177,74 @@
   2. Admin can visit an analytics page showing daily active users, answer submission rates, and expert engagement metrics
   3. Admin dashboard displays weekly and monthly comparison charts showing growth trends over time
   4. Admin can see a ranked list of most popular questions (by views/answers) and most active experts (by answer count/engagement)
-**Plans**: 2 plans
-- [ ] 20-01-PLAN.md — Vercel Analytics integration + enhanced admin dashboard (DAU, submission rates, popular questions, active experts)
-- [ ] 20-02-PLAN.md — Growth trend charts with weekly and monthly comparisons
+**Plans**: 2/2 complete
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 17. SEO | 2/2 | Complete | 2026-03-14 |
+| 18. Performance | 2/2 | Complete | 2026-03-14 |
+| 19. UX Polish | 3/3 | Complete | 2026-03-14 |
+| 20. Analytics | 2/2 | Complete | 2026-03-14 |
+
+</details>
+
+---
+
+## v6 — Scale & Infrastructure
+
+**Goal:** Make the platform production-hardened -- fast deploys, smart caching, and monitoring so nothing breaks silently.
+
+### Phases
+
+- [ ] **Phase 21: Deploy Pipeline** - Every code change goes through automated checks, preview deploys, and a safe migration workflow before reaching production
+- [ ] **Phase 22: Caching & Static Generation** - Public pages load fast from cache with appropriate revalidation, and static assets are served with long-lived headers
+- [ ] **Phase 23: Monitoring** - Errors are captured with context, health is checkable, and downtime is detected automatically
+
+**Note:** Phases 21 and 22 are independent and can be executed in parallel. Phase 23 is independent but benefits from Phase 21 being in place (health endpoint is most useful once the deploy pipeline can exercise it).
+
+### Phase Details
+
+#### Phase 21: Deploy Pipeline
+**Goal**: Every code change goes through automated quality checks and safe deployment workflows before reaching production
+**Depends on**: v5 complete (phases 17-20)
+**Requirements**: DPLY-01, DPLY-02, DPLY-03, DPLY-04
+**Success Criteria** (what must be TRUE):
+  1. Pushing a commit to any branch triggers a GitHub Actions workflow that runs lint and build, and the result (pass/fail) is visible on the commit in GitHub
+  2. Opening a pull request automatically creates a Vercel preview deployment, and the preview URL appears as a comment or status check on the PR
+  3. A documented migration workflow exists: developer can apply a new Supabase migration before deploying and has a rollback procedure if it fails
+  4. Merging a PR to main is blocked unless CI checks have passed, enforced by GitHub branch protection rules
+**Plans**: TBD
+
+#### Phase 22: Caching & Static Generation
+**Goal**: Public pages load fast from edge cache with smart revalidation, reducing server load and improving time-to-first-byte
+**Depends on**: v5 complete (phases 17-20); independent of Phase 21
+**Requirements**: CACH-01, CACH-02, CACH-03, CACH-04
+**Success Criteria** (what must be TRUE):
+  1. Static pages (legal pages, leaderboard) are served from ISR cache and revalidate on an appropriate schedule (legal: daily, leaderboard: hourly) without requiring a redeploy
+  2. Dynamic pages (homepage feed, question page) use React Suspense boundaries so the shell renders immediately and data streams in, achieving TTFB under 200ms
+  3. Frequently-read Supabase queries (topic list, site settings) are cached using Next.js data cache with explicit revalidation intervals, reducing redundant database calls
+  4. Static assets (fonts, icons, CSS/JS bundles) are served with Cache-Control headers that enable long-lived browser and CDN caching
+**Plans**: TBD
+
+#### Phase 23: Monitoring
+**Goal**: Errors are captured with enough context to diagnose, system health is checkable on demand, and downtime triggers alerts
+**Depends on**: v5 complete (phases 17-20); benefits from Phase 21 (deploy pipeline can integrate health checks)
+**Requirements**: MNTR-01, MNTR-02, MNTR-03, MNTR-04
+**Success Criteria** (what must be TRUE):
+  1. When a server-side error occurs, it is logged with structured fields (route, user ID, error message, stack trace, timestamp) visible in Vercel's function logs
+  2. Visiting /api/health returns a JSON response with service status, database connectivity, and basic diagnostics (uptime, version) -- and returns a non-200 status if any check fails
+  3. Admin can visit a monitoring page in the admin panel showing recent server errors with their structured context, filterable by route and severity
+  4. An external uptime monitor (e.g., BetterStack, UptimeRobot) pings the /api/health endpoint on a schedule and sends an alert if the endpoint is unreachable or returns an error status
+**Plans**: TBD
 
 ### Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 17. SEO | 2/2 | Complete    | 2026-03-14 |
-| 18. Performance | 2/2 | Complete    | 2026-03-14 |
-| 19. UX Polish | 3/3 | Complete    | 2026-03-14 |
-| 20. Analytics | 2/2 | Complete    | 2026-03-14 |
+| 21. Deploy Pipeline | 0/? | Not started | - |
+| 22. Caching & Static Generation | 0/? | Not started | - |
+| 23. Monitoring | 0/? | Not started | - |
 
 ---
 
-*Last updated: 2026-03-14 -- v5 roadmap created*
+*Last updated: 2026-03-14 -- v6 roadmap created*

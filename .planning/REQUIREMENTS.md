@@ -67,24 +67,24 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DPLY-01 | TBD | Pending |
-| DPLY-02 | TBD | Pending |
-| DPLY-03 | TBD | Pending |
-| DPLY-04 | TBD | Pending |
-| CACH-01 | TBD | Pending |
-| CACH-02 | TBD | Pending |
-| CACH-03 | TBD | Pending |
-| CACH-04 | TBD | Pending |
-| MNTR-01 | TBD | Pending |
-| MNTR-02 | TBD | Pending |
-| MNTR-03 | TBD | Pending |
-| MNTR-04 | TBD | Pending |
+| DPLY-01 | Phase 21 | Pending |
+| DPLY-02 | Phase 21 | Pending |
+| DPLY-03 | Phase 21 | Pending |
+| DPLY-04 | Phase 21 | Pending |
+| CACH-01 | Phase 22 | Pending |
+| CACH-02 | Phase 22 | Pending |
+| CACH-03 | Phase 22 | Pending |
+| CACH-04 | Phase 22 | Pending |
+| MNTR-01 | Phase 23 | Pending |
+| MNTR-02 | Phase 23 | Pending |
+| MNTR-03 | Phase 23 | Pending |
+| MNTR-04 | Phase 23 | Pending |
 
 **Coverage:**
 - v6 requirements: 12 total
-- Mapped to phases: 0
-- Unmapped: 12 ⚠️
+- Mapped to phases: 12
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-14*
-*Last updated: 2026-03-14 after initial definition*
+*Last updated: 2026-03-14 after roadmap creation*
