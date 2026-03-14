@@ -18,19 +18,19 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v5 Growth & Polish -- Phase 19 (UX Polish) in progress
+**Current focus:** v6 Scale & Infrastructure — Defining requirements
 
 ## Current Position
 
-Phase: 20 of 20 (Analytics)
-Plan: 2 of 2 (complete)
-Status: Phase 20 complete -- all plans executed
-Last activity: 2026-03-14 -- Completed 20-02-PLAN.md (growth trends)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-14 — Milestone v6 started
 
 ## Current Milestone
 
-**Milestone:** v5 (Growth & Polish)
-**Status:** Milestone complete
+**Milestone:** v6 (Scale & Infrastructure)
+**Status:** Defining requirements
 
 ## Milestone History
 
@@ -40,6 +40,7 @@ Last activity: 2026-03-14 -- Completed 20-02-PLAN.md (growth trends)
 | v2 -- Engagement | Complete | 4 phases, 10 plans | 24 (24 pass) | `.planning/milestones/v2-*` |
 | v3 -- Discovery | Complete | 4 phases, 8 plans | 12 (12 pass) | `.planning/milestones/v3-*` |
 | v4 -- Social & Engagement | Complete | 3 phases, 5 plans | 15 (15 pass) | `.planning/milestones/v4-*` |
+| v5 -- Growth & Polish | Complete | 4 phases, 9 plans | 16 (16 pass) | `.planning/milestones/v5-*` |
 
 ## Performance Metrics
 

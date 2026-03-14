@@ -8,20 +8,19 @@ A public content platform where influencers and subject-matter experts answer on
 
 The limited answer budget turns every response into a statement of identity — what you choose to answer reveals what you stand for.
 
-## Current Milestone: v5 Growth & Polish
+## Current Milestone: v6 Scale & Infrastructure
 
-**Goal:** Make the platform discoverable, measurable, and fast — so it's ready for real growth beyond the initial beta cohort.
+**Goal:** Make the platform production-hardened — fast deploys, smart caching, and monitoring so nothing breaks silently.
 
 **Target features:**
-- Full SEO package (JSON-LD structured data, dynamic sitemap, canonical URLs, meta descriptions)
-- Vercel Analytics integration + custom admin analytics dashboard (DAU, answer rates, expert engagement, trends)
-- Core Web Vitals optimization (LCP, CLS, INP)
-- UX polish (loading skeletons, error boundaries, empty states, accessibility basics)
+- Deploy pipeline (CI checks, preview deploys, database migration workflow)
+- Caching & static generation (ISR tuning, edge caching, API response caching)
+- Monitoring wiring (structured error logging, health checks, uptime monitoring)
 
 ## Current State
 
-**Shipped:** v4 (social & engagement) — 2026-03-14
-**Previous:** v1 (2026-02-25), v2 (2026-02-25), v3 (2026-03-12)
+**Shipped:** v5 (growth & polish) — 2026-03-14
+**Previous:** v1 (2026-02-25), v2 (2026-02-25), v3 (2026-03-12), v4 (2026-03-14)
 
 v1 includes: auth (Google + LinkedIn), profiles, daily questions, answer submission with three-layer budget enforcement, public feeds, expert profiles with selectivity metrics, editorial admin panel, social sharing with OG images, account deletion, legal pages.
 
@@ -30,6 +29,8 @@ v2 adds: onboarding flow, Markdown preview, 15-min edit window, queue preview, f
 v3 adds: topic taxonomy with browse-by-topic, full-text search with typeahead, trending content, question archives, expert directory with topic expertise, related content connections, featured expert spotlight.
 
 v4 adds: comments with one-level threading (experts + invited), follow experts with feed personalization, full notification system (in-app + email) with dual-channel per-type preferences, activity digest emails.
+
+v5 adds: full SEO (JSON-LD, sitemap, canonicals, meta descriptions), Vercel Analytics + admin dashboard (DAU, trends, rankings), performance (Avatar component, loading skeletons), UX polish (error boundaries, empty states, toast notifications, accessibility).
 
 ## Requirements
 
@@ -63,12 +64,18 @@ See [v3-REQUIREMENTS.md](milestones/v3-REQUIREMENTS.md) for full requirements ar
 
 See [v4-REQUIREMENTS.md](milestones/v4-REQUIREMENTS.md) for full requirements archive.
 
-### Active (v5)
+### Validated (v5)
 
-- [ ] Full SEO package (JSON-LD, sitemap, canonicals, meta descriptions)
-- [ ] Vercel Analytics + custom admin analytics dashboard
-- [ ] Core Web Vitals optimization
-- [ ] UX polish (skeletons, error boundaries, empty states, accessibility)
+- [x] 16/16 requirements pass code-level verification
+- [x] 4 phases complete (SEO, performance, UX polish, analytics)
+
+See [v5-REQUIREMENTS.md](milestones/v5-REQUIREMENTS.md) for full requirements archive.
+
+### Active (v6)
+
+- [ ] Deploy pipeline (CI checks, preview deploys, migration workflow)
+- [ ] Caching & static generation (ISR, edge caching, API response caching)
+- [ ] Monitoring wiring (structured logging, health checks, uptime)
 
 ### Out of Scope
 
@@ -113,4 +120,4 @@ See [v4-REQUIREMENTS.md](milestones/v4-REQUIREMENTS.md) for full requirements ar
 | View counts author-only | Prevents popularity contest, gives authors private engagement signal | Shipped v2 |
 
 ---
-*Last updated: 2026-03-14 after v5 milestone start*
+*Last updated: 2026-03-14 after v6 milestone start*
