@@ -53,7 +53,7 @@ export default function AnswerCard({
   // Handle edit result — exit on success, preserve content on error
   useEffect(() => {
     if (state?.success && editing) {
-      setEditing(false)
+      setEditing(false) // eslint-disable-line react-hooks/set-state-in-effect
     }
     // If edit window closed while editing, show error but keep content so user can copy it
     if (state?.error && editing) {

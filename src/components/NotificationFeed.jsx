@@ -92,7 +92,7 @@ export default function NotificationFeed({ notifications }) {
   if (notifications.length === 0) {
     return (
       <div className="p-8 text-center text-warm-500 text-sm">
-        No notifications yet. When someone likes or comments on your answers, you'll see it here.
+        No notifications yet. When someone likes or comments on your answers, you&apos;ll see it here.
       </div>
     )
   }

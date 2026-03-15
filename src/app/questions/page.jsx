@@ -70,7 +70,7 @@ export default async function QuestionsPage() {
             New questions are published regularly. Check back soon or browse past questions.
           </p>
           <Link href="/" className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors">
-            Go to today's question
+            Go to today&apos;s question
           </Link>
         </div>
       )}

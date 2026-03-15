@@ -61,7 +61,7 @@ export default function ApiKeyManager({ keys }) {
         {state?.key && (
           <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
             <p className="text-sm font-medium text-amber-800 mb-1">
-              Copy your key now — it won't be shown again.
+              Copy your key now — it won&apos;t be shown again.
             </p>
             <div className="flex items-center gap-2">
               <code className="text-xs bg-white px-2 py-1 rounded border border-amber-200 flex-1 truncate">

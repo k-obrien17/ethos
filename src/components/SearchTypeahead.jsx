@@ -43,7 +43,7 @@ export default function SearchTypeahead({ query, selectedIndex, onSelect, onClos
   useEffect(() => {
     try {
       const stored = JSON.parse(localStorage.getItem('ethos_recent_searches') || '[]')
-      setRecentSearches(stored.slice(0, 5))
+      setRecentSearches(stored.slice(0, 5)) // eslint-disable-line react-hooks/set-state-in-effect
     } catch {
       setRecentSearches([])
     }
@@ -52,6 +52,7 @@ export default function SearchTypeahead({ query, selectedIndex, onSelect, onClos
   // Debounced live suggestions
   useEffect(() => {
     if (!query || query.trim().length < 2) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- resetting state when query clears is a legitimate reactive pattern
       setSuggestions([])
       setIsLoading(false)
       return

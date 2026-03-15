@@ -63,10 +63,10 @@ export default async function ExpertsPage({ searchParams }) {
         <div className="text-center py-12">
           <p className="text-warm-600 mb-2">No experts have answered yet.</p>
           <p className="text-warm-500 text-sm mb-4">
-            When experts share their perspectives, they'll appear here.
+            When experts share their perspectives, they&apos;ll appear here.
           </p>
           <Link href="/" className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors">
-            See today's question
+            See today&apos;s question
           </Link>
         </div>
       </div>

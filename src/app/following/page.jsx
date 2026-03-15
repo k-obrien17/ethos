@@ -28,7 +28,7 @@ export default async function FollowingPage() {
       <div className="space-y-6">
         <h1 className="text-2xl font-bold text-warm-900">Following</h1>
         <div className="text-center py-12">
-          <p className="text-warm-600 mb-2">You're not following anyone yet.</p>
+          <p className="text-warm-600 mb-2">You&apos;re not following anyone yet.</p>
           <p className="text-warm-500 text-sm mb-4">
             Follow experts to see their answers here.
           </p>

@@ -27,7 +27,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
   useEffect(() => {
     const saved = localStorage.getItem(draftKey)
     if (saved) {
-      setContent(saved)
+      setContent(saved) // eslint-disable-line react-hooks/set-state-in-effect
     } else if (serverDraft) {
       setContent(serverDraft)
     }
@@ -54,7 +54,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
     if (state?.success || state?.aiRejected) {
       submittedRef.current = true
       localStorage.removeItem(draftKey)
-      setContent('')
+      setContent('') // eslint-disable-line react-hooks/set-state-in-effect
     }
     if (state?.aiRejected) {
       toast.error('Answer flagged as AI-generated')
@@ -73,7 +73,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
         }, 500)
       }
     }
-  }, [state?.success, state?.aiRejected, draftKey, router, state?.answerId])
+  }, [state?.success, state?.aiRejected, state?.error, draftKey, router, state?.answerId])
 
   // Already answered this question
   if (hasAnswered) {

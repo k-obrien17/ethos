@@ -24,7 +24,7 @@ export default async function LeaderboardPage() {
         <div className="text-center py-12">
           <p className="text-warm-600 mb-2">No answers on the leaderboard yet.</p>
           <p className="text-warm-500 text-sm mb-4">
-            Once experts start answering, you'll see the most active voices here.
+            Once experts start answering, you&apos;ll see the most active voices here.
           </p>
           <Link href="/experts" className="inline-block px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors">
             Browse experts
