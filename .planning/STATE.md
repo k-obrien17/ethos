@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-last_updated: "2026-03-14T22:09:30.326Z"
+last_updated: "2026-03-15T16:46:16.122Z"
 progress:
   total_phases: 21
-  completed_phases: 11
+  completed_phases: 12
   total_plans: 24
-  completed_plans: 25
+  completed_plans: 26
 ---
 
 # Project State: Ethos
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v6 Scale & Infrastructure -- Phase 21 (Deploy Pipeline) ready to plan
+**Current focus:** v6 Scale & Infrastructure -- Phase 21 (Deploy Pipeline) complete, Phase 22 next
 
 ## Current Position
 
 Phase: 21 of 23 (Deploy Pipeline)
-Plan: 2 of 2
-Status: In progress
-Last activity: 2026-03-14 -- Completed 21-01 CI & Migration Workflow
+Plan: 2 of 2 (complete)
+Status: Phase complete
+Last activity: 2026-03-15 -- Completed 21-02 Vercel Preview & Branch Protection
 
 ## Current Milestone
 
@@ -63,6 +63,7 @@ Recent decisions affecting current work:
 - v1 + v2 are code-complete but not yet deployed (deploy pipeline phase will address this)
 - Multiple Supabase migrations pending application (DPLY-03 migration workflow will formalize this)
 - [Phase 21]: CI uses placeholder Supabase env vars for build-only checks
+- [Phase 21]: Branch protection: strict mode, no required reviews (solo dev), admin bypass allowed
 
 ### Pending Todos
 
@@ -77,6 +78,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-14
-Stopped at: Completed 21-01-PLAN.md
+Last session: 2026-03-15
+Stopped at: Completed 21-02-PLAN.md (Phase 21 complete)
 Resume file: None

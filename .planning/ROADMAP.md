@@ -214,8 +214,8 @@
   3. A documented migration workflow exists: developer can apply a new Supabase migration before deploying and has a rollback procedure if it fails
   4. Merging a PR to main is blocked unless CI checks have passed, enforced by GitHub branch protection rules
 **Plans**: 2 plans
-- [ ] 21-01-PLAN.md — CI workflow + migration docs
-- [ ] 21-02-PLAN.md — Vercel preview verification + branch protection
+- [x] 21-01-PLAN.md — CI workflow + migration docs
+- [x] 21-02-PLAN.md — Vercel preview verification + branch protection
 
 #### Phase 22: Caching & Static Generation
 **Goal**: Public pages load fast from edge cache with smart revalidation, reducing server load and improving time-to-first-byte
@@ -243,7 +243,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 21. Deploy Pipeline | 1/2 | In Progress|  |
+| 21. Deploy Pipeline | 2/2 | Complete | 2026-03-15 |
 | 22. Caching & Static Generation | 0/? | Not started | - |
 | 23. Monitoring | 0/? | Not started | - |
 
