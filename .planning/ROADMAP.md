@@ -196,7 +196,7 @@
 
 ### Phases
 
-- [ ] **Phase 21: Deploy Pipeline** - Every code change goes through automated checks, preview deploys, and a safe migration workflow before reaching production
+- [x] **Phase 21: Deploy Pipeline** - Every code change goes through automated checks, preview deploys, and a safe migration workflow before reaching production (completed 2026-03-15)
 - [ ] **Phase 22: Caching & Static Generation** - Public pages load fast from cache with appropriate revalidation, and static assets are served with long-lived headers
 - [ ] **Phase 23: Monitoring** - Errors are captured with context, health is checkable, and downtime is detected automatically
 
@@ -243,7 +243,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 21. Deploy Pipeline | 2/2 | Complete | 2026-03-15 |
+| 21. Deploy Pipeline | 2/2 | Complete    | 2026-03-15 |
 | 22. Caching & Static Generation | 0/? | Not started | - |
 | 23. Monitoring | 0/? | Not started | - |
 
