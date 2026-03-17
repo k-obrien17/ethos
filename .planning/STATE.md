@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-03-15T16:52:19.039Z"
+last_updated: "2026-03-17T20:45:54.779Z"
 progress:
-  total_phases: 21
+  total_phases: 22
   completed_phases: 12
-  total_plans: 24
-  completed_plans: 26
+  total_plans: 26
+  completed_plans: 27
 ---
 
 # Project State: Ethos
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v6 Scale & Infrastructure -- Phase 21 (Deploy Pipeline) complete, Phase 22 next
+**Current focus:** v6 Scale & Infrastructure -- Phase 22 (Caching) in progress, plan 01 complete
 
 ## Current Position
 
-Phase: 21 of 23 (Deploy Pipeline)
-Plan: 2 of 2 (complete)
-Status: Phase complete
-Last activity: 2026-03-15 -- Completed 21-02 Vercel Preview & Branch Protection
+Phase: 22 of 23 (Caching)
+Plan: 1 of 2
+Status: In progress
+Last activity: 2026-03-17 -- Completed 22-01 ISR & Static Asset Caching
 
 ## Current Milestone
 
@@ -64,6 +64,7 @@ Recent decisions affecting current work:
 - Multiple Supabase migrations pending application (DPLY-03 migration workflow will formalize this)
 - [Phase 21]: CI uses placeholder Supabase env vars for build-only checks
 - [Phase 21]: Branch protection: strict mode, no required reviews (solo dev), admin bypass allowed
+- [Phase 22-caching]: Leaderboard ISR changed from 300s to 3600s (hourly); legal pages get daily ISR (86400s)
 
 ### Pending Todos
 
@@ -78,6 +79,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-15
-Stopped at: Completed 21-02-PLAN.md (Phase 21 complete)
+Last session: 2026-03-17
+Stopped at: Completed 22-01-PLAN.md
 Resume file: None
