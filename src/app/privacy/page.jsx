@@ -1,3 +1,5 @@
+export const revalidate = 86400
+
 export const metadata = {
   title: 'Privacy Policy',
   description: 'Ethos privacy policy.',

@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import Avatar from '@/components/Avatar'
 
-export const revalidate = 300
+export const revalidate = 3600
 
 export const metadata = {
   title: 'Leaderboard',
