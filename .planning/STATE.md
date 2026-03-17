@@ -8,7 +8,7 @@ progress:
   total_phases: 22
   completed_phases: 12
   total_plans: 26
-  completed_plans: 27
+  completed_plans: 28
 ---
 
 # Project State: Ethos
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v6 Scale & Infrastructure -- Phase 22 (Caching) in progress, plan 01 complete
+**Current focus:** v6 Scale & Infrastructure -- Phase 22 (Caching) complete
 
 ## Current Position
 
 Phase: 22 of 23 (Caching)
-Plan: 1 of 2
-Status: In progress
-Last activity: 2026-03-17 -- Completed 22-01 ISR & Static Asset Caching
+Plan: 2 of 2
+Status: Phase complete
+Last activity: 2026-03-17 -- Completed 22-02 Cached Supabase Queries
 
 ## Current Milestone
 
@@ -65,6 +65,7 @@ Recent decisions affecting current work:
 - [Phase 21]: CI uses placeholder Supabase env vars for build-only checks
 - [Phase 21]: Branch protection: strict mode, no required reviews (solo dev), admin bypass allowed
 - [Phase 22-caching]: Leaderboard ISR changed from 300s to 3600s (hourly); legal pages get daily ISR (86400s)
+- [Phase 22-caching]: Used admin client for unstable_cache queries (no cookie dependency); topics page left uncached (needs count joins)
 
 ### Pending Todos
 
@@ -80,5 +81,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-17
-Stopped at: Completed 22-01-PLAN.md
+Stopped at: Completed 22-02-PLAN.md
 Resume file: None

@@ -17,8 +17,8 @@ Requirements for Scale & Infrastructure milestone. Each maps to roadmap phases.
 ### Caching
 
 - [x] **CACH-01**: Static pages (legal, leaderboard) use ISR with appropriate revalidation intervals
-- [ ] **CACH-02**: Dynamic pages use streaming with Suspense boundaries for fast TTFB
-- [ ] **CACH-03**: Supabase query results are cached where appropriate (topic list, site settings)
+- [x] **CACH-02**: Dynamic pages use streaming with Suspense boundaries for fast TTFB
+- [x] **CACH-03**: Supabase query results are cached where appropriate (topic list, site settings)
 - [x] **CACH-04**: Static assets (fonts, icons) have long-lived cache headers
 
 ### Monitoring
@@ -72,8 +72,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DPLY-03 | Phase 21 | Complete |
 | DPLY-04 | Phase 21 | Complete |
 | CACH-01 | Phase 22 | Complete |
-| CACH-02 | Phase 22 | Pending |
-| CACH-03 | Phase 22 | Pending |
+| CACH-02 | Phase 22 | Complete |
+| CACH-03 | Phase 22 | Complete |
 | CACH-04 | Phase 22 | Complete |
 | MNTR-01 | Phase 23 | Pending |
 | MNTR-02 | Phase 23 | Pending |
