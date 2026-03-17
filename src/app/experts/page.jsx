@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getCachedTopics } from '@/lib/supabase/cached'
 import Link from 'next/link'
 import FollowButtonSmall from '@/components/FollowButtonSmall'
 import Avatar from '@/components/Avatar'
@@ -28,7 +29,7 @@ export default async function ExpertsPage({ searchParams }) {
     { data: profiles },
     { data: answers },
     { data: questionTopics },
-    { data: allTopics },
+    allTopics,
     { count: totalQuestionsThisMonth },
     { data: userFollows },
   ] = await Promise.all([
@@ -41,10 +42,7 @@ export default async function ExpertsPage({ searchParams }) {
     supabase
       .from('question_topics')
       .select('question_id, topic_id, topics(id, name, slug)'),
-    supabase
-      .from('topics')
-      .select('id, name, slug')
-      .order('name', { ascending: true }),
+    getCachedTopics(),
     supabase
       .from('questions')
       .select('*', { count: 'exact', head: true })

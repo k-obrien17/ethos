@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getCachedTopics } from '@/lib/supabase/cached'
 import Link from 'next/link'
 import { searchContent } from '@/app/actions/search'
 import SearchResultCard from '@/components/SearchResultCard'
@@ -38,12 +39,10 @@ export default async function SearchPage({ searchParams }) {
     ? await searchContent({ query, type, topicId, dateRange, page })
     : { results: [], hasMore: false, error: null }
 
-  // Fetch all topics for filter dropdown
+  // Fetch all topics for filter dropdown (cached)
+  const topics = await getCachedTopics()
+
   const supabase = await createClient()
-  const { data: topics } = await supabase
-    .from('topics')
-    .select('id, name, slug')
-    .order('name')
 
   // Fetch trending topics for no-results state
   let trendingTopics = []

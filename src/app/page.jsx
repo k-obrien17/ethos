@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getCachedSiteSettings } from '@/lib/supabase/cached'
 import { subDays } from 'date-fns'
 import QuestionCard from '@/components/QuestionCard'
 import AnswerCard from '@/components/AnswerCard'
@@ -18,8 +19,8 @@ export default async function HomePage() {
   const today = new Date().toISOString().slice(0, 10)
   const sevenDaysAgo = subDays(new Date(), 7).toISOString()
 
-  // Parallel: auth + today's question + recent questions + trending candidates + featured expert setting
-  const [{ data: { user } }, { data: todayQuestion }, { data: recentQuestionsRaw }, { data: trendingRaw }, { data: featuredSetting }] =
+  // Parallel: auth + today's question + recent questions + trending candidates + featured expert setting (cached)
+  const [{ data: { user } }, { data: todayQuestion }, { data: recentQuestionsRaw }, { data: trendingRaw }, featuredExpertId] =
     await Promise.all([
       supabase.auth.getUser(),
       supabase
@@ -47,14 +48,8 @@ export default async function HomePage() {
         .gte('created_at', sevenDaysAgo)
         .order('view_count', { ascending: false })
         .limit(20),
-      supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'featured_expert_id')
-        .maybeSingle(),
+      getCachedSiteSettings('featured_expert_id'),
     ])
-
-  const featuredExpertId = featuredSetting?.value || null
 
   // Parallel: user-specific queries + today's answers + featured expert data
   const [userMeta, answersResult, featuredExpertResult] = await Promise.all([
