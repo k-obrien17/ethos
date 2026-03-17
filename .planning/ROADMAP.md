@@ -246,7 +246,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 21. Deploy Pipeline | 2/2 | Complete    | 2026-03-15 |
-| 22. Caching & Static Generation | 2/2 | Complete   | 2026-03-17 |
+| 22. Caching & Static Generation | 2/2 | Complete    | 2026-03-17 |
 | 23. Monitoring | 0/? | Not started | - |
 
 ---
