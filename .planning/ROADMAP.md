@@ -226,7 +226,9 @@
   2. Dynamic pages (homepage feed, question page) use React Suspense boundaries so the shell renders immediately and data streams in, achieving TTFB under 200ms
   3. Frequently-read Supabase queries (topic list, site settings) are cached using Next.js data cache with explicit revalidation intervals, reducing redundant database calls
   4. Static assets (fonts, icons, CSS/JS bundles) are served with Cache-Control headers that enable long-lived browser and CDN caching
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 22-01-PLAN.md — ISR revalidation for static pages + cache headers
+- [ ] 22-02-PLAN.md — Cached Supabase queries + Suspense verification
 
 #### Phase 23: Monitoring
 **Goal**: Errors are captured with enough context to diagnose, system health is checkable on demand, and downtime triggers alerts
