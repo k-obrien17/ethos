@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-03-19T11:59:38Z"
+last_updated: "2026-03-19T12:12:02Z"
 progress:
   total_phases: 23
   completed_phases: 13
   total_plans: 28
-  completed_plans: 29
+  completed_plans: 30
 ---
 
 # Project State: Ethos
@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-03-14)
 ## Current Position
 
 Phase: 23 of 23 (Monitoring)
-Plan: 1 of 2
-Status: In progress
-Last activity: 2026-03-19 -- Completed 23-01 Error Logging & Health Check
+Plan: 2 of 2
+Status: Phase complete
+Last activity: 2026-03-19 -- Completed 23-02 Admin Monitoring & Uptime
 
 ## Current Milestone
 
@@ -68,6 +68,8 @@ Recent decisions affecting current work:
 - [Phase 22-caching]: Used admin client for unstable_cache queries (no cookie dependency); topics page left uncached (needs count joins)
 - [Phase 23-monitoring]: Migration 00028 for error_logs (not 00026 as planned, due to existing migrations)
 - [Phase 23-monitoring]: Logger uses fire-and-forget .then() pattern for DB writes; health check queries profiles table
+- [Phase 23-monitoring]: ErrorRow extracted as separate client component for clean server/client boundary
+- [Phase 23-monitoring]: BetterStack chosen for external uptime monitoring (free tier, 3-min check interval)
 
 ### Pending Todos
 
@@ -84,5 +86,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-19
-Stopped at: Completed 23-01-PLAN.md
+Stopped at: Completed 23-02-PLAN.md (Phase 23 complete)
 Resume file: None

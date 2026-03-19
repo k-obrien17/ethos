@@ -25,8 +25,8 @@ Requirements for Scale & Infrastructure milestone. Each maps to roadmap phases.
 
 - [x] **MNTR-01**: Server-side errors are captured with structured logging (route, user, error details)
 - [x] **MNTR-02**: A /api/health endpoint returns status and basic diagnostics
-- [ ] **MNTR-03**: Admin can view recent errors on an admin monitoring page
-- [ ] **MNTR-04**: External uptime monitoring checks the health endpoint on a schedule
+- [x] **MNTR-03**: Admin can view recent errors on an admin monitoring page
+- [x] **MNTR-04**: External uptime monitoring checks the health endpoint on a schedule
 
 ## v5 Requirements (Complete)
 
@@ -77,8 +77,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CACH-04 | Phase 22 | Complete |
 | MNTR-01 | Phase 23 | Complete |
 | MNTR-02 | Phase 23 | Complete |
-| MNTR-03 | Phase 23 | Pending |
-| MNTR-04 | Phase 23 | Pending |
+| MNTR-03 | Phase 23 | Complete |
+| MNTR-04 | Phase 23 | Complete |
 
 **Coverage:**
 - v6 requirements: 12 total
