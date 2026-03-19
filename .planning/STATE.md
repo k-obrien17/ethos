@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-03-17T21:10:42.251Z"
+last_updated: "2026-03-19T11:59:38Z"
 progress:
-  total_phases: 22
+  total_phases: 23
   completed_phases: 13
-  total_plans: 26
-  completed_plans: 28
+  total_plans: 28
+  completed_plans: 29
 ---
 
 # Project State: Ethos
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** The limited answer budget turns every response into a statement of identity.
-**Current focus:** v6 Scale & Infrastructure -- Phase 22 (Caching) complete
+**Current focus:** v6 Scale & Infrastructure -- Phase 23 (Monitoring) in progress
 
 ## Current Position
 
-Phase: 22 of 23 (Caching)
-Plan: 2 of 2
-Status: Phase complete
-Last activity: 2026-03-17 -- Completed 22-02 Cached Supabase Queries
+Phase: 23 of 23 (Monitoring)
+Plan: 1 of 2
+Status: In progress
+Last activity: 2026-03-19 -- Completed 23-01 Error Logging & Health Check
 
 ## Current Milestone
 
@@ -66,6 +66,8 @@ Recent decisions affecting current work:
 - [Phase 21]: Branch protection: strict mode, no required reviews (solo dev), admin bypass allowed
 - [Phase 22-caching]: Leaderboard ISR changed from 300s to 3600s (hourly); legal pages get daily ISR (86400s)
 - [Phase 22-caching]: Used admin client for unstable_cache queries (no cookie dependency); topics page left uncached (needs count joins)
+- [Phase 23-monitoring]: Migration 00028 for error_logs (not 00026 as planned, due to existing migrations)
+- [Phase 23-monitoring]: Logger uses fire-and-forget .then() pattern for DB writes; health check queries profiles table
 
 ### Pending Todos
 
@@ -77,9 +79,10 @@ None.
 - Migration 00013_search_indexes.sql must be applied to Supabase before search is functional
 - Migration 00023_featured_expert.sql must be applied to Supabase for featured expert functionality
 - Migration 00025_notification_types.sql must be applied to Supabase for new notification types
+- Migration 00028_error_logs.sql must be applied to Supabase for error logging
 
 ## Session Continuity
 
-Last session: 2026-03-17
-Stopped at: Completed 22-02-PLAN.md
+Last session: 2026-03-19
+Stopped at: Completed 23-01-PLAN.md
 Resume file: None
