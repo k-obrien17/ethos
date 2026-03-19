@@ -4,10 +4,40 @@ const client = process.env.ANTHROPIC_API_KEY
   ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   : null
 
-export async function detectAI(answerText) {
+// Track consecutive failures per user to prevent abuse during outages
+const failureMap = new Map()
+const FAILURE_THRESHOLD = 3
+const FAILURE_WINDOW_MS = 15 * 60 * 1000 // 15 minutes
+
+function trackFailure(userId) {
+  const now = Date.now()
+  const entry = failureMap.get(userId) || { count: 0, firstAt: now }
+  if (now - entry.firstAt > FAILURE_WINDOW_MS) {
+    failureMap.set(userId, { count: 1, firstAt: now })
+    return false
+  }
+  entry.count++
+  failureMap.set(userId, entry)
+  return entry.count >= FAILURE_THRESHOLD
+}
+
+function clearFailures(userId) {
+  failureMap.delete(userId)
+}
+
+export async function detectAI(answerText, userId) {
   if (!client) {
     console.warn('[ai-detection] ANTHROPIC_API_KEY not set, skipping check')
     return { flagged: false, reason: null }
+  }
+
+  // If too many consecutive detection failures for this user, block submission
+  if (userId && failureMap.get(userId)?.count >= FAILURE_THRESHOLD) {
+    const entry = failureMap.get(userId)
+    if (Date.now() - entry.firstAt < FAILURE_WINDOW_MS) {
+      return { flagged: true, reason: 'Content verification temporarily unavailable. Please try again in a few minutes.' }
+    }
+    clearFailures(userId)
   }
 
   try {
@@ -51,6 +81,7 @@ ${answerText}`,
     const text = response.content[0].text.trim()
     const result = JSON.parse(text)
 
+    if (userId) clearFailures(userId)
     return {
       flagged: result.flagged === true && result.confidence >= 0.7,
       confidence: result.confidence,
@@ -58,7 +89,8 @@ ${answerText}`,
     }
   } catch (err) {
     console.error('[ai-detection] Check failed:', err.message)
-    // Fail open — don't block submissions if the API is down
+    // Track failure — after threshold, block submissions until service recovers
+    if (userId) trackFailure(userId)
     return { flagged: false, reason: null, error: err.message }
   }
 }

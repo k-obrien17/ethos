@@ -66,7 +66,7 @@ export async function toggleFollow(targetUserId) {
       user_id: targetUserId,
       type: 'follow',
       actor_id: user.id,
-    }).then(() => {})
+    }).then(() => {}).catch(err => console.error('[notification]', err))
 
     return { following: true }
   }

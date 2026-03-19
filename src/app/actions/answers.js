@@ -6,6 +6,7 @@ import { sendEmail, emailLayout, getUnsubscribeUrl } from '@/lib/email'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { detectAI } from '@/lib/aiDetection'
 import { rateLimit } from '@/lib/rateLimit'
+import { enrichAnswer } from '@/lib/enrichment'
 
 async function sendFeaturedEmail(answerId, expertId) {
   try {
@@ -132,7 +133,7 @@ export async function submitAnswer(prevState, formData) {
   }
 
   // Layer 3: AI detection (human-only enforcement)
-  const aiCheck = await detectAI(body)
+  const aiCheck = await detectAI(body, user.id)
   if (aiCheck.flagged) {
     return {
       error: 'This answer was flagged as AI-generated. Ethos is a human-only platform. Please write your answer in your own words.',
@@ -172,6 +173,9 @@ export async function submitAnswer(prevState, formData) {
   }
   revalidatePath('/')
 
+  // Enrich answer with LLM (fire-and-forget)
+  enrichAnswer(data?.id).then(() => {})
+
   // Notify followers (fire-and-forget)
   const admin = createAdminClient()
   const { data: followers } = await admin
@@ -186,7 +190,7 @@ export async function submitAnswer(prevState, formData) {
       actor_id: user.id,
       answer_id: data?.id,
     }))
-    admin.from('notifications').insert(notifications).then(() => {})
+    admin.from('notifications').insert(notifications).then(() => {}).catch(err => console.error('[notification]', err))
   }
 
   return { success: true, answerId: data?.id }
@@ -204,6 +208,17 @@ export async function editAnswer(prevState, formData) {
   if (!answerId) return { error: 'Missing answer ID.' }
   if (!body || body.length < 10) return { error: 'Answer must be at least 10 characters.' }
   if (body.length > 10000) return { error: 'Answer must be under 10,000 characters.' }
+
+  // Email verification check (same as submitAnswer)
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('email_verified_at')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile?.email_verified_at) {
+    return { error: 'Please verify your email before editing answers.' }
+  }
 
   // Fetch the answer to verify ownership and time window
   const { data: answer } = await supabase
@@ -234,6 +249,9 @@ export async function editAnswer(prevState, formData) {
     .eq('id', answerId)
 
   if (error) return { error: 'Failed to update answer. Please try again.' }
+
+  // Re-enrich after edit (fire-and-forget)
+  enrichAnswer(answerId).then(() => {})
 
   // Revalidate affected pages
   revalidatePath(`/answers/${answerId}`)

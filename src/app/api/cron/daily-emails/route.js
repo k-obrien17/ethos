@@ -2,11 +2,20 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendEmail, emailLayout, getUnsubscribeUrl } from '@/lib/email'
 import { NextResponse } from 'next/server'
 import { format, subDays } from 'date-fns'
+import { timingSafeEqual } from 'crypto'
+
+function safeCompare(a, b) {
+  if (!a || !b) return false
+  const bufA = Buffer.from(a)
+  const bufB = Buffer.from(b)
+  if (bufA.length !== bufB.length) return false
+  return timingSafeEqual(bufA, bufB)
+}
 
 export async function GET(request) {
   // Verify cron secret (Vercel sends this header)
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!safeCompare(authHeader, `Bearer ${process.env.CRON_SECRET}`)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

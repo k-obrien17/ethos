@@ -54,7 +54,7 @@ export async function addComment(prevState, formData) {
       actor_id: user.id,
       answer_id: answerId,
       body: body.slice(0, 100),
-    }).then(() => {})
+    }).then(() => {}).catch(err => console.error('[notification]', err))
   }
 
   // Notify parent comment author on reply (fire-and-forget)
@@ -76,7 +76,7 @@ export async function addComment(prevState, formData) {
         actor_id: user.id,
         answer_id: answerId,
         body: body.slice(0, 100),
-      }).then(() => {})
+      }).then(() => {}).catch(err => console.error('[notification]', err))
     }
   }
 
