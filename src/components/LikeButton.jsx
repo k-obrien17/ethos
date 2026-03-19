@@ -20,9 +20,11 @@ export default function LikeButton({ answerId, likeCount, isLiked, isAuthenticat
       setOptimistic(optimistic)
       const result = await toggleLike(answerId)
       if (result?.error) {
-        // Revert optimistic state on failure
         setOptimistic({ count: likeCount, liked: isLiked })
         toast.error('Failed to update like')
+      } else if (result?.count != null) {
+        // Sync with actual server count to prevent drift
+        setOptimistic({ count: result.count, liked: result.liked })
       }
     })
   }

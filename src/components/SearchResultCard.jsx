@@ -1,5 +1,13 @@
 import Link from 'next/link'
 
+// Sanitize search snippets — only allow <mark> tags for highlighting
+function sanitizeSnippet(html) {
+  if (!html) return ''
+  return html
+    .replace(/<(?!\/?mark\b)[^>]*>/gi, '')
+    .replace(/on\w+\s*=/gi, '')
+}
+
 const TYPE_STYLES = {
   question: 'bg-blue-100 text-blue-700',
   answer: 'bg-green-100 text-green-700',
@@ -34,7 +42,7 @@ export default function SearchResultCard({ result }) {
 
           <p
             className="text-sm text-warm-600 mt-1 line-clamp-2"
-            dangerouslySetInnerHTML={{ __html: result.snippet }}
+            dangerouslySetInnerHTML={{ __html: sanitizeSnippet(result.snippet) }}
           />
 
           <div className="flex items-center gap-2 mt-2 text-xs text-warm-400">

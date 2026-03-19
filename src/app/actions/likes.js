@@ -36,7 +36,9 @@ export async function toggleLike(answerId) {
     const { error: rpcError } = await supabase.rpc('decrement_like_count', { p_answer_id: answerId })
     if (rpcError) console.error('[likes] Decrement failed:', rpcError)
 
-    return { liked: false }
+    // Return actual count for client sync
+    const { data: updated } = await supabase.from('answers').select('like_count').eq('id', answerId).single()
+    return { liked: false, count: updated?.like_count ?? 0 }
   } else {
     // Like
     const { error } = await supabase
@@ -55,7 +57,7 @@ export async function toggleLike(answerId) {
     // Create notification for answer author (fire-and-forget)
     const { data: answer } = await supabase
       .from('answers')
-      .select('expert_id')
+      .select('expert_id, like_count')
       .eq('id', answerId)
       .single()
     if (answer && answer.expert_id !== user.id) {
@@ -64,9 +66,9 @@ export async function toggleLike(answerId) {
         type: 'like',
         actor_id: user.id,
         answer_id: answerId,
-      }).then(() => {})
+      }).then(() => {}).catch(err => console.error('[notification]', err))
     }
 
-    return { liked: true }
+    return { liked: true, count: answer?.like_count ?? 0 }
   }
 }
