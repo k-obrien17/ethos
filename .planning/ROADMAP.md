@@ -247,7 +247,7 @@
 |-------|----------------|--------|-----------|
 | 21. Deploy Pipeline | 2/2 | Complete    | 2026-03-15 |
 | 22. Caching & Static Generation | 2/2 | Complete    | 2026-03-17 |
-| 23. Monitoring | 2/2 | Complete   | 2026-03-19 |
+| 23. Monitoring | 2/2 | Complete    | 2026-03-19 |
 
 ---
 
