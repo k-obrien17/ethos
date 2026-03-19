@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 import { addComment, deleteComment } from '@/app/actions/comments'
 import Avatar from '@/components/Avatar'
 
-function CommentItem({ comment, currentUserId, answerId, onDelete, deletingId, onReply }) {
+function CommentItem({ comment, currentUserId, answerId, onDelete, deletingId, confirmDeleteId, onCancelDelete, onReply }) {
   return (
     <div className="flex gap-2">
       <Avatar src={comment.profiles?.avatar_url} alt={comment.profiles?.display_name || 'User'} size={24} className="mt-0.5" />
@@ -31,13 +31,30 @@ function CommentItem({ comment, currentUserId, answerId, onDelete, deletingId, o
             </button>
           )}
           {currentUserId === comment.user_id && (
-            <button
-              onClick={() => onDelete(comment.id)}
-              disabled={deletingId === comment.id}
-              className="text-xs text-warm-400 hover:text-red-500 transition-colors"
-            >
-              {deletingId === comment.id ? '...' : 'Delete'}
-            </button>
+            confirmDeleteId === comment.id ? (
+              <span className="flex items-center gap-1">
+                <button
+                  onClick={() => onDelete(comment.id)}
+                  disabled={deletingId === comment.id}
+                  className="text-xs text-red-600 font-medium hover:text-red-700 transition-colors"
+                >
+                  {deletingId === comment.id ? '...' : 'Confirm'}
+                </button>
+                <button
+                  onClick={onCancelDelete}
+                  className="text-xs text-warm-400 hover:text-warm-600 transition-colors"
+                >
+                  Cancel
+                </button>
+              </span>
+            ) : (
+              <button
+                onClick={() => onDelete(comment.id)}
+                className="text-xs text-warm-400 hover:text-red-500 transition-colors"
+              >
+                Delete
+              </button>
+            )
           )}
         </div>
         <p className="text-sm text-warm-700 mt-0.5 whitespace-pre-wrap break-words">
@@ -54,6 +71,7 @@ export default function CommentSection({ answerId, comments: initialComments = [
   const [body, setBody] = useState('')
   const [replyTo, setReplyTo] = useState(null)
   const [deletingId, setDeletingId] = useState(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null)
   const [localComments, setLocalComments] = useState(initialComments)
 
   useEffect(() => {
@@ -72,7 +90,11 @@ export default function CommentSection({ answerId, comments: initialComments = [
   }, [state])
 
   async function handleDelete(commentId) {
-    if (!confirm('Delete this comment?')) return
+    if (confirmDeleteId !== commentId) {
+      setConfirmDeleteId(commentId)
+      return
+    }
+    setConfirmDeleteId(null)
     const idx = localComments.findIndex(c => c.id === commentId)
     const removed = localComments[idx]
     setLocalComments(prev => prev.filter(c => c.id !== commentId))
@@ -138,6 +160,8 @@ export default function CommentSection({ answerId, comments: initialComments = [
                 answerId={answerId}
                 onDelete={handleDelete}
                 deletingId={deletingId}
+                confirmDeleteId={confirmDeleteId}
+                onCancelDelete={() => setConfirmDeleteId(null)}
                 onReply={handleReply}
               />
               {/* Replies */}

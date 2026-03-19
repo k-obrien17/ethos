@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useActionState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import { toast } from 'sonner'
 import { submitAnswer } from '@/app/actions/answers'
@@ -202,11 +203,20 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
           </p>
         )}
 
-        {/* Success message */}
+        {/* Success message with engagement prompt */}
         {state?.success && (
-          <p className="mt-3 text-sm text-green-700 bg-green-50 px-3 py-2 rounded-md">
-            Answer submitted successfully.
-          </p>
+          <div className="mt-3 bg-green-50 border border-green-200 px-4 py-3 rounded-md">
+            <p className="text-sm font-medium text-green-800">Answer submitted successfully.</p>
+            <div className="flex items-center gap-3 mt-2">
+              <a href="#answers" className="text-xs text-green-700 hover:text-green-900 underline">
+                Read other answers
+              </a>
+              <span className="text-green-300">&middot;</span>
+              <Link href="/questions" className="text-xs text-green-700 hover:text-green-900 underline">
+                Browse more questions
+              </Link>
+            </div>
+          </div>
         )}
       </form>
 

@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import BudgetIndicator from '@/components/BudgetIndicator'
 
-export default function MobileNav({ isAuthenticated }) {
+export default function MobileNav({ isAuthenticated, budgetData }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -50,6 +51,11 @@ export default function MobileNav({ isAuthenticated }) {
               <Link href="/dashboard" onClick={() => setOpen(false)} className="block py-2 text-sm text-warm-600 hover:text-warm-900">
                 Dashboard
               </Link>
+              {budgetData && (
+                <div className="py-2 border-t border-warm-100 mt-1 pt-2">
+                  <BudgetIndicator used={budgetData.used} limit={budgetData.limit} />
+                </div>
+              )}
             </>
           )}
           {!isAuthenticated && (

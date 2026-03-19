@@ -4,6 +4,7 @@ import HeaderAuth from '@/components/HeaderAuth'
 import SearchBar from '@/components/SearchBar'
 import MobileNav from '@/components/MobileNav'
 import NotificationBell from '@/components/NotificationBell'
+import NavLink from '@/components/NavLink'
 
 export default async function Header() {
   const supabase = await createClient()
@@ -46,20 +47,11 @@ export default async function Header() {
         {/* Desktop nav */}
         <div className="hidden sm:flex items-center gap-5">
           <SearchBar />
-          <Link href="/topics" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
-            Topics
-          </Link>
-          <Link href="/experts" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
-            Experts
-          </Link>
-          <Link href="/questions" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
-            Archive
-          </Link>
-          {user && (
-            <Link href="/following" className="text-warm-500 hover:text-warm-900 text-sm transition-colors">
-              Following
-            </Link>
-          )}
+          <NavLink href="/topics">Topics</NavLink>
+          <NavLink href="/experts">Experts</NavLink>
+          <NavLink href="/questions">Archive</NavLink>
+          <NavLink href="/leaderboard">Leaderboard</NavLink>
+          {user && <NavLink href="/following">Following</NavLink>}
           {user && <NotificationBell unreadCount={unreadCount} />}
           <HeaderAuth user={user} budgetData={budgetData} />
         </div>
@@ -67,7 +59,7 @@ export default async function Header() {
         <div className="flex sm:hidden items-center gap-2">
           <SearchBar />
           {user && <NotificationBell unreadCount={unreadCount} />}
-          <MobileNav isAuthenticated={!!user} />
+          <MobileNav isAuthenticated={!!user} budgetData={budgetData} />
         </div>
       </nav>
     </header>
