@@ -25,6 +25,14 @@ function parseJSON(text) {
   return JSON.parse(cleaned)
 }
 
+// Sanitize user content before embedding in LLM prompts
+function sanitizeForPrompt(text) {
+  if (!text) return ''
+  return text
+    .replace(/\$\{/g, '$ {')     // prevent template literal injection
+    .replace(/```/g, '` ` `')     // prevent code fence injection
+}
+
 /**
  * Full knowledge decomposition of an answer.
  * Extracts: summary, sentiment, quality_score, tags, claims, frameworks, evidence.
@@ -79,11 +87,11 @@ export async function enrichAnswer(answerId) {
     // Single LLM call to decompose the answer
     const prompt = `You are decomposing an expert's answer into structured knowledge objects.
 
-Question: ${answer.question.body}
+Question: ${sanitizeForPrompt(answer.question.body)}
 Category: ${answer.question.category || 'General'}
 Topics: ${topicNames.join(', ') || 'None'}
 Answer (${answer.word_count} words):
-${answer.body}
+${sanitizeForPrompt(answer.body)}
 
 Return ONLY valid JSON with this exact structure:
 {
@@ -320,10 +328,10 @@ export async function enrichProfile(profileId) {
 
     const prompt = `Analyze this professional's profile.
 
-Name: ${profile.display_name}
-Headline: ${profile.headline || 'None'}
-Organization: ${profile.organization || 'None'}
-Bio: ${profile.bio || 'None'}
+Name: ${sanitizeForPrompt(profile.display_name)}
+Headline: ${sanitizeForPrompt(profile.headline) || 'None'}
+Organization: ${sanitizeForPrompt(profile.organization) || 'None'}
+Bio: ${sanitizeForPrompt(profile.bio) || 'None'}
 
 Return ONLY valid JSON:
 {

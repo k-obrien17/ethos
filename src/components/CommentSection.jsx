@@ -152,33 +152,40 @@ export default function CommentSection({ answerId, comments: initialComments = [
 
       {expanded && (
         <div className="mt-3 space-y-3">
-          {topLevel.map((comment) => (
-            <div key={comment.id}>
-              <CommentItem
-                comment={comment}
-                currentUserId={currentUserId}
-                answerId={answerId}
-                onDelete={handleDelete}
-                deletingId={deletingId}
-                confirmDeleteId={confirmDeleteId}
-                onCancelDelete={() => setConfirmDeleteId(null)}
-                onReply={handleReply}
-              />
-              {/* Replies */}
-              {repliesMap[comment.id]?.map(reply => (
-                <div key={reply.id} className="ml-8 mt-2">
-                  <CommentItem
-                    comment={reply}
-                    currentUserId={currentUserId}
-                    answerId={answerId}
-                    onDelete={handleDelete}
-                    deletingId={deletingId}
-                    onReply={handleReply}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
+          <ul className="space-y-3 list-none p-0 m-0" aria-label="Comments">
+            {topLevel.map((comment) => (
+              <li key={comment.id}>
+                <CommentItem
+                  comment={comment}
+                  currentUserId={currentUserId}
+                  answerId={answerId}
+                  onDelete={handleDelete}
+                  deletingId={deletingId}
+                  confirmDeleteId={confirmDeleteId}
+                  onCancelDelete={() => setConfirmDeleteId(null)}
+                  onReply={handleReply}
+                />
+                {repliesMap[comment.id]?.length > 0 && (
+                  <ul className="ml-8 mt-2 space-y-2 list-none p-0 m-0" aria-label="Replies">
+                    {repliesMap[comment.id].map(reply => (
+                      <li key={reply.id}>
+                        <CommentItem
+                          comment={reply}
+                          currentUserId={currentUserId}
+                          answerId={answerId}
+                          onDelete={handleDelete}
+                          deletingId={deletingId}
+                          confirmDeleteId={confirmDeleteId}
+                          onCancelDelete={() => setConfirmDeleteId(null)}
+                          onReply={handleReply}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
 
           {/* Comment form */}
           {currentUserId ? (
