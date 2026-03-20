@@ -14,16 +14,18 @@ export const getCachedTopics = unstable_cache(
   { revalidate: 300, tags: ['topics'] }
 )
 
-export const getCachedSiteSettings = unstable_cache(
-  async (key) => {
-    const supabase = createAdminClient()
-    const { data } = await supabase
-      .from('site_settings')
-      .select('value')
-      .eq('key', key)
-      .maybeSingle()
-    return data?.value ?? null
-  },
-  ['site-settings'],
-  { revalidate: 300, tags: ['site-settings'] }
-)
+export function getCachedSiteSettings(key) {
+  return unstable_cache(
+    async () => {
+      const supabase = createAdminClient()
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', key)
+        .maybeSingle()
+      return data?.value ?? null
+    },
+    ['site-settings', key],
+    { revalidate: 300, tags: ['site-settings'] }
+  )()
+}
