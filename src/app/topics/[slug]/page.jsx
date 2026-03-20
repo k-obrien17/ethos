@@ -1,7 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import QuestionCard from '@/components/QuestionCard'
 import FollowTopicButton from '@/components/FollowTopicButton'
+import Avatar from '@/components/Avatar'
 
 export const revalidate = 300
 
@@ -61,6 +63,20 @@ export default async function TopicDetailPage({ params }) {
     questions = data ?? []
   }
 
+  // Fetch top 5 answers in this topic by engagement (likes + views)
+  let topAnswers = []
+  if (questionIds.length > 0) {
+    const { data: answers } = await supabase
+      .from('answers')
+      .select('id, body, like_count, view_count, comment_count, created_at, expert_id, question_id, profiles:expert_id(display_name, handle, avatar_url, headline), questions:question_id(body, slug)')
+      .in('question_id', questionIds)
+      .is('hidden_at', null)
+      .order('like_count', { ascending: false })
+      .limit(5)
+
+    topAnswers = (answers ?? []).filter(a => (a.like_count ?? 0) + (a.view_count ?? 0) > 0)
+  }
+
   // Check if current user follows this topic
   let isFollowed = false
   if (user) {
@@ -104,21 +120,72 @@ export default async function TopicDetailPage({ params }) {
         </div>
       </div>
 
-      {questions.length > 0 ? (
-        <div className="space-y-3">
-          {questions.map((q) => (
-            <QuestionCard
-              key={q.id}
-              question={q}
-              answerCount={q.answers?.[0]?.count ?? 0}
-            />
-          ))}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left column: Questions */}
+        <div>
+          <h2 className="text-sm font-semibold text-warm-900 uppercase tracking-widest mb-3">
+            Questions
+          </h2>
+          {questions.length > 0 ? (
+            <div className="space-y-3">
+              {questions.map((q) => (
+                <QuestionCard
+                  key={q.id}
+                  question={q}
+                  answerCount={q.answers?.[0]?.count ?? 0}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-warm-500 text-sm text-center py-8">
+              No questions tagged with this topic yet.
+            </p>
+          )}
         </div>
-      ) : (
-        <p className="text-warm-500 text-sm text-center py-8">
-          No questions tagged with this topic yet.
-        </p>
-      )}
+
+        {/* Right column: Top Answers */}
+        <div>
+          <h2 className="text-sm font-semibold text-warm-900 uppercase tracking-widest mb-3">
+            Top Answers
+          </h2>
+          {topAnswers.length > 0 ? (
+            <div className="space-y-3">
+              {topAnswers.map(answer => (
+                <Link
+                  key={answer.id}
+                  href={`/q/${answer.questions.slug}`}
+                  className="block p-4 bg-white rounded-lg border border-warm-200 hover:border-warm-300 transition-colors"
+                >
+                  <div className="flex items-start gap-3">
+                    <Avatar src={answer.profiles.avatar_url} alt={answer.profiles.display_name} size={32} />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-warm-900">{answer.profiles.display_name}</span>
+                        <span className="text-xs text-warm-400 truncate">{answer.profiles.headline}</span>
+                      </div>
+                      <p className="text-xs text-warm-500 mt-0.5 italic line-clamp-1">
+                        {answer.questions.body}
+                      </p>
+                      <p className="text-sm text-warm-700 mt-1.5 line-clamp-3">
+                        {answer.body.slice(0, 200)}{answer.body.length > 200 ? '...' : ''}
+                      </p>
+                      <div className="flex items-center gap-3 mt-2 text-xs text-warm-400">
+                        {answer.like_count > 0 && <span>{answer.like_count} {answer.like_count === 1 ? 'like' : 'likes'}</span>}
+                        {answer.view_count > 0 && <span>{answer.view_count} views</span>}
+                        {answer.comment_count > 0 && <span>{answer.comment_count} {answer.comment_count === 1 ? 'comment' : 'comments'}</span>}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-warm-500 text-sm text-center py-8">
+              No top answers yet.
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

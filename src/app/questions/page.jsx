@@ -12,24 +12,32 @@ export const metadata = {
 export default async function QuestionsPage() {
   const supabase = await createClient()
 
-  const { data: questions } = await supabase
-    .from('questions')
-    .select('*, answers(count, view_count, created_at), question_topics(topics(name, slug))')
-    .lte('publish_date', new Date().toISOString().slice(0, 10))
-    .in('status', ['scheduled', 'published'])
-    .order('publish_date', { ascending: false })
+  const [{ data: questions }, { data: answers }] = await Promise.all([
+    supabase
+      .from('questions')
+      .select('*, question_topics(topics(name, slug))')
+      .lte('publish_date', new Date().toISOString().slice(0, 10))
+      .in('status', ['scheduled', 'published'])
+      .order('publish_date', { ascending: false }),
+    supabase
+      .from('answers')
+      .select('question_id, view_count, created_at')
+      .is('hidden_at', null),
+  ])
 
-  // Compute per-question engagement stats
+  // Build per-question stats from answers
+  const statsMap = {}
+  for (const a of answers ?? []) {
+    if (!statsMap[a.question_id]) statsMap[a.question_id] = { count: 0, views: 0, latest: null }
+    const s = statsMap[a.question_id]
+    s.count++
+    s.views += a.view_count ?? 0
+    if (!s.latest || a.created_at > s.latest) s.latest = a.created_at
+  }
+
   const enriched = (questions ?? []).map((q) => {
-    const answers = q.answers ?? []
-    const answerCount = answers.length > 0 && typeof answers[0].count === 'number'
-      ? answers[0].count
-      : answers.length
-    const totalViews = answers.reduce((sum, a) => sum + (a.view_count ?? 0), 0)
-    const latestAnswer = answers
-      .filter(a => a.created_at)
-      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0]
-    return { ...q, answerCount, totalViews, latestAnswer, isPopular: answerCount > 5 }
+    const s = statsMap[q.id] || { count: 0, views: 0, latest: null }
+    return { ...q, answerCount: s.count, totalViews: s.views, latestAnswer: s.latest ? { created_at: s.latest } : null, isPopular: s.count > 5 }
   })
 
   return (

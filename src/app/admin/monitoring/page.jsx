@@ -58,7 +58,7 @@ export default async function AdminMonitoringPage({ searchParams }) {
     .order('route')
 
   // Get last-24h counts by severity
-  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+  const twentyFourHoursAgo = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString()
   const recentErrorsPromise = supabase
     .from('error_logs')
     .select('severity')
