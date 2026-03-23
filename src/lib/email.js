@@ -13,6 +13,11 @@ export async function sendEmail({ to, subject, html }) {
     return { error: 'Email not configured' }
   }
 
+  if (!to || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) {
+    console.error('[email] Invalid recipient:', to)
+    return { error: 'Invalid email address' }
+  }
+
   const { data, error } = await resend.emails.send({
     from: SENDER,
     to,

@@ -108,7 +108,7 @@ export default async function AnswerPage({ params }) {
         id, body, like_count, created_at,
         questions!inner(body, slug, publish_date)
       `)
-      .eq('expert_id', answer.profiles.id)
+      .eq('expert_id', answer.profiles?.id)
       .neq('id', answer.id)
       .order('created_at', { ascending: false })
       .limit(3),
@@ -118,7 +118,7 @@ export default async function AnswerPage({ params }) {
         id, body, like_count, created_at,
         profiles!answers_expert_id_fkey(display_name, handle, avatar_url)
       `)
-      .eq('question_id', answer.questions.id)
+      .eq('question_id', answer.questions?.id)
       .neq('id', answer.id)
       .order('like_count', { ascending: false })
       .limit(4),

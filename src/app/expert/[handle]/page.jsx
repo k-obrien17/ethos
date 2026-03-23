@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('display_name, headline, bio')
+    .select('id, display_name, headline, bio')
     .eq('handle', handle)
     .single()
 
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
   const { data: expertAnswers } = await supabase
     .from('answers')
     .select('question_id')
-    .eq('expert_id', (await supabase.from('profiles').select('id').eq('handle', handle).single()).data?.id)
+    .eq('expert_id', profile.id)
   if (expertAnswers?.length) {
     const qIds = [...new Set(expertAnswers.map(a => a.question_id))]
     const { data: qts } = await supabase

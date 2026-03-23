@@ -20,8 +20,9 @@ export default async function HomePage() {
   const sevenDaysAgo = subDays(new Date(), 7).toISOString()
 
   // Parallel: auth + today's question + recent questions + trending candidates + featured expert setting (cached)
-  const [{ data: { user } }, { data: todayQuestion }, { data: recentQuestionsRaw }, { data: trendingRaw }, featuredExpertId] =
-    await Promise.all([
+  let user = null, todayQuestion = null, recentQuestionsRaw = null, trendingRaw = null, featuredExpertId = null
+  try {
+    const [authResult, questionResult, recentResult, trendingResult, featuredResult] = await Promise.all([
       supabase.auth.getUser(),
       supabase
         .from('questions')
@@ -50,6 +51,14 @@ export default async function HomePage() {
         .limit(20),
       getCachedSiteSettings('featured_expert_id'),
     ])
+    user = authResult.data?.user ?? null
+    todayQuestion = questionResult.data ?? null
+    recentQuestionsRaw = recentResult.data ?? []
+    trendingRaw = trendingResult.data ?? []
+    featuredExpertId = featuredResult ?? null
+  } catch {
+    // Fallback — page renders with empty state if queries fail
+  }
 
   // Parallel: user-specific queries + today's answers + featured expert data
   const [userMeta, answersResult, featuredExpertResult] = await Promise.all([
@@ -193,7 +202,7 @@ export default async function HomePage() {
   }
 
   // Prioritize followed-topic questions for signed-in users
-  let recentQuestions = recentQuestionsRaw
+  let recentQuestions = recentQuestionsRaw ?? []
   if (followedTopicIds.length > 0 && recentQuestions) {
     recentQuestions = [...recentQuestions].sort((a, b) => {
       const aTopics = (a.question_topics ?? []).map(qt => qt.topics?.id).filter(Boolean)

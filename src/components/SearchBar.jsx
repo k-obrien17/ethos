@@ -33,7 +33,6 @@ export default function SearchBar() {
   const [isFocused, setIsFocused] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
-  const [totalItems, setTotalItems] = useState(0)
 
   // Count total items for keyboard nav bounds
   useEffect(() => {
