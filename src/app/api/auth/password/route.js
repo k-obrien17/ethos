@@ -14,7 +14,12 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Too many attempts. Please try again later.' }, { status: 429 })
   }
 
-  const { password } = await request.json()
+  let password
+  try {
+    ({ password } = await request.json())
+  } catch {
+    return NextResponse.json({ error: 'Invalid request.' }, { status: 400 })
+  }
 
   if (password === sitePassword) {
     const response = NextResponse.json({ ok: true })

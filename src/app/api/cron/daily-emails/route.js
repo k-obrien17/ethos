@@ -362,15 +362,3 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;')
 }
-
-function safeUrl(url) {
-  if (!url) return '#'
-  try {
-    const parsed = new URL(url)
-    if (!['http:', 'https:'].includes(parsed.protocol)) return '#'
-    return url
-  } catch {
-    // Relative URL — allow if starts with /
-    return url.startsWith('/') ? url : '#'
-  }
-}

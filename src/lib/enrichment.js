@@ -351,7 +351,7 @@ Return ONLY valid JSON:
       seniority_level: result.seniority_level,
       industry: result.industry,
       expertise_areas: result.expertise_areas || [],
-      canonical_name: profile.display_name.toLowerCase(),
+      canonical_name: profile.display_name?.toLowerCase() ?? '',
       enrichment_version: 1,
     }).eq('id', profileId)
 
