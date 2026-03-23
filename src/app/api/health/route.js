@@ -9,25 +9,27 @@ export async function GET() {
     const checks = {}
     let overallStatus = 'healthy'
 
-    // Database connectivity check
+    // Database connectivity check with hard timeout
+    const DB_TIMEOUT_MS = 5000
     const dbStart = performance.now()
     try {
       const supabase = createAdminClient()
-      const { error } = await supabase.from('profiles').select('id').limit(1)
+      const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Database query timed out')), DB_TIMEOUT_MS)
+      )
+      const query = supabase.from('profiles').select('id').limit(1)
+      const { error } = await Promise.race([query, timeout])
       const latencyMs = Math.round(performance.now() - dbStart)
 
       if (error) {
-        checks.database = { status: 'error', latencyMs, error: error.message }
-        overallStatus = 'degraded'
-      } else if (latencyMs > 5000) {
-        checks.database = { status: 'error', latencyMs, error: 'Timeout: query exceeded 5000ms' }
+        checks.database = { status: 'error', latencyMs }
         overallStatus = 'degraded'
       } else {
         checks.database = { status: 'ok', latencyMs }
       }
     } catch (err) {
       const latencyMs = Math.round(performance.now() - dbStart)
-      checks.database = { status: 'error', latencyMs, error: err.message }
+      checks.database = { status: 'error', latencyMs }
       overallStatus = 'degraded'
     }
 
@@ -53,7 +55,7 @@ export async function GET() {
     })
 
     return NextResponse.json(
-      { status: 'error', message: err.message },
+      { status: 'error' },
       { status: 503, headers }
     )
   }

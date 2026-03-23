@@ -45,21 +45,18 @@ export async function enrichAnswer(answerId) {
   let enrichmentRunId
 
   try {
-    // Skip if enrichment already in progress for this answer
+    // Skip if enrichment already in progress or completed recently (5 min cooldown)
+    const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
     const { data: existing } = await admin.from('enrichment_runs')
-      .select('id')
+      .select('id, status')
       .eq('target_type', 'answer')
       .eq('target_id', answerId)
-      .eq('status', 'started')
-      .maybeSingle()
-    if (existing) return
+      .gte('created_at', fiveMinAgo)
+      .in('status', ['started', 'completed'])
+      .limit(1)
+    if (existing?.length > 0) return
 
-    // Clear old claims/frameworks/evidence before re-extracting
-    await admin.from('evidence').delete().eq('source_answer_id', answerId)
-    await admin.from('claims').delete().eq('source_answer_id', answerId)
-    await admin.from('frameworks').delete().eq('source_answer_id', answerId)
-
-    // Log enrichment run start
+    // Log enrichment run start BEFORE clearing — ensures we have a record even if crash occurs
     const { data: run } = await admin.from('enrichment_runs').insert({
       target_type: 'answer',
       target_id: answerId,
@@ -69,6 +66,11 @@ export async function enrichAnswer(answerId) {
       started_at: startedAt,
     }).select('id').single()
     enrichmentRunId = run?.id
+
+    // Clear old claims/frameworks/evidence before re-extracting
+    await admin.from('evidence').delete().eq('source_answer_id', answerId)
+    await admin.from('claims').delete().eq('source_answer_id', answerId)
+    await admin.from('frameworks').delete().eq('source_answer_id', answerId)
 
     // Fetch answer with context
     const { data: answer } = await admin
@@ -87,11 +89,11 @@ export async function enrichAnswer(answerId) {
     // Single LLM call to decompose the answer
     const prompt = `You are decomposing an expert's answer into structured knowledge objects.
 
-Question: ${sanitizeForPrompt(answer.question.body)}
+Question: ${JSON.stringify(answer.question.body)}
 Category: ${answer.question.category || 'General'}
 Topics: ${topicNames.join(', ') || 'None'}
 Answer (${answer.word_count} words):
-${sanitizeForPrompt(answer.body)}
+${JSON.stringify(answer.body)}
 
 Return ONLY valid JSON with this exact structure:
 {
@@ -328,10 +330,10 @@ export async function enrichProfile(profileId) {
 
     const prompt = `Analyze this professional's profile.
 
-Name: ${sanitizeForPrompt(profile.display_name)}
-Headline: ${sanitizeForPrompt(profile.headline) || 'None'}
-Organization: ${sanitizeForPrompt(profile.organization) || 'None'}
-Bio: ${sanitizeForPrompt(profile.bio) || 'None'}
+Name: ${JSON.stringify(profile.display_name || '')}
+Headline: ${JSON.stringify(profile.headline || 'None')}
+Organization: ${JSON.stringify(profile.organization || 'None')}
+Bio: ${JSON.stringify(profile.bio || 'None')}
 
 Return ONLY valid JSON:
 {
