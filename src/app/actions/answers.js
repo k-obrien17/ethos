@@ -174,7 +174,7 @@ export async function submitAnswer(prevState, formData) {
   revalidatePath('/')
 
   // Enrich answer with LLM (fire-and-forget)
-  enrichAnswer(data?.id).then(() => {})
+  if (data?.id) enrichAnswer(data.id).catch(err => console.error('[enrichment]', err))
 
   // Notify followers (fire-and-forget)
   const admin = createAdminClient()
@@ -251,7 +251,7 @@ export async function editAnswer(prevState, formData) {
   if (error) return { error: 'Failed to update answer. Please try again.' }
 
   // Re-enrich after edit (fire-and-forget)
-  enrichAnswer(answerId).then(() => {})
+  enrichAnswer(answerId).catch(err => console.error('[enrichment]', err))
 
   // Revalidate affected pages
   revalidatePath(`/answers/${answerId}`)
@@ -366,7 +366,7 @@ export async function toggleFeaturedAnswer(answerId) {
       type: 'featured',
       actor_id: user.id,
       answer_id: answerId,
-    }).then(() => {})
+    }).then(() => {}).catch(err => console.error('[notification]', err))
   }
 
   // Revalidate affected pages

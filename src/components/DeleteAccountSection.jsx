@@ -12,15 +12,21 @@ export default function DeleteAccountSection() {
   const supabase = createClient()
 
   async function handleDelete() {
-    setPending(true)
-    const result = await deleteAccount()
-    if (result?.error) {
-      alert(result.error)
+    try {
+      setPending(true)
+      const result = await deleteAccount()
+      if (result?.error) {
+        alert(result.error)
+        setPending(false)
+        setConfirming(false)
+      } else {
+        await supabase.auth.signOut()
+        router.push('/')
+      }
+    } catch {
+      alert('An unexpected error occurred. Please try again.')
       setPending(false)
       setConfirming(false)
-    } else {
-      await supabase.auth.signOut()
-      router.push('/')
     }
   }
 

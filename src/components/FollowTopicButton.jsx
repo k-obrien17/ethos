@@ -1,11 +1,14 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useEffect, useTransition } from 'react'
 import { toast } from 'sonner'
 import { followTopic, unfollowTopic } from '@/app/actions/topics'
 
 export default function FollowTopicButton({ topicId, topicName, isFollowed, size = 'default' }) {
   const [following, setFollowing] = useState(isFollowed)
+
+  // Sync with prop when server re-renders
+  useEffect(() => { setFollowing(isFollowed) }, [isFollowed])
   const [isPending, startTransition] = useTransition()
 
   function handleClick() {

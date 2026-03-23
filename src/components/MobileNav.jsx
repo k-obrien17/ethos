@@ -49,7 +49,7 @@ export default function MobileNav({ isAuthenticated, budgetData }) {
       </button>
 
       {open && (
-        <nav role="dialog" aria-label="Navigation menu" className="absolute left-0 right-0 top-full bg-white border-b border-warm-200 z-50 px-4 py-3 space-y-1">
+        <nav aria-label="Navigation menu" className="absolute left-0 right-0 top-full bg-white border-b border-warm-200 z-50 px-4 py-3 space-y-1">
           <MobileNavLink href="/topics" onClick={close}>Topics</MobileNavLink>
           <MobileNavLink href="/questions" onClick={close}>Archive</MobileNavLink>
           <MobileNavLink href="/trending" onClick={close}>Trending</MobileNavLink>

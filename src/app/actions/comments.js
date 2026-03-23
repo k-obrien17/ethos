@@ -37,7 +37,8 @@ export async function addComment(prevState, formData) {
 
   if (error) return { error: 'Failed to post comment.' }
 
-  await supabase.rpc('increment_comment_count', { p_answer_id: answerId })
+  const { error: rpcError } = await supabase.rpc('increment_comment_count', { p_answer_id: answerId })
+  if (rpcError) console.error('[comments] increment_comment_count failed:', rpcError)
 
   // Fetch the answer's question slug and author for revalidation + notification
   const { data: answer } = await supabase
@@ -101,7 +102,8 @@ export async function deleteComment(commentId, answerId) {
 
   if (error) return { error: 'Failed to delete comment.' }
 
-  await supabase.rpc('decrement_comment_count', { p_answer_id: answerId })
+  const { error: rpcError } = await supabase.rpc('decrement_comment_count', { p_answer_id: answerId })
+  if (rpcError) console.error('[comments] decrement_comment_count failed:', rpcError)
 
   const { data: answer } = await supabase
     .from('answers')

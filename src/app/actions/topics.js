@@ -91,6 +91,7 @@ export async function followTopic(topicId) {
   if (error) return { error: 'Failed to follow topic.' }
 
   revalidatePath('/topics')
+  revalidatePath('/admin/topics')
   revalidatePath('/')
 
   return { success: true }
@@ -110,6 +111,7 @@ export async function unfollowTopic(topicId) {
   if (error) return { error: 'Failed to unfollow topic.' }
 
   revalidatePath('/topics')
+  revalidatePath('/admin/topics')
   revalidatePath('/')
 
   return { success: true }

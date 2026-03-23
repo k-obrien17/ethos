@@ -13,29 +13,33 @@ export default async function Header() {
   let budgetData = null
   let unreadCount = 0
   if (user) {
-    const [{ data: profile }, { count: budgetCount }, { count: notifCount }] = await Promise.all([
-      supabase
-        .from('profiles')
-        .select('answer_limit')
-        .eq('id', user.id)
-        .single(),
-      supabase
-        .from('answers')
-        .select('*', { count: 'exact', head: true })
-        .eq('expert_id', user.id)
-        .gte('created_at', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
-      supabase
-        .from('notifications')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .is('read_at', null),
-    ])
+    try {
+      const [{ data: profile }, { count: budgetCount }, { count: notifCount }] = await Promise.all([
+        supabase
+          .from('profiles')
+          .select('answer_limit')
+          .eq('id', user.id)
+          .single(),
+        supabase
+          .from('answers')
+          .select('*', { count: 'exact', head: true })
+          .eq('expert_id', user.id)
+          .gte('created_at', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
+        supabase
+          .from('notifications')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', user.id)
+          .is('read_at', null),
+      ])
 
-    budgetData = {
-      used: budgetCount ?? 0,
-      limit: profile?.answer_limit ?? 3,
+      budgetData = {
+        used: budgetCount ?? 0,
+        limit: profile?.answer_limit ?? 3,
+      }
+      unreadCount = notifCount ?? 0
+    } catch {
+      // Fallback — header renders with defaults if queries fail
     }
-    unreadCount = notifCount ?? 0
   }
 
   return (
