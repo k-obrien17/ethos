@@ -17,7 +17,7 @@ export default async function ApiKeysPage() {
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ethos-daily.vercel.app'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://credo.vercel.app'
 
   return (
     <div className="space-y-6">

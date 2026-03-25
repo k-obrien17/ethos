@@ -183,7 +183,7 @@ export default async function QuestionPage({ params }) {
     }
   }
 
-  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ethos-daily.vercel.app'
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://credo.vercel.app'
 
   const jsonLd = {
     '@context': 'https://schema.org',
