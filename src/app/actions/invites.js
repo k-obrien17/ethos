@@ -51,21 +51,21 @@ export async function createExpertInvite() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'You must be signed in.' }
 
-  // Check expert has at least 1 answer (they're a real participant)
-  const { count: answerCount } = await supabase
-    .from('answers')
-    .select('*', { count: 'exact', head: true })
-    .eq('expert_id', user.id)
+  // Check eligibility: at least 1 answer + under invite limit
+  const [{ count: answerCount }, { count: existingInvites }] = await Promise.all([
+    supabase
+      .from('answers')
+      .select('*', { count: 'exact', head: true })
+      .eq('expert_id', user.id),
+    supabase
+      .from('invites')
+      .select('*', { count: 'exact', head: true })
+      .eq('created_by', user.id),
+  ])
 
   if (!answerCount || answerCount < 1) {
     return { error: 'You need to answer at least one question before inviting others.' }
   }
-
-  // Check how many invites this expert has already created
-  const { count: existingInvites } = await supabase
-    .from('invites')
-    .select('*', { count: 'exact', head: true })
-    .eq('created_by', user.id)
 
   if ((existingInvites ?? 0) >= MAX_EXPERT_INVITES) {
     return { error: `You have already used your ${MAX_EXPERT_INVITES} invite codes.` }

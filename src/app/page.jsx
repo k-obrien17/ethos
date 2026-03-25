@@ -175,11 +175,16 @@ export default async function HomePage() {
   const plainExcerpt = (text, len) =>
     text.replace(/[#*_~`>\[\]()!|-]/g, '').slice(0, len).trim() + (text.length > len ? '...' : '')
 
-  // Derive companies with active experts
-  const { data: companyProfiles } = await supabase
-    .from('profiles')
-    .select('id, display_name, handle, avatar_url, organization')
-    .not('organization', 'is', null)
+  // Parallel fetch: company profiles + answer stats for company section
+  const [{ data: companyProfiles }, { data: companyAnswerStats }] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('id, display_name, handle, avatar_url, organization')
+      .not('organization', 'is', null),
+    supabase
+      .from('answers')
+      .select('expert_id, like_count'),
+  ])
 
   const orgMap = {}
   for (const p of companyProfiles ?? []) {
@@ -188,11 +193,6 @@ export default async function HomePage() {
     if (!orgMap[org]) orgMap[org] = []
     orgMap[org].push(p)
   }
-
-  // Build company stats from today's answers data + a quick count query
-  const { data: companyAnswerStats } = await supabase
-    .from('answers')
-    .select('expert_id, like_count')
 
   const companyExpertStats = {}
   for (const a of companyAnswerStats ?? []) {

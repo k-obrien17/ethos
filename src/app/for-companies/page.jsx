@@ -12,11 +12,16 @@ export const metadata = {
 export default async function ForCompaniesPage() {
   const supabase = await createClient()
 
-  // Fetch companies with active experts
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('id, display_name, handle, avatar_url, headline, organization')
-    .not('organization', 'is', null)
+  // Parallel fetch: profiles with orgs + answer stats
+  const [{ data: profiles }, { data: answers }] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('id, display_name, handle, avatar_url, headline, organization')
+      .not('organization', 'is', null),
+    supabase
+      .from('answers')
+      .select('expert_id, like_count'),
+  ])
 
   // Group experts by organization
   const orgMap = {}
@@ -26,11 +31,6 @@ export default async function ForCompaniesPage() {
     if (!orgMap[org]) orgMap[org] = []
     orgMap[org].push(p)
   }
-
-  // Fetch answer counts per expert
-  const { data: answers } = await supabase
-    .from('answers')
-    .select('expert_id, like_count')
 
   const expertStats = {}
   for (const a of answers ?? []) {
