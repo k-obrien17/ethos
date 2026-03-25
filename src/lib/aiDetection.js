@@ -6,10 +6,20 @@ const client = process.env.ANTHROPIC_API_KEY
 
 // Track consecutive failures per user to prevent abuse during outages
 const failureMap = new Map()
+const MAX_FAILURE_ENTRIES = 5000
 const FAILURE_THRESHOLD = 3
 const FAILURE_WINDOW_MS = 15 * 60 * 1000 // 15 minutes
 
+function pruneFailureMap() {
+  if (failureMap.size <= MAX_FAILURE_ENTRIES) return
+  const now = Date.now()
+  for (const [k, v] of failureMap) {
+    if (now - v.firstAt > FAILURE_WINDOW_MS) failureMap.delete(k)
+  }
+}
+
 function trackFailure(userId) {
+  pruneFailureMap()
   const now = Date.now()
   const entry = failureMap.get(userId) || { count: 0, firstAt: now }
   if (now - entry.firstAt > FAILURE_WINDOW_MS) {
@@ -73,7 +83,7 @@ Respond with ONLY a JSON object (no markdown, no explanation):
 Flag the answer if confidence of AI authorship is 0.7 or above. Err on the side of flagging — false positives are acceptable.
 
 Answer to analyze:
-${answerText}`,
+${JSON.stringify(answerText)}`,
         },
       ],
     }), timeout])

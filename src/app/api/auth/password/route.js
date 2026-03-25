@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { timingSafeEqual } from 'crypto'
 import { rateLimit } from '@/lib/rateLimit'
 
 export async function POST(request) {
@@ -21,7 +22,11 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Invalid request.' }, { status: 400 })
   }
 
-  if (password === sitePassword) {
+  const passwordMatch = typeof password === 'string'
+    && Buffer.byteLength(password) === Buffer.byteLength(sitePassword)
+    && timingSafeEqual(Buffer.from(password), Buffer.from(sitePassword))
+
+  if (passwordMatch) {
     const response = NextResponse.json({ ok: true })
     response.cookies.set('site_access', 'granted', {
       httpOnly: true,

@@ -1,88 +1,158 @@
-# CLAUDE.md — Ethos
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What This Is
 
-Native macOS journaling app. Each day presents 10 questions (one per category) drawn from a pool of ~400. You answer in short free-text. Answers persist in localStorage (fast cache) with Obsidian vault as canonical source of truth. Designed for Keith's daily thought-capture habit.
+Public Q&A platform where vetted experts answer one curated question per day with a limited monthly budget (3 answers/month). The scarcity constraint makes each answer a deliberate signal of expertise. Invite-only beta. Password-gated.
 
 ## Stack
 
-- **Frontend:** React 19, Vite 7, Tailwind CSS 4 (via `@tailwindcss/vite`)
-- **Desktop:** Tauri v2 (Rust backend, fs plugin for vault access)
+- **Framework:** Next.js 16 (App Router, Server Components, Server Actions)
+- **Database:** Supabase (Postgres + Auth + RLS + RPCs)
+- **Styling:** Tailwind CSS 4 via `@tailwindcss/postcss`
+- **Email:** Resend with Vercel Cron (`/api/cron/daily-emails`)
+- **Analytics:** Vercel Analytics + Speed Insights + custom admin dashboard
+- **Monitoring:** Structured logger → `error_logs` table, `/api/health`, BetterStack uptime
+- **LLM:** Anthropic SDK for AI detection (`claude-haiku-4-5`) and answer enrichment (`claude-sonnet-4-5`)
+- **Deploy:** Vercel + GitHub Actions CI (lint + build)
 - **Language:** JavaScript (JSX), no TypeScript
-- **State:** Obsidian vault (canonical) + localStorage (cache), no backend/database
-- **Package manager:** npm
-
-## Project Structure
-
-```
-src/
-  App.jsx              — Main app: vault init, async question loading, answer saving (localStorage + vault), keyboard navigation
-  main.jsx             — React entry point
-  data/
-    questions.js       — CATEGORIES array (10 categories) + FALLBACK_QUESTIONS map (~40 per category, used when vault unavailable)
-  components/
-    QuestionCard.jsx   — Expandable card with textarea, flag button, word count, draft persistence (forwardRef)
-    ProgressBar.jsx    — x/10 today + total answers, today progress bar, 10 category depth bars, streak (secondary)
-    ExportButton.jsx   — "Copy All" → markdown to clipboard
-    HistoryView.jsx    — List of past days with answer counts
-    FlaggedView.jsx    — Answers marked for content development
-    WeeklyDigest.jsx   — Current week's answers grouped by category
-    AddQuestion.jsx    — Modal to add custom questions (writes to vault + localStorage)
-  utils/
-    dateUtils.js       — Date keys (YYYY-MM-DD), display formatting, week math
-    questionSelector.js — Seeded PRNG (mulberry32) picks 1 question per category per day, recency-weighted fatigue. Accepts questionsMap param.
-    storage.js         — localStorage CRUD: answers (per-month sharding), streaks, flagged, custom questions, drafts, answered-question tracking, lifetime stats
-    vaultSync.js       — Vault I/O: read/write Questions.md and Journal.md, markdown parsing, one-time migration from localStorage
-  styles/
-    index.css          — Tailwind import + warm color palette + dark mode + scrollbar/animation
-src-tauri/
-  tauri.conf.json      — Window: 480×800, min 380×600
-  src/lib.rs           — Tauri builder with fs plugin
-  capabilities/
-    default.json       — fs permissions scoped to ~/Desktop/obsidian-workspace/vault/Ethos/
-```
-
-## Vault Integration
-
-- **Vault path:** `~/Desktop/obsidian-workspace/vault/Ethos/`
-- **Questions.md:** Question library. H2 = category ID, one question per line. Editable in Obsidian.
-- **Journal.md:** All answers, newest first. H2 = date, bold = category name, plain = question, blockquote = answer, `---` between days.
-- **Startup flow:** Check vault availability → run one-time migration (if `ethos_vault_migrated` not set) → load Questions.md → select daily questions.
-- **Save flow:** localStorage write (instant) + vault Journal.md write (fire-and-forget).
-- **Add question flow:** localStorage write + vault Questions.md append → reload questionsMap from vault.
-- **Fallback:** If vault unavailable, app uses FALLBACK_QUESTIONS from questions.js and localStorage-only mode. Amber "vault offline" indicator in header.
-
-## Key Patterns
-
-- **Question selection:** Seeded PRNG using date → deterministic 10 questions per day. Recency-weighted fatigue: never-seen questions get weight 100, previously-seen get weight = days since last answered (clamped 1–100). Answered-questions stored as `{ catId: { questionIndex: dateKey } }`.
-- **Vault as source of truth:** When vault is available, Questions.md is the question library. Custom questions added via the app go to both vault and localStorage. When vault loads questions, localStorage custom questions are not merged (they should already be in Questions.md).
-- **Answer format:** `{ answer, question, categoryId, wordCount }` — migrated from legacy plain-string format.
-- **Storage sharding:** Answers stored per month (`ethos_answers_2026-02`) to avoid one giant localStorage blob.
-- **Draft persistence:** In-progress text saved to `ethos_drafts` localStorage key (debounced 300ms). Restored on app reopen, cleared on explicit save.
-- **View routing:** `activeView` state + `pushState`/`popstate`. Today view is always mounted (hidden via `display:none`); secondary views (History, Flagged, Digest) render as `fixed inset-0 z-40` overlays to preserve today state.
-- **Keyboard navigation:** Global keydown handler — Arrow Down/j next card, Arrow Up/k prev, Enter expand first, Escape collapse or close overlay. Cards scroll into view on expansion.
-- **Dark mode:** Toggle stored in `ethos_dark`, applied via `.dark` class on `<html>`.
 
 ## Commands
 
 ```bash
-npm run dev           # Vite dev server (localhost:5173)
-npm run tauri:dev     # Full Tauri dev (opens native window + Vite)
-npm run tauri:build   # Production build (.dmg/.app)
-npm run build         # Frontend-only build (dist/)
-npm run lint          # ESLint
+npm run dev     # Next.js dev server (localhost:3000)
+npm run build   # Production build
+npm run lint    # ESLint (must pass for CI)
+npm run start   # Production server
 ```
 
-## Design
+## Architecture
 
-- Warm stone color palette (`warm-50` through `warm-900`)
-- Category colors: blue, purple, green, cyan, amber, red, pink, indigo, orange, lime
-- Left border accent on cards (category color)
-- Inter font, minimal chrome, mobile-proportioned window
+### Data Flow
 
-## Notes
+Server Components fetch from Supabase → render HTML. Client Components use Server Actions for mutations. No client-side Supabase queries except auth.
 
-- No backend, no API keys, no auth — purely local app
-- No TypeScript — keep it JS/JSX
-- No tests currently
-- Custom questions stored in vault (Questions.md) and localStorage (cache). Vault is canonical when available.
+```
+Browser → Server Component (data fetch) → Supabase
+Browser → Server Action (mutation) → Supabase → revalidatePath
+```
+
+### Auth Flow
+
+Supabase Auth with Google + LinkedIn OAuth. Middleware (`src/middleware.js`) handles:
+1. Static asset bypass (`/_next/`, favicons, images)
+2. Site password gate (cookie-based, via `SITE_PASSWORD`)
+3. Admin route protection (role check on `/admin/*`)
+4. Dashboard route protection (auth check on `/dashboard/*`)
+
+Server Components get user via `createClient()` → `supabase.auth.getUser()`.
+Admin operations use `createAdminClient()` (service role key, bypasses RLS).
+
+### Answer Submission Pipeline
+
+```
+submitAnswer() in src/app/actions/answers.js:
+  1. Auth check
+  2. Rate limit (10/hour)
+  3. Email verification check
+  4. Client-side budget check (fast reject)
+  5. AI detection (Anthropic Haiku, 5s timeout, fails open with per-user tracking)
+  6. submit_answer RPC (advisory lock + budget enforcement + insert)
+  7. Revalidate paths
+  8. Fire-and-forget: enrichAnswer() → decompose into claims/frameworks/evidence
+  9. Fire-and-forget: notify followers
+```
+
+### Knowledge Graph (LLM Enrichment)
+
+Every answer is automatically decomposed by `src/lib/enrichment.js`:
+- `claims` table — atomic falsifiable assertions with type, domain, confidence
+- `frameworks` table — reusable mental models with components
+- `evidence` table — supporting observations linked to claims
+- `expertise_edges` table — weighted expert-topic links
+- `enrichment_runs` + `change_records` — full audit trail
+
+Enrichment runs on submit (inline, fire-and-forget) and via batch script (`scripts/enrich-content.mjs`).
+
+### Caching Strategy
+
+- ISR: legal pages (daily), leaderboard (hourly)
+- `unstable_cache`: topics list, site settings (300s) in `src/lib/supabase/cached.js`
+- Suspense: 11 `loading.jsx` skeleton files for streaming
+- Static assets: immutable Cache-Control via `next.config.mjs` headers
+
+## Key Patterns
+
+- **Fire-and-forget with error logging:** Notifications, enrichment, and view tracking use `.then(() => {}).catch(err => console.error(...))` — never block the user response.
+- **Optimistic updates with server sync:** LikeButton uses `useOptimistic` then reconciles with actual server count on response.
+- **Denormalized counts:** `like_count`, `comment_count`, `view_count` on answers; `follower_count`, `following_count` on profiles. Updated via RPCs (`increment_*`, `decrement_*`).
+- **RLS + admin client:** Public reads use anon key (RLS enforced). Admin operations (enrichment, cron, monitoring) use service role key.
+- **Supabase FK joins:** Use `profiles:expert_id(...)` syntax when table has multiple FKs to same target (answers → profiles has expert_id, hidden_by, featured_by).
+
+## Database
+
+27 migrations in `supabase/migrations/`. Key tables:
+
+**Core:** profiles, questions, answers, topics, question_topics
+**Social:** follows, answer_likes, answer_comments, bookmarks, topic_follows
+**Notifications:** notifications (6 types: like, comment, featured, follow, comment_reply, followed_expert_posted)
+**Knowledge graph:** claims, frameworks, evidence, claim_relations, expertise_edges, answer_tags, content_summaries
+**Operations:** enrichment_runs, change_records, content_reviews, error_logs, rate_limits, site_settings
+**Auth:** invites, api_keys, answer_drafts, reports
+
+Migrations are applied manually via Supabase SQL Editor. See `docs/MIGRATIONS.md` for workflow.
+
+## Environment Variables
+
+Required in `.env.local` (never committed):
+```
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+SITE_PASSWORD
+ANTHROPIC_API_KEY
+```
+
+Optional:
+```
+NEXT_PUBLIC_SITE_URL    # defaults to http://localhost:3000
+RESEND_API_KEY          # for email
+SENDER_EMAIL            # from address
+CRON_SECRET             # Vercel cron auth
+```
+
+## Conventions
+
+- No TypeScript — plain JS/JSX throughout
+- Server Actions in `src/app/actions/` — one file per domain (answers, comments, likes, etc.)
+- Admin pages in `src/app/admin/` — protected by layout role check
+- Public API in `src/app/api/v1/` — requires API key via `src/lib/apiAuth.js`
+- All user input validated server-side (trim, length limits, regex patterns)
+- Supabase queries are always parameterized (no raw SQL in app code)
+- `escapeHtml()` used in email templates and HTML responses; `sanitizeSnippet()` in search results
+- `JSON.stringify()` for user content in LLM prompts (not string interpolation)
+- `timingSafeEqual` for all secret comparisons (cron secret, site password)
+- In-memory Maps (`rateLimit.js`, `aiDetection.js`) have bounded eviction to prevent memory leaks
+- Security headers configured in `next.config.mjs` (X-Frame-Options, CSP, etc.)
+- Invite codes use `crypto.randomBytes`, cron secret uses `crypto.timingSafeEqual`
+
+## Design System
+
+- Neutral gray palette mapped to `warm-50` through `warm-900`
+- Blue accent: `accent-500` (#3b82f6), `accent-600` (#2563eb), `accent-700` (#1d4ed8)
+- Inter font via `next/font/google`
+- `max-w-2xl` content width, `px-4` horizontal padding
+- Cards: white bg, `border-warm-200`, `rounded-lg` or `rounded-md`
+- Buttons: `bg-accent-600 text-white rounded-md` (primary), `bg-warm-100 text-warm-600` (secondary)
+- Toast notifications via Sonner (`position="bottom-right" richColors`)
+- Loading skeletons use `animate-pulse bg-warm-200 rounded`
+- Error boundaries: `error.jsx` per route with retry + home link
+
+## CI/CD
+
+- GitHub Actions: `.github/workflows/ci.yml` — lint + build on every push/PR
+- Branch protection on `main` — requires `lint-and-build` check
+- Vercel preview deploys on PRs
+- CI uses placeholder Supabase env vars (build-only, no runtime queries)
+- `sitemap.js` has `export const dynamic = 'force-dynamic'` to prevent build-time DB queries

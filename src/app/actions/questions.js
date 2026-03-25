@@ -31,6 +31,10 @@ export async function createQuestion(prevState, formData) {
   const category = formData.get('category')?.trim() || null
   const publishDate = formData.get('publish_date') || null
   const status = formData.get('status') || 'draft'
+  const answerCapRaw = formData.get('answer_cap')
+  const answerCap = answerCapRaw ? parseInt(answerCapRaw, 10) : null
+  const answerDeadlineRaw = formData.get('answer_deadline')
+  const answerDeadline = answerDeadlineRaw ? new Date(answerDeadlineRaw).toISOString() : null
 
   // Validate
   if (!body || body.length < 10) return { error: 'Question must be at least 10 characters.' }
@@ -39,6 +43,7 @@ export async function createQuestion(prevState, formData) {
   if (slug.length < 3 || slug.length > 80) return { error: 'Slug must be 3-80 characters.' }
   if (status === 'scheduled' && !publishDate) return { error: 'Scheduled questions need a publish date.' }
   if (!['draft', 'scheduled', 'published'].includes(status)) return { error: 'Invalid status.' }
+  if (answerCap !== null && (answerCap < 1 || answerCap > 999)) return { error: 'Answer cap must be 1-999.' }
 
   const { data, error } = await supabase
     .from('questions')
@@ -49,6 +54,8 @@ export async function createQuestion(prevState, formData) {
       publish_date: publishDate,
       status,
       created_by: user.id,
+      answer_cap: answerCap,
+      answer_deadline: answerDeadline,
     })
     .select('id')
     .single()
@@ -98,6 +105,10 @@ export async function updateQuestion(prevState, formData) {
   const category = formData.get('category')?.trim() || null
   const publishDate = formData.get('publish_date') || null
   const status = formData.get('status') || 'draft'
+  const answerCapRaw = formData.get('answer_cap')
+  const answerCap = answerCapRaw ? parseInt(answerCapRaw, 10) : null
+  const answerDeadlineRaw = formData.get('answer_deadline')
+  const answerDeadline = answerDeadlineRaw ? new Date(answerDeadlineRaw).toISOString() : null
 
   if (!questionId) return { error: 'Question ID required.' }
   if (!body || body.length < 10) return { error: 'Question must be at least 10 characters.' }
@@ -105,6 +116,7 @@ export async function updateQuestion(prevState, formData) {
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) return { error: 'Slug must contain only lowercase letters, numbers, and hyphens.' }
   if (slug.length < 3 || slug.length > 80) return { error: 'Slug must be 3-80 characters.' }
   if (status === 'scheduled' && !publishDate) return { error: 'Scheduled questions need a publish date.' }
+  if (answerCap !== null && (answerCap < 1 || answerCap > 999)) return { error: 'Answer cap must be 1-999.' }
 
   // Get old slug for revalidation
   const { data: oldQuestion } = await supabase
@@ -115,7 +127,7 @@ export async function updateQuestion(prevState, formData) {
 
   const { error } = await supabase
     .from('questions')
-    .update({ body, slug, category, publish_date: publishDate, status })
+    .update({ body, slug, category, publish_date: publishDate, status, answer_cap: answerCap, answer_deadline: answerDeadline })
     .eq('id', questionId)
 
   if (error) {

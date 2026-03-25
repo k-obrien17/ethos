@@ -16,7 +16,7 @@ export default async function AdminInvitesPage() {
     .order('created_at', { ascending: false })
     .limit(100)
 
-  const available = (invites || []).filter(i => !i.claimed_by && (!i.expires_at || new Date(i.expires_at) > new Date()))
+  const available = (invites || []).filter(i => !i.claimed_at && (!i.expires_at || new Date(i.expires_at) > new Date()))
   const claimed = (invites || []).filter(i => i.claimed_at)
 
   return (

@@ -30,11 +30,19 @@ export async function GET(request) {
             .select('created_by')
             .maybeSingle()
 
-          // If claim succeeded, record who invited this user
+          // If claim succeeded, record who invited this user and set approval status
           if (claimed?.created_by && !claimError) {
+            // Check if inviter is admin — admin invites auto-approve
+            const { data: inviter } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', claimed.created_by)
+              .single()
+
+            const status = inviter?.role === 'admin' ? 'approved' : 'pending'
             await supabase
               .from('profiles')
-              .update({ invited_by: claimed.created_by })
+              .update({ invited_by: claimed.created_by, status })
               .eq('id', user.id)
           }
         }

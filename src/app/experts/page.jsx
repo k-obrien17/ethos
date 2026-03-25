@@ -8,7 +8,7 @@ export const revalidate = 300
 
 export const metadata = {
   title: 'Expert Directory',
-  description: 'Browse experts on Ethos by topic expertise, answer count, selectivity, and activity.',
+  description: 'Browse experts on Ethos by topic expertise, answer count, and activity.',
 }
 
 export default async function ExpertsPage({ searchParams }) {
@@ -35,7 +35,7 @@ export default async function ExpertsPage({ searchParams }) {
   ] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, handle, display_name, avatar_url, headline, organization, follower_count'),
+      .select('id, handle, display_name, avatar_url, headline, organization, follower_count, engagement_score'),
     supabase
       .from('answers')
       .select('expert_id, question_id, created_at, like_count, view_count'),
@@ -78,7 +78,7 @@ export default async function ExpertsPage({ searchParams }) {
     if (qt.topics) questionTopicMap[qt.question_id].push(qt.topics)
   }
 
-  // Build expert stats: answer_count, total_likes, most_recent, selectivity, topic expertise
+  // Build expert stats: answer_count, total_likes, most_recent, monthly activity, topic expertise
   const statsMap = {}
   for (const a of answers) {
     if (!statsMap[a.expert_id]) {
@@ -120,14 +120,20 @@ export default async function ExpertsPage({ searchParams }) {
       .filter(t => t.name)
   }
 
+  // Profile lookup
+  const profileMap = {}
+  for (const p of profiles ?? []) {
+    profileMap[p.id] = p
+  }
+
   // Build expert list with stats
   let experts = Object.entries(statsMap).map(([id, s]) => ({
     id,
     ...s,
-    selectivity: totalQuestionsThisMonth > 0
-      ? Math.round((s.monthlyAnswers / totalQuestionsThisMonth) * 100)
-      : 0,
+    monthlyAnswerCount: s.monthlyAnswers,
+    totalQuestionsThisMonth: totalQuestionsThisMonth ?? 0,
     expertise: expertiseMap[id] ?? [],
+    engagementScore: profileMap[id]?.engagement_score ?? 0,
   }))
 
   // Filter by topic if specified
@@ -140,8 +146,8 @@ export default async function ExpertsPage({ searchParams }) {
 
   // Sort
   switch (sort) {
-    case 'selectivity':
-      experts.sort((a, b) => b.selectivity - a.selectivity || b.answers - a.answers)
+    case 'active':
+      experts.sort((a, b) => b.monthlyAnswerCount - a.monthlyAnswerCount || b.answers - a.answers)
       break
     case 'recent':
       experts.sort((a, b) => (b.mostRecent ?? '').localeCompare(a.mostRecent ?? ''))
@@ -149,21 +155,19 @@ export default async function ExpertsPage({ searchParams }) {
     case 'likes':
       experts.sort((a, b) => b.likes - a.likes || b.answers - a.answers)
       break
+    case 'engagement':
+      experts.sort((a, b) => (b.engagementScore ?? 0) - (a.engagementScore ?? 0) || b.answers - a.answers)
+      break
     case 'answers':
     default:
       experts.sort((a, b) => b.answers - a.answers || b.likes - a.likes)
       break
   }
 
-  // Profile lookup
-  const profileMap = {}
-  for (const p of profiles ?? []) {
-    profileMap[p.id] = p
-  }
-
   const sortOptions = [
     { key: 'answers', label: 'Answers' },
-    { key: 'selectivity', label: 'Selectivity' },
+    { key: 'active', label: 'Active This Month' },
+    { key: 'engagement', label: 'Engagement' },
     { key: 'recent', label: 'Recent' },
     { key: 'likes', label: 'Likes' },
   ]
@@ -280,8 +284,8 @@ export default async function ExpertsPage({ searchParams }) {
                     <p className="text-xs text-warm-400">{entry.answers === 1 ? 'answer' : 'answers'}</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-semibold text-warm-900">{entry.selectivity}%</p>
-                    <p className="text-xs text-warm-400">selectivity</p>
+                    <p className="font-semibold text-warm-900">{entry.monthlyAnswerCount}</p>
+                    <p className="text-xs text-warm-400">this month</p>
                   </div>
                   <div className="text-center">
                     <p className="font-semibold text-warm-900">{entry.likes}</p>

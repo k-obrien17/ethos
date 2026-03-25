@@ -29,7 +29,7 @@ export async function GET(request) {
   }
 
   // Mark as verified and rotate token
-  await admin
+  const { error: updateError } = await admin
     .from('profiles')
     .update({
       email_verified_at: new Date().toISOString(),
@@ -38,5 +38,8 @@ export async function GET(request) {
     .eq('id', profile.id)
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  if (updateError) {
+    return NextResponse.redirect(`${siteUrl}/verify-email?error=invalid`)
+  }
   return NextResponse.redirect(`${siteUrl}/verify-email?success=true`)
 }

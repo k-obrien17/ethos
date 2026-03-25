@@ -9,7 +9,9 @@ export async function updateSession(request) {
   const isPasswordRoute = pathname === '/password' || pathname === '/api/auth/password'
   const isApiRoute = pathname.startsWith('/api/')
 
-  if (!isPasswordRoute && !isApiRoute && process.env.SITE_PASSWORD) {
+  const isStaticAsset = pathname.startsWith('/_next/') || pathname.startsWith('/favicon') || /\.(ico|png|jpg|svg|css|js|woff2?)$/.test(pathname)
+
+  if (!isPasswordRoute && !isApiRoute && !isStaticAsset && process.env.SITE_PASSWORD) {
     const accessCookie = request.cookies.get('site_access')
     if (accessCookie?.value !== 'granted') {
       const url = request.nextUrl.clone()

@@ -104,12 +104,20 @@ export async function submitAnswer(prevState, formData) {
     return { error: 'Answer must be under 10,000 characters.' }
   }
 
-  // Layer 1.5: Email verification check
+  // Layer 1.5: Profile status + email verification check
   const { data: profile } = await supabase
     .from('profiles')
-    .select('answer_limit, email_verified_at')
+    .select('answer_limit, email_verified_at, status')
     .eq('id', user.id)
     .single()
+
+  if (profile?.status === 'suspended') {
+    return { error: 'Your account has been suspended.' }
+  }
+
+  if (profile?.status === 'pending') {
+    return { error: 'Your account is pending approval. An admin will review your profile shortly.' }
+  }
 
   if (!profile?.email_verified_at) {
     return { error: 'Please verify your email before submitting answers. Check your dashboard.' }
@@ -130,6 +138,28 @@ export async function submitAnswer(prevState, formData) {
 
   if (count >= (profile?.answer_limit ?? 3)) {
     return { error: 'You have used all your answers this month.' }
+  }
+
+  // Layer 2.5: Question answer cap and deadline check
+  const { data: questionCheck } = await supabase
+    .from('questions')
+    .select('answer_cap, answer_deadline')
+    .eq('id', questionId)
+    .single()
+
+  if (questionCheck?.answer_deadline && new Date(questionCheck.answer_deadline) < new Date()) {
+    return { error: 'The answer window for this question has closed.' }
+  }
+
+  if (questionCheck?.answer_cap) {
+    const { count: answerCount } = await supabase
+      .from('answers')
+      .select('*', { count: 'exact', head: true })
+      .eq('question_id', questionId)
+
+    if ((answerCount ?? 0) >= questionCheck.answer_cap) {
+      return { error: 'This question has reached its answer limit.' }
+    }
   }
 
   // Layer 3: AI detection (human-only enforcement)

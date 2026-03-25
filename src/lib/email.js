@@ -34,7 +34,7 @@ export async function sendEmail({ to, subject, html }) {
 }
 
 export function getUnsubscribeUrl(unsubscribeToken, type = 'all') {
-  return `${SITE_URL}/api/unsubscribe?token=${unsubscribeToken}&type=${type}`
+  return `${SITE_URL}/api/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}&type=${encodeURIComponent(type)}`
 }
 
 export function emailLayout(content, unsubscribeUrl) {

@@ -6,6 +6,7 @@ export default function Footer() {
       <div className="max-w-2xl mx-auto px-4 flex items-center justify-between text-xs text-warm-400">
         <span>&copy; {new Date().getFullYear()} Ethos</span>
         <div className="flex items-center gap-4">
+          <Link href="/for-companies" className="hover:text-warm-600">For Companies</Link>
           <Link href="/privacy" className="hover:text-warm-600">Privacy</Link>
           <Link href="/terms" className="hover:text-warm-600">Terms</Link>
         </div>

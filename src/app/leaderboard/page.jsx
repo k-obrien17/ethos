@@ -9,13 +9,14 @@ export const metadata = {
   description: 'Top experts on Ethos, ranked by community endorsement.',
 }
 
-export default async function LeaderboardPage() {
+export default async function LeaderboardPage({ searchParams }) {
+  const { sort = 'likes' } = await searchParams
   const supabase = await createClient()
 
-  // Aggregate: total likes and answer count per expert
+  // Aggregate: total likes, answer count, and share_count per expert
   const { data: answers } = await supabase
     .from('answers')
-    .select('expert_id, like_count')
+    .select('expert_id, like_count, view_count')
 
   if (!answers || answers.length === 0) {
     return (
@@ -34,24 +35,38 @@ export default async function LeaderboardPage() {
     )
   }
 
-  // Build expert stats: { expertId: { likes, answers } }
+  // Build expert stats: { expertId: { likes, answers, views } }
   const statsMap = {}
   for (const a of answers) {
     if (!statsMap[a.expert_id]) {
-      statsMap[a.expert_id] = { likes: 0, answers: 0 }
+      statsMap[a.expert_id] = { likes: 0, answers: 0, views: 0 }
     }
     statsMap[a.expert_id].likes += a.like_count ?? 0
     statsMap[a.expert_id].answers += 1
+    statsMap[a.expert_id].views += a.view_count ?? 0
   }
 
-  // Sort by likes desc, then answers desc
+  // Sort based on selected metric
   const ranked = Object.entries(statsMap)
     .map(([id, stats]) => ({ id, ...stats }))
-    .sort((a, b) => b.likes - a.likes || b.answers - a.answers)
-    .slice(0, 50)
+
+  switch (sort) {
+    case 'answers':
+      ranked.sort((a, b) => b.answers - a.answers || b.likes - a.likes)
+      break
+    case 'views':
+      ranked.sort((a, b) => b.views - a.views || b.likes - a.likes)
+      break
+    case 'likes':
+    default:
+      ranked.sort((a, b) => b.likes - a.likes || b.answers - a.answers)
+      break
+  }
+
+  const top50 = ranked.slice(0, 50)
 
   // Fetch profiles for ranked experts
-  const rankedIds = ranked.map(r => r.id)
+  const rankedIds = top50.map(r => r.id)
   const { data: profiles } = await supabase
     .from('profiles')
     .select('id, display_name, handle, avatar_url, headline, organization')
@@ -62,6 +77,12 @@ export default async function LeaderboardPage() {
     profileMap[p.id] = p
   }
 
+  const sortOptions = [
+    { key: 'likes', label: 'Likes' },
+    { key: 'answers', label: 'Answers' },
+    { key: 'views', label: 'Views' },
+  ]
+
   return (
     <div className="space-y-6">
       <div>
@@ -71,8 +92,26 @@ export default async function LeaderboardPage() {
         </p>
       </div>
 
+      {/* Sort controls */}
+      <div className="flex items-center gap-1">
+        <span className="text-xs text-warm-400 mr-1">Sort:</span>
+        {sortOptions.map(opt => (
+          <Link
+            key={opt.key}
+            href={opt.key === 'likes' ? '/leaderboard' : `/leaderboard?sort=${opt.key}`}
+            className={`text-xs px-2.5 py-1 rounded-md font-medium transition-colors ${
+              sort === opt.key
+                ? 'bg-warm-900 text-white'
+                : 'bg-warm-100 text-warm-600 hover:bg-warm-200'
+            }`}
+          >
+            {opt.label}
+          </Link>
+        ))}
+      </div>
+
       <div className="space-y-2">
-        {ranked.map((entry, i) => {
+        {top50.map((entry, i) => {
           const profile = profileMap[entry.id]
           if (!profile) return null
 
@@ -105,12 +144,16 @@ export default async function LeaderboardPage() {
               {/* Stats */}
               <div className="flex items-center gap-4 flex-shrink-0 text-sm">
                 <div className="text-center">
-                  <p className="font-semibold text-warm-900">{entry.likes}</p>
+                  <p className={`font-semibold ${sort === 'likes' ? 'text-accent-600' : 'text-warm-900'}`}>{entry.likes}</p>
                   <p className="text-xs text-warm-400">{entry.likes === 1 ? 'like' : 'likes'}</p>
                 </div>
                 <div className="text-center">
-                  <p className="font-semibold text-warm-900">{entry.answers}</p>
+                  <p className={`font-semibold ${sort === 'answers' ? 'text-accent-600' : 'text-warm-900'}`}>{entry.answers}</p>
                   <p className="text-xs text-warm-400">{entry.answers === 1 ? 'answer' : 'answers'}</p>
+                </div>
+                <div className="text-center">
+                  <p className={`font-semibold ${sort === 'views' ? 'text-accent-600' : 'text-warm-900'}`}>{entry.views}</p>
+                  <p className="text-xs text-warm-400">views</p>
                 </div>
               </div>
             </Link>

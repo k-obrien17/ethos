@@ -70,9 +70,14 @@ export default function AnswerCard({
     <>
       <Avatar src={avatarUrl} alt={displayName} size={36} />
       <div>
-        <p className="text-sm font-medium text-warm-900 group-hover:text-accent-600 transition-colors">
-          {displayName}
-        </p>
+        <div className="flex items-center gap-1.5">
+          <p className="text-sm font-medium text-warm-900 group-hover:text-accent-600 transition-colors">
+            {displayName}
+          </p>
+          {expert?.organization && (
+            <span className="text-xs text-warm-400">· {expert.organization}</span>
+          )}
+        </div>
         {monthlyUsage != null && expert?.answer_limit != null && (
           <p className="text-xs text-warm-400">
             {monthlyUsage} of {expert.answer_limit} this month

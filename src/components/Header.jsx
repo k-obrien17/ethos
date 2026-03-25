@@ -53,7 +53,7 @@ export default async function Header() {
           <SearchBar />
           <NavLink href="/topics">Topics</NavLink>
           <NavLink href="/experts">Experts</NavLink>
-          <NavLink href="/questions">Archive</NavLink>
+          <NavLink href="/questions">Previous Questions</NavLink>
           <NavLink href="/leaderboard">Leaderboard</NavLink>
           {user && <NavLink href="/following">Following</NavLink>}
           {user && <NotificationBell unreadCount={unreadCount} />}

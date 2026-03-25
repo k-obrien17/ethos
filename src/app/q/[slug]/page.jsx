@@ -76,7 +76,8 @@ export default async function QuestionPage({ params }) {
             display_name,
             handle,
             avatar_url,
-            answer_limit
+            answer_limit,
+            organization
           )
         `)
         .eq('question_id', question.id)
@@ -125,7 +126,7 @@ export default async function QuestionPage({ params }) {
   const answerCount = sortedAnswers.length
 
   // Parallel: monthly usage + comments + likes (depend on answers)
-  const expertIds = [...new Set((answers ?? []).map(a => a.profiles.id))]
+  const expertIds = [...new Set((answers ?? []).map(a => a.profiles?.id).filter(Boolean))]
   const answerIds = sortedAnswers.map(a => a.id)
 
   const [usageResult, commentsResult, likesResult] = await Promise.all([
@@ -165,9 +166,14 @@ export default async function QuestionPage({ params }) {
 
   const userLikedAnswerIds = new Set((likesResult.data ?? []).map(l => l.answer_id))
 
+  // Answer cap and deadline checks
+  const isDeadlinePassed = question.answer_deadline && new Date(question.answer_deadline) < new Date()
+  const isCapReached = question.answer_cap && answerCount >= question.answer_cap
+  const isQuestionClosed = isDeadlinePassed || isCapReached
+
   let answerFormProps = null
-  if (user) {
-    const hasAnswered = (answers ?? []).some(a => a.profiles.id === user.id)
+  if (user && !isQuestionClosed) {
+    const hasAnswered = (answers ?? []).some(a => a.profiles?.id === user.id)
     answerFormProps = {
       questionId: question.id,
       budgetUsed: budgetResult.count ?? 0,
@@ -254,13 +260,33 @@ export default async function QuestionPage({ params }) {
             ))}
           </div>
         )}
-        <p className="text-sm text-warm-400 mt-4">
-          {answerCount} {answerCount === 1 ? 'perspective' : 'perspectives'}
-        </p>
+        <div className="flex flex-wrap items-center gap-3 mt-4 text-sm text-warm-400">
+          <span>{answerCount} {answerCount === 1 ? 'perspective' : 'perspectives'}</span>
+          {question.answer_cap && (
+            <span className={isCapReached ? 'text-red-500' : ''}>
+              {isCapReached ? 'Answer limit reached' : `${answerCount}/${question.answer_cap} answers`}
+            </span>
+          )}
+          {question.answer_deadline && !isDeadlinePassed && (
+            <span>
+              Closes {format(new Date(question.answer_deadline), 'MMM d, yyyy')}
+            </span>
+          )}
+          {isDeadlinePassed && (
+            <span className="text-red-500">Answer window closed</span>
+          )}
+        </div>
       </section>
 
       {/* Answer form (authenticated users only) */}
-      {answerFormProps ? (
+      {isQuestionClosed ? (
+        <div className="py-4 px-4 text-center bg-warm-50 rounded-lg border border-warm-200">
+          <p className="text-warm-600 text-sm font-medium">
+            {isCapReached ? 'This question has reached its answer limit.' : 'The answer window for this question has closed.'}
+          </p>
+          <p className="text-warm-400 text-xs mt-1">Browse other questions to share your perspective.</p>
+        </div>
+      ) : answerFormProps ? (
         <AnswerForm {...answerFormProps} />
       ) : (
         <div className="py-4 text-center">
@@ -281,7 +307,7 @@ export default async function QuestionPage({ params }) {
               key={answer.id}
               answer={answer}
               expert={answer.profiles}
-              monthlyUsage={monthlyUsageMap[answer.profiles.id] ?? null}
+              monthlyUsage={monthlyUsageMap[answer.profiles?.id] ?? null}
               currentUserId={user?.id}
               featured={!!answer.featured_at}
               isLiked={userLikedAnswerIds.has(answer.id)}

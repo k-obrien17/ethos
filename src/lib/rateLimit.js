@@ -4,9 +4,29 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 
 const memStore = new Map()
+const MAX_MEM_ENTRIES = 10000
+
+function pruneMemStore() {
+  if (memStore.size <= MAX_MEM_ENTRIES) return
+  const now = Date.now()
+  for (const [k, v] of memStore) {
+    if (now > v.resetAt) memStore.delete(k)
+  }
+  // If still over limit after pruning expired, drop oldest
+  if (memStore.size > MAX_MEM_ENTRIES) {
+    const excess = memStore.size - MAX_MEM_ENTRIES
+    let removed = 0
+    for (const k of memStore.keys()) {
+      if (removed >= excess) break
+      memStore.delete(k)
+      removed++
+    }
+  }
+}
 
 // In-memory fallback (used when DB is unavailable or for non-user keys)
 function memoryRateLimit({ key, limit, windowMs }) {
+  pruneMemStore()
   const now = Date.now()
   const entry = memStore.get(key)
 

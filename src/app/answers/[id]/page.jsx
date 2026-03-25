@@ -7,7 +7,7 @@ import ShareButton from '@/components/ShareButton'
 import ViewTracker from '@/components/ViewTracker'
 import Avatar from '@/components/Avatar'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 export async function generateMetadata({ params }) {
   const { id } = await params
@@ -66,7 +66,8 @@ export default async function AnswerPage({ params }) {
         display_name,
         handle,
         avatar_url,
-        answer_limit
+        answer_limit,
+        organization
       ),
       questions!inner (
         id,
@@ -202,7 +203,7 @@ export default async function AnswerPage({ params }) {
 
       {/* Share utility bar */}
       <div className="flex items-center justify-center">
-        <ShareButton />
+        <ShareButton url={`/answers/${id}`} title={`${answer.profiles?.display_name || 'Expert'} on Ethos`} />
       </div>
 
       {/* More from this expert */}
@@ -210,7 +211,7 @@ export default async function AnswerPage({ params }) {
         <section>
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-warm-800">
-              More from {answer.profiles.display_name}
+              More from {answer.profiles?.display_name}
             </h3>
             <Link
               href={`/expert/${answer.profiles.handle}`}

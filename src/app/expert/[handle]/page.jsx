@@ -220,12 +220,8 @@ export default async function ExpertProfilePage({ params }) {
           <p className="text-xs text-warm-500 mt-1">This Month</p>
         </div>
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
-          <p className="text-2xl font-bold text-warm-900">
-            {totalQuestionsThisMonth > 0
-              ? `${Math.round((monthlyAnswerCount / totalQuestionsThisMonth) * 100)}%`
-              : '—'}
-          </p>
-          <p className="text-xs text-warm-500 mt-1">Selectivity</p>
+          <p className="text-2xl font-bold text-warm-900">{totalLikes}</p>
+          <p className="text-xs text-warm-500 mt-1">Likes</p>
         </div>
       </section>
 

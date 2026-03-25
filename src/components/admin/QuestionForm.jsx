@@ -201,6 +201,43 @@ export default function QuestionForm({ question, topics = [], selectedTopicIds =
         )}
       </div>
 
+      {/* Answer Cap */}
+      <div>
+        <label htmlFor="answer_cap" className="block text-sm font-medium text-warm-700 mb-1">
+          Answer Cap
+        </label>
+        <input
+          id="answer_cap"
+          name="answer_cap"
+          type="number"
+          min="1"
+          max="999"
+          defaultValue={question?.answer_cap ?? ''}
+          placeholder="e.g. 15 (leave blank for unlimited)"
+          className="w-48 px-3 py-2 border border-warm-200 rounded-md text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+        />
+        <p className="text-xs text-warm-400 mt-1">
+          Max number of answers. Leave blank for unlimited.
+        </p>
+      </div>
+
+      {/* Answer Deadline */}
+      <div>
+        <label htmlFor="answer_deadline" className="block text-sm font-medium text-warm-700 mb-1">
+          Answer Deadline
+        </label>
+        <input
+          id="answer_deadline"
+          name="answer_deadline"
+          type="datetime-local"
+          defaultValue={question?.answer_deadline ? question.answer_deadline.slice(0, 16) : ''}
+          className="px-3 py-2 border border-warm-200 rounded-md text-warm-900 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+        />
+        <p className="text-xs text-warm-400 mt-1">
+          When the answer window closes. Leave blank for no deadline.
+        </p>
+      </div>
+
       {/* Submit */}
       <div className="flex items-center gap-3 pt-2">
         <button

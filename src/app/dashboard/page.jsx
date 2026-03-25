@@ -5,6 +5,7 @@ import EditProfileForm from '@/components/EditProfileForm'
 import DeleteAccountSection from '@/components/DeleteAccountSection'
 import VerifyEmailBanner from '@/components/VerifyEmailBanner'
 import BookmarkButton from '@/components/BookmarkButton'
+import ExpertInvites from '@/components/ExpertInvites'
 import { format } from 'date-fns'
 import Avatar from '@/components/Avatar'
 
@@ -29,33 +30,36 @@ export default async function DashboardPage() {
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
   const todayStr = now.toISOString().slice(0, 10)
 
-  const { count: monthlyAnswers } = await supabase
-    .from('answers')
-    .select('*', { count: 'exact', head: true })
-    .eq('expert_id', user.id)
-    .gte('created_at', startOfMonth)
-
-  const { count: totalAnswers } = await supabase
-    .from('answers')
-    .select('*', { count: 'exact', head: true })
-    .eq('expert_id', user.id)
-
-  const { count: questionsThisMonth } = await supabase
-    .from('questions')
-    .select('*', { count: 'exact', head: true })
-    .lte('publish_date', todayStr)
-    .gte('publish_date', startOfMonth.slice(0, 10))
-    .in('status', ['scheduled', 'published'])
-
-  // Fetch today's question (for nudge when totalAnswers === 0)
-  const { data: todayQuestion } = await supabase
-    .from('questions')
-    .select('slug, body')
-    .lte('publish_date', todayStr)
-    .in('status', ['scheduled', 'published'])
-    .order('publish_date', { ascending: false })
-    .limit(1)
-    .single()
+  const [
+    { count: monthlyAnswers },
+    { count: totalAnswers },
+    { count: questionsThisMonth },
+    { data: todayQuestion },
+  ] = await Promise.all([
+    supabase
+      .from('answers')
+      .select('*', { count: 'exact', head: true })
+      .eq('expert_id', user.id)
+      .gte('created_at', startOfMonth),
+    supabase
+      .from('answers')
+      .select('*', { count: 'exact', head: true })
+      .eq('expert_id', user.id),
+    supabase
+      .from('questions')
+      .select('*', { count: 'exact', head: true })
+      .lte('publish_date', todayStr)
+      .gte('publish_date', startOfMonth.slice(0, 10))
+      .in('status', ['scheduled', 'published']),
+    supabase
+      .from('questions')
+      .select('slug, body')
+      .lte('publish_date', todayStr)
+      .in('status', ['scheduled', 'published'])
+      .order('publish_date', { ascending: false })
+      .limit(1)
+      .single(),
+  ])
 
   // Fetch user's bookmarked questions
   const { data: bookmarks } = await supabase
@@ -75,6 +79,13 @@ export default async function DashboardPage() {
     .select('id, view_count, like_count, comment_count, featured_at, body, created_at, questions!inner(body, slug)')
     .eq('expert_id', user.id)
     .order('created_at', { ascending: false })
+
+  // Fetch expert's invite codes
+  const { data: expertInvites } = await supabase
+    .from('invites')
+    .select('code, claimed_at')
+    .eq('created_by', user.id)
+    .order('created_at', { ascending: true })
 
   const totalViews = (myAnswers ?? []).reduce((sum, a) => sum + (a.view_count ?? 0), 0)
   const totalLikes = (myAnswers ?? []).reduce((sum, a) => sum + (a.like_count ?? 0), 0)
@@ -111,6 +122,26 @@ export default async function DashboardPage() {
       {/* Email verification banner */}
       {!profile?.email_verified_at && <VerifyEmailBanner />}
 
+      {/* Pending approval banner */}
+      {profile?.status === 'pending' && (
+        <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-sm text-amber-800">
+          <p className="font-medium">Your account is pending approval</p>
+          <p className="text-amber-700 mt-1">
+            An admin will review your profile shortly. Once approved, you&apos;ll be able to submit answers.
+          </p>
+        </div>
+      )}
+
+      {/* Suspended banner */}
+      {profile?.status === 'suspended' && (
+        <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800">
+          <p className="font-medium">Your account has been suspended</p>
+          <p className="text-red-700 mt-1">
+            If you believe this is an error, please contact us.
+          </p>
+        </div>
+      )}
+
       {/* Stats */}
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
@@ -144,14 +175,15 @@ export default async function DashboardPage() {
           <p className="text-xs text-warm-500">Featured</p>
         </div>
         <div className="bg-white rounded-lg border border-warm-200 p-3 text-center">
-          <p className="text-lg font-bold text-warm-900">
-            {questionsThisMonth > 0
-              ? `${Math.round(((monthlyAnswers ?? 0) / questionsThisMonth) * 100)}%`
-              : '—'}
-          </p>
-          <p className="text-xs text-warm-500">Selectivity</p>
+          <p className="text-lg font-bold text-warm-900">{questionsThisMonth ?? 0}</p>
+          <p className="text-xs text-warm-500">Questions This Month</p>
         </div>
       </section>
+
+      {/* Expert invites */}
+      {(myAnswers?.length ?? 0) > 0 && (
+        <ExpertInvites invites={expertInvites ?? []} maxInvites={2} />
+      )}
 
       {/* Answer performance table */}
       {myAnswers && myAnswers.length > 0 && (

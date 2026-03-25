@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import { rateLimit } from '@/lib/rateLimit'
 import { NextResponse } from 'next/server'
 
 export async function POST(request, { params }) {
@@ -6,6 +7,13 @@ export async function POST(request, { params }) {
 
   if (!id) {
     return NextResponse.json({ error: 'Missing answer ID' }, { status: 400 })
+  }
+
+  // Rate limit: 1 view per IP per answer per minute
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+  const rl = await rateLimit({ key: `view:${ip}:${id}`, limit: 1, windowMs: 60 * 1000 })
+  if (!rl.success) {
+    return NextResponse.json({ success: true })
   }
 
   const admin = createAdminClient()

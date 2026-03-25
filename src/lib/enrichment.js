@@ -26,7 +26,7 @@ function parseJSON(text) {
 }
 
 // Sanitize user content before embedding in LLM prompts
-function sanitizeForPrompt(text) {
+export function sanitizeForPrompt(text) {
   if (!text) return ''
   return text
     .replace(/\$\{/g, '$ {')     // prevent template literal injection
@@ -75,7 +75,7 @@ export async function enrichAnswer(answerId) {
     // Fetch answer with context
     const { data: answer } = await admin
       .from('answers')
-      .select('id, body, word_count, like_count, view_count, featured_at, expert_id, question:questions(id, body, category, question_topics(topic:topics(id, name, slug)))')
+      .select('id, body, word_count, like_count, view_count, featured_at, created_at, expert_id, question:questions(id, body, category, question_topics(topic:topics(id, name, slug)))')
       .eq('id', answerId)
       .single()
 

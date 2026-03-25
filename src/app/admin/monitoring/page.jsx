@@ -4,19 +4,6 @@ import ErrorRow from './ErrorRow'
 
 export const metadata = { title: 'Monitoring — Admin' }
 
-function SeverityBadge({ severity }) {
-  const styles = {
-    error: 'bg-red-100 text-red-700',
-    warn: 'bg-amber-100 text-amber-700',
-    info: 'bg-blue-100 text-blue-700',
-  }
-  return (
-    <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${styles[severity] || 'bg-warm-100 text-warm-700'}`}>
-      {severity}
-    </span>
-  )
-}
-
 function SummaryCard({ label, value, color }) {
   const colors = {
     red: 'bg-red-50 border-red-200 text-red-700',

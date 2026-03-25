@@ -5,7 +5,7 @@ import QuestionCard from '@/components/QuestionCard'
 export const revalidate = 300
 
 export const metadata = {
-  title: 'Questions Archive',
+  title: 'Previous Questions',
   description: 'Browse every question asked on Ethos and read all expert perspectives.',
 }
 
@@ -44,7 +44,7 @@ export default async function QuestionsPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-warm-900">
-          Questions Archive
+          Previous Questions
         </h1>
         <p className="text-warm-500 text-sm mt-1">
           Browse every question asked on Ethos and read all expert perspectives.

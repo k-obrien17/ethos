@@ -157,11 +157,11 @@ export default async function TopicDetailPage({ params }) {
                   className="block p-4 bg-white rounded-lg border border-warm-200 hover:border-warm-300 transition-colors"
                 >
                   <div className="flex items-start gap-3">
-                    <Avatar src={answer.profiles.avatar_url} alt={answer.profiles.display_name} size={32} />
+                    <Avatar src={answer.profiles?.avatar_url} alt={answer.profiles?.display_name || 'Expert'} size={32} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-warm-900">{answer.profiles.display_name}</span>
-                        <span className="text-xs text-warm-400 truncate">{answer.profiles.headline}</span>
+                        <span className="text-sm font-medium text-warm-900">{answer.profiles?.display_name}</span>
+                        <span className="text-xs text-warm-400 truncate">{answer.profiles?.headline}</span>
                       </div>
                       <p className="text-xs text-warm-500 mt-0.5 italic line-clamp-1">
                         {answer.questions.body}

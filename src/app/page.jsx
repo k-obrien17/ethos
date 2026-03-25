@@ -175,6 +175,42 @@ export default async function HomePage() {
   const plainExcerpt = (text, len) =>
     text.replace(/[#*_~`>\[\]()!|-]/g, '').slice(0, len).trim() + (text.length > len ? '...' : '')
 
+  // Derive companies with active experts
+  const { data: companyProfiles } = await supabase
+    .from('profiles')
+    .select('id, display_name, handle, avatar_url, organization')
+    .not('organization', 'is', null)
+
+  const orgMap = {}
+  for (const p of companyProfiles ?? []) {
+    const org = p.organization?.trim()
+    if (!org) continue
+    if (!orgMap[org]) orgMap[org] = []
+    orgMap[org].push(p)
+  }
+
+  // Build company stats from today's answers data + a quick count query
+  const { data: companyAnswerStats } = await supabase
+    .from('answers')
+    .select('expert_id, like_count')
+
+  const companyExpertStats = {}
+  for (const a of companyAnswerStats ?? []) {
+    if (!companyExpertStats[a.expert_id]) companyExpertStats[a.expert_id] = { answers: 0, likes: 0 }
+    companyExpertStats[a.expert_id].answers++
+    companyExpertStats[a.expert_id].likes += a.like_count ?? 0
+  }
+
+  const companies = Object.entries(orgMap)
+    .map(([name, experts]) => {
+      const totalAnswers = experts.reduce((sum, e) => sum + (companyExpertStats[e.id]?.answers ?? 0), 0)
+      const totalLikes = experts.reduce((sum, e) => sum + (companyExpertStats[e.id]?.likes ?? 0), 0)
+      return { name, experts, totalAnswers, totalLikes }
+    })
+    .filter(c => c.totalAnswers > 0)
+    .sort((a, b) => b.totalLikes - a.totalLikes || b.totalAnswers - a.totalAnswers)
+    .slice(0, 4)
+
   // Derive featured expert data
   let featuredExpert = null
   if (featuredExpertResult) {
@@ -422,6 +458,45 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Companies on Ethos */}
+      {companies.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-base font-semibold text-warm-800">
+              Companies on Ethos
+            </h2>
+            <Link
+              href="/for-companies"
+              className="text-sm text-accent-600 hover:text-accent-700 font-medium"
+            >
+              Learn more
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {companies.map((company) => (
+              <div key={company.name} className="bg-white rounded-lg border border-warm-200 p-4">
+                <h3 className="font-semibold text-warm-900 text-sm mb-2">{company.name}</h3>
+                <div className="flex items-center gap-2 mb-2">
+                  {company.experts.slice(0, 3).map((expert) => (
+                    <Link key={expert.id} href={`/expert/${expert.handle}`}>
+                      <Avatar src={expert.avatar_url} alt={expert.display_name} size={28} />
+                    </Link>
+                  ))}
+                  {company.experts.length > 3 && (
+                    <span className="text-xs text-warm-400">+{company.experts.length - 3}</span>
+                  )}
+                </div>
+                <div className="flex items-center gap-3 text-xs text-warm-400">
+                  <span>{company.experts.length} {company.experts.length === 1 ? 'expert' : 'experts'}</span>
+                  <span>{company.totalAnswers} {company.totalAnswers === 1 ? 'answer' : 'answers'}</span>
+                  <span>{company.totalLikes} {company.totalLikes === 1 ? 'like' : 'likes'}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       )}

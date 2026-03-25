@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
 import { format, subDays, subWeeks, subMonths, startOfDay, startOfWeek, startOfMonth, endOfWeek, endOfMonth } from 'date-fns'
 import GrowthChart from '@/components/admin/GrowthChart'
 
@@ -29,12 +28,8 @@ function formatNumber(n) {
 
 export default async function AdminAnalyticsPage() {
   const supabase = await createClient()
-  const admin = createAdminClient()
   const now = new Date()
   const todayStr = now.toISOString().slice(0, 10)
-  const fourteenDaysAgo = subDays(now, 14).toISOString()
-  const thirtyDaysAgo = subDays(now, 30).toISOString()
-  const sevenDaysAgo = subDays(now, 7).toISOString()
   const ninetyDaysAgo = subDays(now, 90).toISOString()
 
   // Fetch all data in parallel

@@ -52,8 +52,13 @@ function QuestionRow({ question }) {
             </span>
           )}
           <span className="text-xs text-warm-400">
-            {question.answers?.[0]?.count ?? 0} answers
+            {question.answers?.[0]?.count ?? 0}{question.answer_cap ? `/${question.answer_cap}` : ''} answers
           </span>
+          {question.answer_deadline && (
+            <span className={`text-xs ${new Date(question.answer_deadline) < new Date() ? 'text-red-500' : 'text-warm-400'}`}>
+              {new Date(question.answer_deadline) < new Date() ? 'Closed' : `Closes ${format(new Date(question.answer_deadline), 'MMM d')}`}
+            </span>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-3 shrink-0">
@@ -96,7 +101,7 @@ export default async function AdminQuestionsPage() {
 
   const { data: questions } = await supabase
     .from('questions')
-    .select('*, answers(count), question_topics(topics(name, slug))')
+    .select('*, answer_cap, answer_deadline, answers(count), question_topics(topics(name, slug))')
     .order('publish_date', { ascending: false, nullsFirst: true })
 
   const allQuestions = questions || []
