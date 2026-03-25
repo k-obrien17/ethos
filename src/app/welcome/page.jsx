@@ -38,7 +38,7 @@ export default async function WelcomePage() {
     <div className="space-y-6 max-w-lg mx-auto">
       <section className="text-center py-4">
         <h1 className="text-2xl font-bold text-warm-900">
-          Welcome to Ethos
+          Welcome to Credo
         </h1>
         <p className="text-warm-600 mt-2">
           What you choose to answer reveals what you stand for.
@@ -47,7 +47,7 @@ export default async function WelcomePage() {
 
       {/* How it works */}
       <section className="bg-warm-50 rounded-lg p-5">
-        <h2 className="text-sm font-semibold text-warm-800 mb-3">How Ethos works</h2>
+        <h2 className="text-sm font-semibold text-warm-800 mb-3">How Credo works</h2>
         <div className="space-y-3 text-sm text-warm-600">
           <div className="flex gap-3">
             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold">1</span>

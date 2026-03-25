@@ -6,7 +6,7 @@ import SearchTypeahead from '@/components/SearchTypeahead'
 
 function getRecentSearches() {
   try {
-    return JSON.parse(localStorage.getItem('ethos_recent_searches') || '[]').slice(0, 5)
+    return JSON.parse(localStorage.getItem('credo_recent_searches') || '[]').slice(0, 5)
   } catch {
     return []
   }
@@ -15,11 +15,11 @@ function getRecentSearches() {
 function saveRecentSearch(term) {
   const recent = getRecentSearches().filter(s => s !== term)
   recent.unshift(term)
-  localStorage.setItem('ethos_recent_searches', JSON.stringify(recent.slice(0, 5)))
+  localStorage.setItem('credo_recent_searches', JSON.stringify(recent.slice(0, 5)))
 }
 
 function clearRecentSearches() {
-  localStorage.removeItem('ethos_recent_searches')
+  localStorage.removeItem('credo_recent_searches')
 }
 
 export default function SearchBar() {

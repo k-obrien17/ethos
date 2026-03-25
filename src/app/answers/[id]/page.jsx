@@ -142,7 +142,7 @@ export default async function AnswerPage({ params }) {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Ethos',
+      name: 'Credo',
       url: BASE_URL,
     },
     mainEntityOfPage: {
@@ -203,7 +203,7 @@ export default async function AnswerPage({ params }) {
 
       {/* Share utility bar */}
       <div className="flex items-center justify-center">
-        <ShareButton url={`/answers/${id}`} title={`${answer.profiles?.display_name || 'Expert'} on Ethos`} />
+        <ShareButton url={`/answers/${id}`} title={`${answer.profiles?.display_name || 'Expert'} on Credo`} />
       </div>
 
       {/* More from this expert */}

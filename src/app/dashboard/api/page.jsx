@@ -27,7 +27,7 @@ export default async function ApiKeysPage() {
         </Link>
         <h1 className="text-2xl font-bold text-warm-900 mt-3">API Keys</h1>
         <p className="text-sm text-warm-500 mt-1">
-          Access the Ethos public API to embed your answers on your website.
+          Access the Credo public API to embed your answers on your website.
         </p>
       </div>
 

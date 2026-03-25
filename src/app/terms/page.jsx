@@ -2,7 +2,7 @@ export const revalidate = 86400
 
 export const metadata = {
   title: 'Terms of Service',
-  description: 'Ethos terms of service.',
+  description: 'Credo terms of service.',
 }
 
 export default function TermsPage() {
@@ -13,13 +13,13 @@ export default function TermsPage() {
 
       <h2>The service</h2>
       <p>
-        Ethos is a platform where experts answer curated questions to build a public
-        record of their thinking. By using Ethos, you agree to these terms.
+        Credo is a platform where experts answer curated questions to build a public
+        record of their thinking. By using Credo, you agree to these terms.
       </p>
 
       <h2>Your content</h2>
       <p>
-        You retain ownership of your answers. By posting on Ethos, you grant us a
+        You retain ownership of your answers. By posting on Credo, you grant us a
         non-exclusive license to display your content publicly on the platform.
       </p>
 
@@ -38,7 +38,7 @@ export default function TermsPage() {
 
       <h2>Disclaimers</h2>
       <p>
-        Ethos is provided as-is during beta. We make no guarantees about uptime,
+        Credo is provided as-is during beta. We make no guarantees about uptime,
         data availability, or continued operation of the service. Use at your own
         discretion.
       </p>

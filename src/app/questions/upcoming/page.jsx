@@ -5,7 +5,7 @@ import BookmarkButton from '@/components/BookmarkButton'
 
 export const metadata = {
   title: 'Upcoming Questions',
-  description: 'Preview questions coming up this week on Ethos.',
+  description: 'Preview questions coming up this week on Credo.',
 }
 
 export default async function UpcomingQuestionsPage() {

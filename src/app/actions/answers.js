@@ -40,7 +40,7 @@ async function sendFeaturedEmail(answerId, expertId) {
     const content = `
       <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">Your answer was featured!</h2>
       <p style="font-size:14px;color:#44403c;margin:0 0 16px;">
-        Congratulations, ${escapeHtml(profile.display_name || 'there')}. Your answer to the question below has been selected as an editorial pick on Ethos.
+        Congratulations, ${escapeHtml(profile.display_name || 'there')}. Your answer to the question below has been selected as an editorial pick on Credo.
       </p>
       <div style="background-color:#faf9f7;border-radius:6px;padding:16px;margin:0 0 16px;">
         <p style="font-size:12px;color:#a8a29e;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 4px;">Question</p>
@@ -58,7 +58,7 @@ async function sendFeaturedEmail(answerId, expertId) {
 
     await sendEmail({
       to: expertUser.email,
-      subject: 'Your answer was featured on Ethos!',
+      subject: 'Your answer was featured on Credo!',
       html: emailLayout(content, unsubscribeUrl),
     })
   } catch (err) {
@@ -166,7 +166,7 @@ export async function submitAnswer(prevState, formData) {
   const aiCheck = await detectAI(body, user.id)
   if (aiCheck.flagged) {
     return {
-      error: 'This answer was flagged as AI-generated. Ethos is a human-only platform. Please write your answer in your own words.',
+      error: 'This answer was flagged as AI-generated. Credo is a human-only platform. Please write your answer in your own words.',
       aiRejected: true,
     }
   }

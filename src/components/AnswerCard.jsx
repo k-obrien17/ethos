@@ -234,7 +234,7 @@ export default function AnswerCard({
               Edit ({minutesRemaining}m)
             </button>
           )}
-          <ShareButton url={`/answers/${answer.id}`} title={`${expert?.display_name ?? 'Expert'} on Ethos`} />
+          <ShareButton url={`/answers/${answer.id}`} title={`${expert?.display_name ?? 'Expert'} on Credo`} />
           {currentUserId && !isOwner && <ReportButton answerId={answer.id} />}
           <Link href={`/answers/${answer.id}`} className="hover:text-warm-600">
             Link

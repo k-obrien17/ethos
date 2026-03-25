@@ -314,7 +314,7 @@ export default async function DashboardPage() {
               Notification Preferences
             </h2>
             <p className="text-sm text-warm-500 mt-1">
-              Manage which emails you receive from Ethos.
+              Manage which emails you receive from Credo.
             </p>
           </div>
           <Link
@@ -332,7 +332,7 @@ export default async function DashboardPage() {
           <div>
             <h2 className="text-lg font-semibold text-warm-800">API Access</h2>
             <p className="text-sm text-warm-500 mt-1">
-              Embed your Ethos answers on your website.
+              Embed your Credo answers on your website.
             </p>
           </div>
           <Link

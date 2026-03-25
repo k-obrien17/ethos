@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="mt-16 py-6 border-t border-warm-200">
       <div className="max-w-2xl mx-auto px-4 flex items-center justify-between text-xs text-warm-400">
-        <span>&copy; {new Date().getFullYear()} Ethos</span>
+        <span>&copy; {new Date().getFullYear()} Credo</span>
         <div className="flex items-center gap-4">
           <Link href="/for-companies" className="hover:text-warm-600">For Companies</Link>
           <Link href="/privacy" className="hover:text-warm-600">Privacy</Link>

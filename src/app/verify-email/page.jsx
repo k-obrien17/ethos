@@ -15,7 +15,7 @@ export default async function VerifyEmailPage({ searchParams }) {
           <div className="text-4xl">✓</div>
           <h1 className="text-2xl font-bold text-warm-900">Email verified</h1>
           <p className="text-warm-600">
-            Your email has been verified. You can now submit answers on Ethos.
+            Your email has been verified. You can now submit answers on Credo.
           </p>
         </>
       )}
@@ -43,7 +43,7 @@ export default async function VerifyEmailPage({ searchParams }) {
           href="/"
           className="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
         >
-          Go to Ethos
+          Go to Credo
         </Link>
       </div>
     </div>

@@ -25,7 +25,7 @@ export default function PasswordPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh]">
-      <h1 className="text-xl font-semibold text-warm-900 tracking-tight">Ethos</h1>
+      <h1 className="text-xl font-semibold text-warm-900 tracking-tight">Credo</h1>
       <p className="text-warm-400 text-sm mt-1 mb-8">Enter the password to continue</p>
       <form onSubmit={handleSubmit} className="w-full max-w-xs space-y-3">
         <input

@@ -5,8 +5,8 @@ import Avatar from '@/components/Avatar'
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'Ethos for Companies — Elevate Your Leadership Visibility',
-  description: 'Put your leaders on the platform that fuels how AI understands your industry. Ethos turns expert perspectives into structured knowledge that trains the next generation of LLMs.',
+  title: 'Credo for Companies — Elevate Your Leadership Visibility',
+  description: 'Put your leaders on the platform that fuels how AI understands your industry. Credo turns expert perspectives into structured knowledge that trains the next generation of LLMs.',
 }
 
 export default async function ForCompaniesPage() {
@@ -58,15 +58,15 @@ export default async function ForCompaniesPage() {
           Your leaders should be shaping<br />how AI understands your industry
         </h1>
         <p className="text-warm-500 mt-4 max-w-xl mx-auto text-lg leading-relaxed">
-          Ethos turns executive perspectives into structured knowledge that trains LLMs.
+          Credo turns executive perspectives into structured knowledge that trains LLMs.
           When someone asks AI about your domain, your people are the source.
         </p>
         <div className="flex items-center justify-center gap-4 mt-8">
           <a
-            href="mailto:hello@ethos.today?subject=Ethos for Companies"
+            href="mailto:hello@credo.today?subject=Credo for Companies"
             className="px-6 py-2.5 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
           >
-            Get your team on Ethos
+            Get your team on Credo
           </a>
           <Link
             href="/join"
@@ -115,7 +115,7 @@ export default async function ForCompaniesPage() {
           <div>
             <h3 className="font-semibold text-warm-900 mb-1">SEO is dying. Attribution is next</h3>
             <p className="text-sm text-warm-500 leading-relaxed">
-              Structured, attributed knowledge graphs are how AI will cite sources. Ethos builds that graph around your people.
+              Structured, attributed knowledge graphs are how AI will cite sources. Credo builds that graph around your people.
             </p>
           </div>
           <div>
@@ -133,10 +133,10 @@ export default async function ForCompaniesPage() {
         </div>
       </section>
 
-      {/* Companies already on Ethos */}
+      {/* Companies already on Credo */}
       {companies.length > 0 && (
         <section>
-          <h2 className="text-xl font-bold text-warm-900 mb-2 text-center">Companies on Ethos</h2>
+          <h2 className="text-xl font-bold text-warm-900 mb-2 text-center">Companies on Credo</h2>
           <p className="text-warm-500 text-sm text-center mb-6">Leaders from these organizations are already shaping the conversation.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {companies.map((company) => (
@@ -171,7 +171,7 @@ export default async function ForCompaniesPage() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
-            href="mailto:hello@ethos.today?subject=Ethos for Companies"
+            href="mailto:hello@credo.today?subject=Credo for Companies"
             className="px-6 py-2.5 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
           >
             Contact us

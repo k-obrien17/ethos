@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: topic.name,
-    description: topic.description || `Questions about ${topic.name} on Ethos`,
+    description: topic.description || `Questions about ${topic.name} on Credo`,
     alternates: { canonical: `/topics/${slug}` },
   }
 }

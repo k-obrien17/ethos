@@ -5,7 +5,7 @@ export const runtime = 'edge'
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const type = searchParams.get('type')
-  const title = searchParams.get('title') ?? 'Ethos'
+  const title = searchParams.get('title') ?? 'Credo'
   const subtitle = searchParams.get('subtitle') ?? ''
   const detail = searchParams.get('detail') ?? ''
 
@@ -69,7 +69,7 @@ export async function GET(request) {
           fontWeight: 700,
           color: '#d6d3d1',
         }}>
-          Ethos
+          Credo
         </div>
       </div>
     ),

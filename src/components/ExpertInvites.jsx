@@ -37,7 +37,7 @@ export default function ExpertInvites({ invites = [], maxInvites = 2 }) {
     <div className="bg-white rounded-lg border border-warm-200 p-4">
       <h3 className="text-sm font-semibold text-warm-800 mb-2">Invite a Colleague</h3>
       <p className="text-xs text-warm-500 mb-3">
-        Share Ethos with someone who has something worth saying. You get {maxInvites} invite{maxInvites !== 1 ? 's' : ''}.
+        Share Credo with someone who has something worth saying. You get {maxInvites} invite{maxInvites !== 1 ? 's' : ''}.
       </p>
 
       {codes.length > 0 && (

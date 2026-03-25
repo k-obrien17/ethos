@@ -136,7 +136,7 @@ export async function sendVerificationEmail() {
   const content = `
     <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">Verify your email</h2>
     <p style="font-size:14px;color:#44403c;margin:0 0 16px;">
-      Hi ${escapeHtml(profile.display_name || 'there')}, please verify your email to start answering questions on Ethos.
+      Hi ${escapeHtml(profile.display_name || 'there')}, please verify your email to start answering questions on Credo.
     </p>
     <div style="text-align:center;">
       <a href="${verifyUrl}" style="display:inline-block;padding:10px 24px;background-color:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">
@@ -150,7 +150,7 @@ export async function sendVerificationEmail() {
 
   const { error } = await sendEmail({
     to: user.email,
-    subject: 'Verify your email — Ethos',
+    subject: 'Verify your email — Credo',
     html: emailLayout(content),
   })
 

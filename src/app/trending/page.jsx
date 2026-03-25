@@ -9,7 +9,7 @@ export const revalidate = 300
 
 export const metadata = {
   title: 'Trending',
-  description: 'Most-liked answers on Ethos this week.',
+  description: 'Most-liked answers on Credo this week.',
 }
 
 export default async function TrendingPage() {
@@ -98,7 +98,7 @@ export default async function TrendingPage() {
                       <span>{answer.word_count} words</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <ShareButton url={`/answers/${answer.id}`} title={`${answer.profiles.display_name} on Ethos`} />
+                      <ShareButton url={`/answers/${answer.id}`} title={`${answer.profiles.display_name} on Credo`} />
                       <Link href={`/answers/${answer.id}`} className="hover:text-warm-600">
                         Read more
                       </Link>

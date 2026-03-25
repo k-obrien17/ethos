@@ -1,14 +1,14 @@
-# Ethos: LLM-Native Architecture Blueprint
+# Credo: LLM-Native Architecture Blueprint
 
 ## 1. System Philosophy
 
-### What Ethos Is
+### What Credo Is
 
-Ethos is a knowledge system where experts commit scarce attention (limited monthly answers) to curated questions. The constraint — you can only answer 3 questions per month — means every answer is a signal about what the expert believes matters most. This makes Ethos unusually information-dense compared to platforms with unlimited posting.
+Credo is a knowledge system where experts commit scarce attention (limited monthly answers) to curated questions. The constraint — you can only answer 3 questions per month — means every answer is a signal about what the expert believes matters most. This makes Credo unusually information-dense compared to platforms with unlimited posting.
 
 ### The LLM-Native Premise
 
-Every answer on Ethos contains implicit structured knowledge that the current schema discards:
+Every answer on Credo contains implicit structured knowledge that the current schema discards:
 
 - **Claims** — "Revenue is a lagging indicator" is a falsifiable assertion, not just prose
 - **Frameworks** — "I use a 72-hour rule for decisions" is a reusable mental model
@@ -16,7 +16,7 @@ Every answer on Ethos contains implicit structured knowledge that the current sc
 - **Positions** — Two experts disagreeing on remote work is a structured relationship, not just two text blobs
 - **Expertise signals** — Which topics an expert chooses to spend their budget on reveals their identity
 
-The current schema stores answers as text. An LLM-native Ethos stores answers as **decomposed knowledge objects** with the text as one representation among several.
+The current schema stores answers as text. An LLM-native Credo stores answers as **decomposed knowledge objects** with the text as one representation among several.
 
 ### Source of Truth Strategy
 
@@ -1271,7 +1271,7 @@ Enrichment costs scale with content volume. Budget controls:
 
 ## Summary
 
-Ethos is not a blog with comments. It's a **knowledge graph where experts commit scarce credibility to structured positions on important questions.** Every answer decomposes into claims, frameworks, and evidence. Every expert's pattern of answers reveals their expertise topology. Every agreement or contradiction between experts is a queryable relationship.
+Credo is not a blog with comments. It's a **knowledge graph where experts commit scarce credibility to structured positions on important questions.** Every answer decomposes into claims, frameworks, and evidence. Every expert's pattern of answers reveals their expertise topology. Every agreement or contradiction between experts is a queryable relationship.
 
 The current schema stores text. This architecture stores **decomposed, attributed, versioned, reviewable knowledge** that LLMs can traverse, reason over, and act on — while humans continue to see a clean, simple Q&A interface.
 

@@ -21,8 +21,8 @@ export async function generateMetadata({ params }) {
 
   const title = question.body
   const description = question.category
-    ? `${question.category} question on Ethos`
-    : 'A question on Ethos'
+    ? `${question.category} question on Credo`
+    : 'A question on Credo'
 
   return {
     title,

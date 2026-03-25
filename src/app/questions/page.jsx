@@ -6,7 +6,7 @@ export const revalidate = 300
 
 export const metadata = {
   title: 'Previous Questions',
-  description: 'Browse every question asked on Ethos and read all expert perspectives.',
+  description: 'Browse every question asked on Credo and read all expert perspectives.',
 }
 
 export default async function QuestionsPage() {
@@ -47,7 +47,7 @@ export default async function QuestionsPage() {
           Previous Questions
         </h1>
         <p className="text-warm-500 text-sm mt-1">
-          Browse every question asked on Ethos and read all expert perspectives.
+          Browse every question asked on Credo and read all expert perspectives.
         </p>
       </div>
       {enriched.length > 0 ? (

@@ -2,7 +2,7 @@ export const revalidate = 86400
 
 export const metadata = {
   title: 'Privacy Policy',
-  description: 'Ethos privacy policy.',
+  description: 'Credo privacy policy.',
 }
 
 export default function PrivacyPage() {
@@ -20,7 +20,7 @@ export default function PrivacyPage() {
 
       <h2>How we use it</h2>
       <p>
-        Your profile and answers are displayed publicly on Ethos. Your email address
+        Your profile and answers are displayed publicly on Credo. Your email address
         is used for authentication and is not displayed publicly or shared with third
         parties.
       </p>
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
       </p>
 
       <h2>Contact</h2>
-      <p>Questions about this policy? Reach out at privacy@ethos.example.com.</p>
+      <p>Questions about this policy? Reach out at privacy@credo.example.com.</p>
     </article>
   )
 }

@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
   if (!profile) return { title: 'Expert not found' }
 
   const title = profile.display_name
-  let description = profile.headline || profile.bio?.slice(0, 150) || `${profile.display_name} on Ethos`
+  let description = profile.headline || profile.bio?.slice(0, 150) || `${profile.display_name} on Credo`
 
   // Append top expertise topics if available
   const { data: expertAnswers } = await supabase
@@ -175,7 +175,7 @@ export default async function ExpertProfilePage({ params }) {
                 Website
               </a>
             )}
-            <ShareButton url={`/expert/${profile.handle}`} title={`${profile.display_name} on Ethos`} />
+            <ShareButton url={`/expert/${profile.handle}`} title={`${profile.display_name} on Credo`} />
           </div>
         </div>
       </section>
@@ -301,7 +301,7 @@ export default async function ExpertProfilePage({ params }) {
                 <div className="flex items-center justify-between mt-4 pt-3 border-t border-warm-100 text-xs text-warm-400">
                   <span>{answer.word_count} words</span>
                   <div className="flex items-center gap-3">
-                    <ShareButton url={`/answers/${answer.id}`} title={`${profile.display_name} on Ethos`} />
+                    <ShareButton url={`/answers/${answer.id}`} title={`${profile.display_name} on Credo`} />
                     <Link href={`/answers/${answer.id}`} className="hover:text-warm-600">
                       Link
                     </Link>

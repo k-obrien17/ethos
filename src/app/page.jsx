@@ -9,7 +9,7 @@ import Avatar from '@/components/Avatar'
 export const revalidate = 60
 
 export const metadata = {
-  title: 'Ethos — What You Choose to Answer Reveals What You Stand For',
+  title: 'Credo — What You Choose to Answer Reveals What You Stand For',
   description: 'A thought leadership platform where experts answer one curated question per day. Browse expert perspectives on today\'s most important questions.',
   alternates: { canonical: '/' },
 }
@@ -267,7 +267,7 @@ export default async function HomePage() {
               href="/login"
               className="px-6 py-2.5 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
             >
-              Join Ethos
+              Join Credo
             </Link>
             <Link
               href="/questions"
@@ -312,7 +312,7 @@ export default async function HomePage() {
           {showNudge && todayQuestion && (
             <div className="mt-6 py-3 border-t border-warm-100 text-center">
               <p className="text-warm-500 text-sm">
-                This is your first day on Ethos.{' '}
+                This is your first day on Credo.{' '}
                 <Link href={`/q/${todayQuestion.slug}`} className="text-accent-600 font-medium hover:text-accent-700">
                   Share your perspective
                 </Link>
@@ -347,7 +347,7 @@ export default async function HomePage() {
         </section>
       ) : (
         <section className="text-center py-16">
-          <h1 className="text-2xl font-bold text-warm-900 mb-2">Ethos</h1>
+          <h1 className="text-2xl font-bold text-warm-900 mb-2">Credo</h1>
           <p className="text-warm-500">
             What you choose to answer reveals what you stand for.
           </p>
@@ -462,12 +462,12 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Companies on Ethos */}
+      {/* Companies on Credo */}
       {companies.length > 0 && (
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-semibold text-warm-800">
-              Companies on Ethos
+              Companies on Credo
             </h2>
             <Link
               href="/for-companies"

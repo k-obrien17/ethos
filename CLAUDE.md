@@ -153,7 +153,7 @@ CRON_SECRET             # Vercel cron auth
 
 ## Key Pages
 
-- `/` — Homepage: today's question + answers, trending, featured expert, companies on Ethos, recent questions
+- `/` — Homepage: today's question + answers, trending, featured expert, companies on Credo, recent questions
 - `/q/[slug]` — Question page with answer form (enforces cap, deadline, budget)
 - `/experts` — Expert directory with sort (answers, active, engagement, recent, likes) and topic filter
 - `/expert/[handle]` — Expert profile with answers, expertise tags, follow button

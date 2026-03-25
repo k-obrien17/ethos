@@ -8,7 +8,7 @@ export const revalidate = 300
 
 export const metadata = {
   title: 'Expert Directory',
-  description: 'Browse experts on Ethos by topic expertise, answer count, and activity.',
+  description: 'Browse experts on Credo by topic expertise, answer count, and activity.',
 }
 
 export default async function ExpertsPage({ searchParams }) {

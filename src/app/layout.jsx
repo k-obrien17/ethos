@@ -16,13 +16,13 @@ export const viewport = {
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: {
-    default: 'Ethos',
-    template: '%s — Ethos',
+    default: 'Credo',
+    template: '%s — Credo',
   },
   description: 'What you choose to answer reveals what you stand for.',
   openGraph: {
     type: 'website',
-    siteName: 'Ethos',
+    siteName: 'Credo',
   },
   twitter: {
     card: 'summary_large_image',
@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebSite',
-              name: 'Ethos',
+              name: 'Credo',
               url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ethos-daily.vercel.app',
               description: 'Human-only thought leadership platform. One question per day, limited answers per month.',
               potentialAction: {

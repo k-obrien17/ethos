@@ -1,4 +1,4 @@
-# Ethos Data Model — LLM-Optimized Design
+# Credo Data Model — LLM-Optimized Design
 
 ## Current State Assessment
 

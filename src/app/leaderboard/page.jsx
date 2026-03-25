@@ -6,7 +6,7 @@ export const revalidate = 3600
 
 export const metadata = {
   title: 'Leaderboard',
-  description: 'Top experts on Ethos, ranked by community endorsement.',
+  description: 'Top experts on Credo, ranked by community endorsement.',
 }
 
 export default async function LeaderboardPage({ searchParams }) {

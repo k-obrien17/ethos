@@ -16,7 +16,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
   const [state, formAction, pending] = useActionState(submitAnswer, null)
   const [content, setContent] = useState('')
   const [showPreview, setShowPreview] = useState(false)
-  const draftKey = `ethos_draft_${questionId}`
+  const draftKey = `credo_draft_${questionId}`
   const submittedRef = useRef(false)
 
   const remaining = budgetLimit - budgetUsed
@@ -191,7 +191,7 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
           <div className="mt-3 text-sm bg-red-50 border border-red-200 px-4 py-3 rounded-md">
             <p className="font-semibold text-red-800">AI-generated content detected</p>
             <p className="text-red-700 mt-1">
-              Ethos is a human-only platform. Your answer was flagged as AI-written and cannot be published. Rewrite it in your own words and try again.
+              Credo is a human-only platform. Your answer was flagged as AI-written and cannot be published. Rewrite it in your own words and try again.
             </p>
           </div>
         )}

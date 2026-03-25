@@ -86,7 +86,7 @@ export async function GET(request) {
         const unsubscribeUrl = getUnsubscribeUrl(profile.unsubscribe_token, 'daily_question')
         const { error } = await sendEmail({
           to: email,
-          subject: `Today on Ethos: ${todayQuestion.body.slice(0, 60)}${todayQuestion.body.length > 60 ? '...' : ''}`,
+          subject: `Today on Credo: ${todayQuestion.body.slice(0, 60)}${todayQuestion.body.length > 60 ? '...' : ''}`,
           html: emailLayout(content, unsubscribeUrl),
         })
 
@@ -172,7 +172,7 @@ export async function GET(request) {
         const unsubscribeUrl = getUnsubscribeUrl(profile.unsubscribe_token, 'budget_reset')
         const { error } = await sendEmail({
           to: email,
-          subject: `Your Ethos answer budget has reset — ${profile.answer_limit} answers available`,
+          subject: `Your Credo answer budget has reset — ${profile.answer_limit} answers available`,
           html: emailLayout(content, unsubscribeUrl),
         })
 
@@ -247,7 +247,7 @@ export async function GET(request) {
           const content = `
             <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">Your Weekly Recap</h2>
             <p style="font-size:14px;color:#44403c;margin:0 0 16px;">
-              Here's what happened on Ethos last week, ${escapeHtml(profile.display_name || 'there')}.
+              Here's what happened on Credo last week, ${escapeHtml(profile.display_name || 'there')}.
             </p>
             <table style="width:100%;border-collapse:collapse;">
               ${questionsHtml}
@@ -255,7 +255,7 @@ export async function GET(request) {
             ${featuredHtml}
             <div style="text-align:center;margin-top:20px;">
               <a href="${siteUrl}" style="display:inline-block;padding:10px 24px;background-color:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">
-                Visit Ethos
+                Visit Credo
               </a>
             </div>
           `
@@ -263,7 +263,7 @@ export async function GET(request) {
           const unsubscribeUrl = getUnsubscribeUrl(profile.unsubscribe_token, 'weekly_recap')
           const { error } = await sendEmail({
             to: email,
-            subject: `Ethos Weekly — ${weekQuestions.length} questions from last week`,
+            subject: `Credo Weekly — ${weekQuestions.length} questions from last week`,
             html: emailLayout(content, unsubscribeUrl),
           })
 
@@ -324,7 +324,7 @@ export async function GET(request) {
       }).join('')
 
       const content = `
-        <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">Activity on Ethos</h2>
+        <h2 style="font-size:18px;color:#1c1917;margin:0 0 8px;">Activity on Credo</h2>
         <p style="font-size:14px;color:#44403c;margin:0 0 16px;">
           Hi ${escapeHtml(profile.display_name || 'there')}, here's what happened since your last visit.
         </p>
@@ -339,7 +339,7 @@ export async function GET(request) {
       const unsubscribeUrl = getUnsubscribeUrl(profile.unsubscribe_token, 'notification_digest')
       const { error } = await sendEmail({
         to: email,
-        subject: `${unreadNotifs.length} new notification${unreadNotifs.length > 1 ? 's' : ''} on Ethos`,
+        subject: `${unreadNotifs.length} new notification${unreadNotifs.length > 1 ? 's' : ''} on Credo`,
         html: emailLayout(content, unsubscribeUrl),
       })
 

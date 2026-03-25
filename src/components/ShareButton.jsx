@@ -25,7 +25,7 @@ export default function ShareButton({ url, title }) {
     ? `${typeof window !== 'undefined' ? window.location.origin : ''}${url}`
     : typeof window !== 'undefined' ? window.location.href : ''
 
-  const shareText = title || 'Check this out on Ethos'
+  const shareText = title || 'Check this out on Credo'
 
   return (
     <div className="relative">

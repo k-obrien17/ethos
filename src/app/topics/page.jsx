@@ -6,7 +6,7 @@ export const revalidate = 300
 
 export const metadata = {
   title: 'Topics',
-  description: 'Discover questions by subject on Ethos.',
+  description: 'Discover questions by subject on Credo.',
 }
 
 export default async function TopicsPage() {

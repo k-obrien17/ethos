@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Join Ethos — Expert Recruitment',
-  description: 'Join Ethos as a vetted expert. Share your expertise, build your reputation, and fuel the next generation of AI with authentic human insight.',
+  title: 'Join Credo — Expert Recruitment',
+  description: 'Join Credo as a vetted expert. Share your expertise, build your reputation, and fuel the next generation of AI with authentic human insight.',
 }
 
 export default function JoinPage() {
@@ -14,7 +14,7 @@ export default function JoinPage() {
           Your expertise deserves a better platform
         </h1>
         <p className="text-warm-500 mt-4 max-w-xl mx-auto text-lg leading-relaxed">
-          Ethos is an invite-only Q&amp;A platform where vetted experts answer one curated question at a time.
+          Credo is an invite-only Q&amp;A platform where vetted experts answer one curated question at a time.
           No noise. No algorithms. Just signal.
         </p>
       </section>
@@ -114,7 +114,7 @@ export default function JoinPage() {
       <section className="text-center">
         <h2 className="text-xl font-bold text-warm-900 mb-3">Ready to join?</h2>
         <p className="text-warm-500 mb-6 text-sm">
-          Ethos is invite-only during beta. If you have an invite code, sign up now. Otherwise, request access below.
+          Credo is invite-only during beta. If you have an invite code, sign up now. Otherwise, request access below.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
@@ -124,7 +124,7 @@ export default function JoinPage() {
             Sign up with invite code
           </Link>
           <a
-            href="mailto:hello@ethos.today?subject=Ethos Access Request"
+            href="mailto:hello@credo.today?subject=Credo Access Request"
             className="px-6 py-2.5 bg-warm-100 text-warm-700 rounded-md text-sm font-medium hover:bg-warm-200 transition-colors"
           >
             Request access

@@ -57,7 +57,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center py-16">
-      <h1 className="text-xl font-semibold text-warm-900 tracking-tight mb-1">Ethos</h1>
+      <h1 className="text-xl font-semibold text-warm-900 tracking-tight mb-1">Credo</h1>
       <p className="text-warm-400 text-sm mb-8">Sign in to share your perspective</p>
       <div className="flex flex-col gap-3 w-full max-w-xs">
         <div>

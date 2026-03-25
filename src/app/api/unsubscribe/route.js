@@ -56,7 +56,7 @@ export async function GET(request) {
   }
 
   const message = type === 'all'
-    ? 'You have been unsubscribed from all Ethos emails.'
+    ? 'You have been unsubscribed from all Credo emails.'
     : `You have been unsubscribed from ${type.replace(/_/g, ' ')} emails.`
 
   return new NextResponse(htmlPage('Unsubscribed', message), {
@@ -75,13 +75,13 @@ function htmlPage(title, message) {
   const safeMessage = escapeHtml(message)
   return `<!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${safeTitle} — Ethos</title></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${safeTitle} — Credo</title></head>
 <body style="margin:0;padding:0;background-color:#faf9f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
   <div style="max-width:400px;margin:80px auto;text-align:center;padding:32px 24px;">
-    <h1 style="font-size:24px;font-weight:bold;color:#1c1917;margin-bottom:8px;">Ethos</h1>
+    <h1 style="font-size:24px;font-weight:bold;color:#1c1917;margin-bottom:8px;">Credo</h1>
     <h2 style="font-size:18px;color:#44403c;margin-bottom:12px;">${safeTitle}</h2>
     <p style="color:#78716c;font-size:14px;">${safeMessage}</p>
-    <a href="${siteUrl}" style="display:inline-block;margin-top:24px;padding:10px 20px;background-color:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">Back to Ethos</a>
+    <a href="${siteUrl}" style="display:inline-block;margin-top:24px;padding:10px 20px;background-color:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">Back to Credo</a>
   </div>
 </body>
 </html>`

@@ -42,7 +42,7 @@ export default function SearchTypeahead({ query, selectedIndex, onSelect, onClos
   // Load recent searches on mount
   useEffect(() => {
     try {
-      const stored = JSON.parse(localStorage.getItem('ethos_recent_searches') || '[]')
+      const stored = JSON.parse(localStorage.getItem('credo_recent_searches') || '[]')
       setRecentSearches(stored.slice(0, 5)) // eslint-disable-line react-hooks/set-state-in-effect
     } catch {
       setRecentSearches([])

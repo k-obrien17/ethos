@@ -46,7 +46,7 @@ export default async function Header() {
     <header className="border-b border-warm-200 bg-white/80 backdrop-blur-sm sticky top-0 z-30">
       <nav className="mx-auto max-w-2xl px-4 py-3 flex items-center justify-between">
         <Link href="/" className="text-lg font-semibold text-warm-900 tracking-tight">
-          Ethos
+          Credo
         </Link>
         {/* Desktop nav */}
         <div className="hidden sm:flex items-center gap-5">
