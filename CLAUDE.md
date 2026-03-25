@@ -55,13 +55,15 @@ Admin operations use `createAdminClient()` (service role key, bypasses RLS).
 submitAnswer() in src/app/actions/answers.js:
   1. Auth check
   2. Rate limit (10/hour)
-  3. Email verification check
-  4. Client-side budget check (fast reject)
-  5. AI detection (Anthropic Haiku, 5s timeout, fails open with per-user tracking)
-  6. submit_answer RPC (advisory lock + budget enforcement + insert)
-  7. Revalidate paths
-  8. Fire-and-forget: enrichAnswer() → decompose into claims/frameworks/evidence
-  9. Fire-and-forget: notify followers
+  3. Profile status check (reject suspended/pending)
+  4. Email verification check
+  5. Server-side budget check (fast reject)
+  6. Answer cap + deadline check (per-question scarcity)
+  7. AI detection (Anthropic Haiku, 5s timeout, fails open with per-user tracking)
+  8. submit_answer RPC (advisory lock + budget enforcement + insert)
+  9. Revalidate paths
+  10. Fire-and-forget: enrichAnswer() → decompose into claims/frameworks/evidence
+  11. Fire-and-forget: notify followers
 ```
 
 ### Knowledge Graph (LLM Enrichment)
@@ -92,7 +94,7 @@ Enrichment runs on submit (inline, fire-and-forget) and via batch script (`scrip
 
 ## Database
 
-27 migrations in `supabase/migrations/`. Key tables:
+29+ migrations in `supabase/migrations/`. Key tables:
 
 **Core:** profiles, questions, answers, topics, question_topics
 **Social:** follows, answer_likes, answer_comments, bookmarks, topic_follows
@@ -148,6 +150,18 @@ CRON_SECRET             # Vercel cron auth
 - Toast notifications via Sonner (`position="bottom-right" richColors`)
 - Loading skeletons use `animate-pulse bg-warm-200 rounded`
 - Error boundaries: `error.jsx` per route with retry + home link
+
+## Key Pages
+
+- `/` — Homepage: today's question + answers, trending, featured expert, companies on Ethos, recent questions
+- `/q/[slug]` — Question page with answer form (enforces cap, deadline, budget)
+- `/experts` — Expert directory with sort (answers, active, engagement, recent, likes) and topic filter
+- `/expert/[handle]` — Expert profile with answers, expertise tags, follow button
+- `/for-companies` — Company recruitment landing page (LLM data value proposition)
+- `/join` — Individual expert recruitment page
+- `/leaderboard` — Sortable expert rankings (likes, answers, views)
+- `/dashboard` — Expert dashboard: stats, answer performance, bookmarks, invites, profile edit
+- `/admin/*` — Admin panel: questions, experts (approval workflow), answers, analytics, monitoring, invites
 
 ## CI/CD
 

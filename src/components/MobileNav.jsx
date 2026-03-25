@@ -55,6 +55,7 @@ export default function MobileNav({ isAuthenticated, budgetData }) {
           <MobileNavLink href="/trending" onClick={close}>Trending</MobileNavLink>
           <MobileNavLink href="/leaderboard" onClick={close}>Leaderboard</MobileNavLink>
           <MobileNavLink href="/experts" onClick={close}>Experts</MobileNavLink>
+          <MobileNavLink href="/for-companies" onClick={close}>For Companies</MobileNavLink>
           {isAuthenticated && (
             <>
               <MobileNavLink href="/following" onClick={close}>Following</MobileNavLink>

@@ -55,6 +55,7 @@ export default async function Header() {
           <NavLink href="/experts">Experts</NavLink>
           <NavLink href="/questions">Previous Questions</NavLink>
           <NavLink href="/leaderboard">Leaderboard</NavLink>
+          <NavLink href="/for-companies">For Companies</NavLink>
           {user && <NavLink href="/following">Following</NavLink>}
           {user && <NotificationBell unreadCount={unreadCount} />}
           <HeaderAuth user={user} budgetData={budgetData} />
