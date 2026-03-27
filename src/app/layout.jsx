@@ -44,13 +44,13 @@ export default function RootLayout({ children }) {
               '@context': 'https://schema.org',
               '@type': 'WebSite',
               name: 'Credo',
-              url: process.env.NEXT_PUBLIC_SITE_URL || 'https://credo.vercel.app',
+              url: process.env.NEXT_PUBLIC_SITE_URL || 'https://credo-daily.vercel.app',
               description: 'Human-only thought leadership platform. One question per day, limited answers per month.',
               potentialAction: {
                 '@type': 'SearchAction',
                 target: {
                   '@type': 'EntryPoint',
-                  urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://credo.vercel.app'}/search?q={search_term_string}`,
+                  urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://credo-daily.vercel.app'}/search?q={search_term_string}`,
                 },
                 'query-input': 'required name=search_term_string',
               },

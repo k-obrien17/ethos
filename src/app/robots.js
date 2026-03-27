@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://credo.vercel.app'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://credo-daily.vercel.app'
 
 export default function robots() {
   return {
