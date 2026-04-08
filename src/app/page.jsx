@@ -253,36 +253,7 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-12">
-      {/* Landing hero for logged-out visitors */}
-      {!user && (
-        <section className="py-12 text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-warm-900 leading-tight tracking-tight">
-            The only destination for<br />curated, human expertise.
-          </h1>
-          <p className="text-warm-500 mt-4 max-w-md mx-auto text-base leading-relaxed">
-            One curated question per day. Limited answers per month. Every response is a statement of what matters to you.
-          </p>
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <Link
-              href="/login"
-              className="px-6 py-2.5 bg-accent-600 text-white rounded-md text-sm font-medium hover:bg-accent-700 transition-colors"
-            >
-              Join Credo
-            </Link>
-            <Link
-              href="/questions"
-              className="text-warm-500 text-sm font-medium hover:text-warm-800 transition-colors"
-            >
-              Browse questions
-            </Link>
-          </div>
-          <p className="text-warm-400 text-xs mt-6">
-            Human-only platform &middot; Invite required &middot; No AI-generated content
-          </p>
-        </section>
-      )}
-
-      {/* Today's question */}
+      {/* Today's question — the product is the pitch */}
       {todayQuestion ? (
         <section>
           <p className="text-xs font-medium text-warm-400 uppercase tracking-widest mb-3">
@@ -354,6 +325,29 @@ export default async function HomePage() {
           <p className="text-warm-400 text-sm mt-2">
             No question published yet today. Check back soon.
           </p>
+        </section>
+      )}
+
+      {/* Logged-out CTA — show after they've read today's content */}
+      {!user && (
+        <section className="border-t border-b border-warm-100 py-8 text-center">
+          <p className="text-sm text-warm-600 max-w-md mx-auto">
+            Credo publishes one question per day. Named experts answer — three each per month, no more.
+          </p>
+          <div className="flex items-center justify-center gap-4 mt-5">
+            <Link
+              href="/questions"
+              className="px-5 py-2 bg-warm-900 text-white rounded-md text-sm font-medium hover:bg-warm-800 transition-colors"
+            >
+              Read the archive
+            </Link>
+            <Link
+              href="/join"
+              className="text-accent-600 text-sm font-medium hover:text-accent-700 transition-colors"
+            >
+              Become an answerer &rarr;
+            </Link>
+          </div>
         </section>
       )}
 

@@ -110,6 +110,7 @@ export default async function ExpertProfilePage({ params }) {
   const isFollowing = !!followResult?.data
   const allAnswers = answers ?? []
   const totalLikes = allAnswers.reduce((sum, a) => sum + (a.like_count ?? 0), 0)
+  const totalViews = allAnswers.reduce((sum, a) => sum + (a.view_count ?? 0), 0)
   const featuredAnswers = allAnswers.filter(a => a.featured_at)
 
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
@@ -220,8 +221,8 @@ export default async function ExpertProfilePage({ params }) {
           <p className="text-xs text-warm-500 mt-1">This Month</p>
         </div>
         <div className="bg-white rounded-lg border border-warm-200 p-4 text-center">
-          <p className="text-2xl font-bold text-warm-900">{totalLikes}</p>
-          <p className="text-xs text-warm-500 mt-1">Likes</p>
+          <p className="text-2xl font-bold text-warm-900">{totalViews}</p>
+          <p className="text-xs text-warm-500 mt-1">Views</p>
         </div>
       </section>
 

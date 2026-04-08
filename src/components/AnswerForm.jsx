@@ -50,15 +50,15 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
     return () => { clearTimeout(localTimer); clearTimeout(serverTimer) }
   }, [content, draftKey, questionId])
 
-  // Clear draft on successful submission or AI rejection
+  // Clear draft only on successful submission — AI rejection preserves the user's work
   useEffect(() => {
-    if (state?.success || state?.aiRejected) {
+    if (state?.success) {
       submittedRef.current = true
       localStorage.removeItem(draftKey)
       setContent('') // eslint-disable-line react-hooks/set-state-in-effect
     }
     if (state?.aiRejected) {
-      toast.error('Answer flagged as AI-generated')
+      toast.error('Flagged as possibly AI-written — your draft is saved')
     }
     if (state?.error && !state?.aiRejected) {
       toast.error('Failed to save answer')
@@ -189,9 +189,9 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
         {/* AI rejection message */}
         {state?.aiRejected && (
           <div className="mt-3 text-sm bg-red-50 border border-red-200 px-4 py-3 rounded-md">
-            <p className="font-semibold text-red-800">AI-generated content detected</p>
+            <p className="font-semibold text-red-800">Flagged as possibly AI-written</p>
             <p className="text-red-700 mt-1">
-              Credo is a human-only platform. Your answer was flagged as AI-written and cannot be published. Rewrite it in your own words and try again.
+              Credo is human-only. Your draft is preserved — edit any section that reads formulaic and resubmit.
             </p>
           </div>
         )}
@@ -221,7 +221,9 @@ export default function AnswerForm({ questionId, budgetUsed, budgetLimit, hasAns
       </form>
 
       <p className="text-xs text-warm-400 mt-3">
-        Submitting uses 1 of your {budgetLimit} monthly answers. This cannot be undone.
+        {remaining === 1
+          ? 'Your last answer this month. Make it count.'
+          : `${remaining} answers left this month. Make this one count.`}
       </p>
     </div>
   )
