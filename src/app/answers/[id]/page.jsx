@@ -93,8 +93,8 @@ export default async function AnswerPage({ params }) {
     .eq('answer_id', id)
     .order('created_at', { ascending: true })
 
-  // Parallel: like status + more from expert + other perspectives
-  const [likeResult, { data: moreFromExpert }, { data: otherPerspectives }] = await Promise.all([
+  // Parallel: like status + more from expert + other perspectives + knowledge graph counts
+  const [likeResult, { data: moreFromExpert }, { data: otherPerspectives }, claimsCount, frameworksCount, evidenceCount] = await Promise.all([
     user
       ? supabase
           .from('answer_likes')
@@ -123,7 +123,26 @@ export default async function AnswerPage({ params }) {
       .neq('id', answer.id)
       .order('like_count', { ascending: false })
       .limit(4),
+    supabase
+      .from('claims')
+      .select('*', { count: 'exact', head: true })
+      .eq('source_answer_id', id),
+    supabase
+      .from('frameworks')
+      .select('*', { count: 'exact', head: true })
+      .eq('source_answer_id', id),
+    supabase
+      .from('evidence')
+      .select('*', { count: 'exact', head: true })
+      .eq('source_answer_id', id),
   ])
+
+  const graphStats = {
+    claims: claimsCount?.count ?? 0,
+    frameworks: frameworksCount?.count ?? 0,
+    evidence: evidenceCount?.count ?? 0,
+  }
+  const hasGraphContribution = graphStats.claims + graphStats.frameworks + graphStats.evidence > 0
 
   const isLiked = !!likeResult.data
 
@@ -200,6 +219,38 @@ export default async function AnswerPage({ params }) {
         comments={comments ?? []}
         editWindowExpiresAt={new Date(answer.created_at).getTime() + 15 * 60 * 1000}
       />
+
+      {/* Knowledge graph contribution — makes the invisible enrichment visible */}
+      {hasGraphContribution && (
+        <section className="bg-warm-50 border border-warm-200 rounded-lg p-5">
+          <p className="text-xs font-medium text-warm-400 uppercase tracking-widest mb-2">
+            Contributed to Credo&apos;s knowledge graph
+          </p>
+          <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
+            {graphStats.claims > 0 && (
+              <div>
+                <span className="text-xl font-bold text-warm-900">{graphStats.claims}</span>
+                <span className="text-sm text-warm-500 ml-1.5">{graphStats.claims === 1 ? 'claim' : 'claims'}</span>
+              </div>
+            )}
+            {graphStats.frameworks > 0 && (
+              <div>
+                <span className="text-xl font-bold text-warm-900">{graphStats.frameworks}</span>
+                <span className="text-sm text-warm-500 ml-1.5">{graphStats.frameworks === 1 ? 'framework' : 'frameworks'}</span>
+              </div>
+            )}
+            {graphStats.evidence > 0 && (
+              <div>
+                <span className="text-xl font-bold text-warm-900">{graphStats.evidence}</span>
+                <span className="text-sm text-warm-500 ml-1.5">{graphStats.evidence === 1 ? 'piece of evidence' : 'pieces of evidence'}</span>
+              </div>
+            )}
+          </div>
+          <p className="text-xs text-warm-400 mt-3 leading-relaxed">
+            Credo decomposes every answer into structured knowledge that AI models can learn from and attribute back to the expert.
+          </p>
+        </section>
+      )}
 
       {/* Share utility bar */}
       <div className="flex items-center justify-center">

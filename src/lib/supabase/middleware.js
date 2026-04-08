@@ -3,22 +3,7 @@ import { NextResponse } from 'next/server'
 
 export async function updateSession(request) {
   let supabaseResponse = NextResponse.next({ request })
-
-  // Password gate — skip for password page, API auth, and static assets
   const pathname = request.nextUrl.pathname
-  const isPasswordRoute = pathname === '/password' || pathname === '/api/auth/password'
-  const isApiRoute = pathname.startsWith('/api/')
-
-  const isStaticAsset = pathname.startsWith('/_next/') || pathname.startsWith('/favicon') || /\.(ico|png|jpg|svg|css|js|woff2?)$/.test(pathname)
-
-  if (!isPasswordRoute && !isApiRoute && !isStaticAsset && process.env.SITE_PASSWORD) {
-    const accessCookie = request.cookies.get('site_access')
-    if (accessCookie?.value !== 'granted') {
-      const url = request.nextUrl.clone()
-      url.pathname = '/password'
-      return NextResponse.redirect(url)
-    }
-  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,

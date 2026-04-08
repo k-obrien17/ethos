@@ -81,8 +81,8 @@ export default async function ExpertProfilePage({ params }) {
 
   if (!profile) notFound()
 
-  // Parallel: answers, follow status, monthly question count, question_topics for expertise
-  const [{ data: answers }, followResult, { count: totalQuestionsThisMonth }, { data: questionTopics }] = await Promise.all([
+  // Parallel: answers, follow status, monthly question count, question_topics for expertise, inviter profile
+  const [{ data: answers }, followResult, { count: totalQuestionsThisMonth }, { data: questionTopics }, inviterResult] = await Promise.all([
     supabase
       .from('answers')
       .select(`*, questions!inner(id, body, slug, category, publish_date)`)
@@ -104,8 +104,17 @@ export default async function ExpertProfilePage({ params }) {
       .in('status', ['scheduled', 'published']),
     supabase
       .from('question_topics')
-      .select('question_id, topics(id, name, slug)')
+      .select('question_id, topics(id, name, slug)'),
+    profile.invited_by
+      ? supabase
+          .from('profiles')
+          .select('display_name, handle')
+          .eq('id', profile.invited_by)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
   ])
+
+  const inviter = inviterResult?.data ?? null
 
   const isFollowing = !!followResult?.data
   const allAnswers = answers ?? []
@@ -159,6 +168,14 @@ export default async function ExpertProfilePage({ params }) {
             <span>{profile.follower_count ?? 0} followers</span>
             <span>{profile.following_count ?? 0} following</span>
           </div>
+          {inviter && (
+            <p className="text-xs text-warm-400 mt-1">
+              Invited by{' '}
+              <Link href={`/expert/${inviter.handle}`} className="text-warm-600 hover:text-accent-600 font-medium">
+                {inviter.display_name}
+              </Link>
+            </p>
+          )}
           {/* Social links */}
           <div className="flex items-center gap-3 mt-2">
             {profile.linkedin_url && (

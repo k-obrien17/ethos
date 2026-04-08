@@ -42,9 +42,10 @@ Browser → Server Action (mutation) → Supabase → revalidatePath
 
 Supabase Auth with Google + LinkedIn OAuth. Middleware (`src/middleware.js`) handles:
 1. Static asset bypass (`/_next/`, favicons, images)
-2. Site password gate (cookie-based, via `SITE_PASSWORD`)
-3. Admin route protection (role check on `/admin/*`)
-4. Dashboard route protection (auth check on `/dashboard/*`)
+2. Admin route protection (role check on `/admin/*`)
+3. Dashboard route protection (auth check on `/dashboard/*`)
+
+Reading is fully public. Submission is gated via auth in the `submitAnswer` server action. Account creation requires an invite code on `/login`. (The `SITE_PASSWORD` env var and `/password` route are dormant — the site-wide gate was removed for shareability.)
 
 Server Components get user via `createClient()` → `supabase.auth.getUser()`.
 Admin operations use `createAdminClient()` (service role key, bypasses RLS).

@@ -12,8 +12,8 @@ export const metadata = {
 export default async function ForCompaniesPage() {
   const supabase = await createClient()
 
-  // Parallel fetch: profiles with orgs + answer stats
-  const [{ data: profiles }, { data: answers }] = await Promise.all([
+  // Parallel fetch: profiles with orgs + answer stats + a real enriched demo answer
+  const [{ data: profiles }, { data: answers }, { data: demoAnswer }] = await Promise.all([
     supabase
       .from('profiles')
       .select('id, display_name, handle, avatar_url, headline, organization')
@@ -21,7 +21,40 @@ export default async function ForCompaniesPage() {
     supabase
       .from('answers')
       .select('expert_id, like_count'),
+    supabase
+      .from('answers')
+      .select(`
+        id, summary, key_claims, sentiment,
+        profiles!answers_expert_id_fkey(display_name, handle, organization),
+        questions!inner(body, slug)
+      `)
+      .eq('enrichment_version', 1)
+      .not('summary', 'is', null)
+      .not('key_claims', 'is', null)
+      .order('like_count', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
   ])
+
+  // Fetch claims + frameworks for demo answer if one was found
+  let demoClaims = []
+  let demoFrameworks = []
+  if (demoAnswer?.id) {
+    const [claimsResult, frameworksResult] = await Promise.all([
+      supabase
+        .from('claims')
+        .select('text, claim_type, domain')
+        .eq('source_answer_id', demoAnswer.id)
+        .limit(4),
+      supabase
+        .from('frameworks')
+        .select('name, summary')
+        .eq('source_answer_id', demoAnswer.id)
+        .limit(2),
+    ])
+    demoClaims = claimsResult.data ?? []
+    demoFrameworks = frameworksResult.data ?? []
+  }
 
   // Group experts by organization
   const orgMap = {}
@@ -101,6 +134,82 @@ export default async function ForCompaniesPage() {
           </p>
         </div>
       </section>
+
+      {/* Live proof — real decomposition from a real answer */}
+      {demoAnswer && (demoClaims.length > 0 || demoFrameworks.length > 0) && (
+        <section>
+          <div className="text-center mb-6">
+            <p className="text-xs font-medium text-accent-600 uppercase tracking-widest mb-2">Live from the platform</p>
+            <h2 className="text-xl font-bold text-warm-900">Here&apos;s what the knowledge graph actually looks like</h2>
+            <p className="text-warm-500 text-sm mt-2 max-w-lg mx-auto">
+              Not a mockup. This is the structured output from a real answer on Credo, automatically extracted at submission time.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-lg border border-warm-200 overflow-hidden">
+            {/* Source answer context */}
+            <div className="p-5 border-b border-warm-100">
+              <p className="text-xs font-medium text-warm-400 uppercase tracking-widest mb-1">Question</p>
+              <p className="text-sm font-semibold text-warm-900 mb-3">{demoAnswer.questions.body}</p>
+              <p className="text-xs text-warm-500">
+                Answered by{' '}
+                <Link href={`/expert/${demoAnswer.profiles?.handle}`} className="text-warm-700 font-medium hover:text-accent-600">
+                  {demoAnswer.profiles?.display_name}
+                </Link>
+                {demoAnswer.profiles?.organization && ` at ${demoAnswer.profiles.organization}`}
+              </p>
+              {demoAnswer.summary && (
+                <p className="text-sm text-warm-600 mt-3 italic leading-relaxed">
+                  &ldquo;{demoAnswer.summary}&rdquo;
+                </p>
+              )}
+            </div>
+
+            {/* Extracted claims */}
+            {demoClaims.length > 0 && (
+              <div className="p-5 border-b border-warm-100">
+                <p className="text-xs font-medium text-warm-400 uppercase tracking-widest mb-3">Extracted claims ({demoClaims.length})</p>
+                <div className="space-y-2">
+                  {demoClaims.map((claim, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="text-xs font-mono text-accent-600 mt-0.5">→</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-warm-800 leading-snug">{claim.text}</p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-xs px-1.5 py-0.5 rounded bg-warm-100 text-warm-500 font-mono">{claim.claim_type}</span>
+                          {claim.domain && <span className="text-xs text-warm-400">{claim.domain}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Extracted frameworks */}
+            {demoFrameworks.length > 0 && (
+              <div className="p-5">
+                <p className="text-xs font-medium text-warm-400 uppercase tracking-widest mb-3">Extracted frameworks ({demoFrameworks.length})</p>
+                <div className="space-y-3">
+                  {demoFrameworks.map((fw, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="text-xs font-mono text-accent-600 mt-0.5">◇</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-warm-900">{fw.name}</p>
+                        <p className="text-xs text-warm-500 mt-0.5 leading-snug">{fw.summary}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <p className="text-xs text-warm-400 text-center mt-4 max-w-lg mx-auto">
+            Every claim, framework, and piece of evidence is attributed to the expert who made it. This is what feeds downstream AI systems.
+          </p>
+        </section>
+      )}
 
       {/* Why it matters */}
       <section className="bg-warm-50 rounded-lg border border-warm-200 p-8">
