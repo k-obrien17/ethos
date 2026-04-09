@@ -45,7 +45,7 @@ Supabase Auth with Google + LinkedIn OAuth. Middleware (`src/middleware.js`) han
 2. Admin route protection (role check on `/admin/*`)
 3. Dashboard route protection (auth check on `/dashboard/*`)
 
-Reading is fully public. Submission is gated via auth in the `submitAnswer` server action. Account creation requires an invite code on `/login`. (The `SITE_PASSWORD` env var and `/password` route are dormant — the site-wide gate was removed for shareability.)
+Pre-launch, the entire site is gated by `SITE_PASSWORD` via `/password` (middleware checks `site_access=granted` cookie, 30-day expiry). Submission is additionally gated by auth in the `submitAnswer` server action. Account creation requires an invite code on `/login`. Remove the gate at launch by unsetting `SITE_PASSWORD` in Vercel.
 
 Server Components get user via `createClient()` → `supabase.auth.getUser()`.
 Admin operations use `createAdminClient()` (service role key, bypasses RLS).

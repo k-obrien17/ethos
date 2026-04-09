@@ -5,6 +5,18 @@ export async function updateSession(request) {
   let supabaseResponse = NextResponse.next({ request })
   const pathname = request.nextUrl.pathname
 
+  // Site-wide password gate (pre-launch). Bypass the gate itself and its API.
+  const sitePassword = process.env.SITE_PASSWORD
+  const isPasswordRoute = pathname === '/password' || pathname === '/api/auth/password'
+  if (sitePassword && !isPasswordRoute) {
+    const hasAccess = request.cookies.get('site_access')?.value === 'granted'
+    if (!hasAccess) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/password'
+      return NextResponse.redirect(url)
+    }
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
