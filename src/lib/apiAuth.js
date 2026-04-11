@@ -6,7 +6,7 @@ export async function validateApiKey(request) {
   if (!authHeader?.startsWith('Bearer ')) return null
 
   const rawKey = authHeader.slice(7)
-  if (!rawKey.startsWith('ethos_')) return null
+  if (!rawKey.startsWith('credo_')) return null
 
   const keyHash = createHash('sha256').update(rawKey).digest('hex')
   const supabase = createAdminClient()

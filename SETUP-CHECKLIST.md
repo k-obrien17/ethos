@@ -1,4 +1,4 @@
-# Ethos — External Configuration Checklist
+# Credo — External Configuration Checklist
 
 ## LinkedIn OAuth
 
@@ -29,8 +29,8 @@
 ## Previously Configured (verify)
 
 - [ ] **Supabase Dashboard** → Authentication → URL Configuration
-  - Site URL = `https://ethos-daily.vercel.app`
-  - Redirect URLs includes `https://ethos-daily.vercel.app/auth/callback`
+  - Site URL = `https://credo-daily.vercel.app`
+  - Redirect URLs includes `https://credo-daily.vercel.app/auth/callback`
 
 - [ ] **Vercel env vars** (should already be set from deployment)
   - `NEXT_PUBLIC_SUPABASE_URL`

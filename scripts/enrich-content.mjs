@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// LLM enrichment pipeline for Ethos content — Knowledge Graph v2
+// LLM enrichment pipeline for Credo content — Knowledge Graph v2
 // Usage: node --env-file=.env.local scripts/enrich-content.mjs [--entity answers|questions|profiles|comments] [--limit 50] [--force]
 //
 // Requires: ANTHROPIC_API_KEY in .env.local
@@ -477,7 +477,7 @@ Return ONLY valid JSON:
 // ============================================================
 
 async function main() {
-  console.log(`Ethos Knowledge Graph Enrichment Pipeline v2`)
+  console.log(`Credo Knowledge Graph Enrichment Pipeline v2`)
   console.log(`Model: ${MODEL}`)
   console.log(`Entity: ${entity} | Limit: ${limit} | Force: ${force}`)
 

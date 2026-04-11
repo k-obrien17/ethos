@@ -25,7 +25,7 @@ export async function createApiKey(prevState, formData) {
   if (count >= 5) return { error: 'Maximum 5 active API keys.' }
 
   // Generate key
-  const rawKey = `ethos_${randomBytes(24).toString('hex')}`
+  const rawKey = `credo_${randomBytes(24).toString('hex')}`
   const keyHash = createHash('sha256').update(rawKey).digest('hex')
   const keyPrefix = rawKey.slice(0, 12)
 

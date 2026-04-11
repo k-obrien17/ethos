@@ -8,7 +8,7 @@ const supabase = createClient(
 // 5 fictional demo experts
 const experts = [
   {
-    email: 'demo-sarah@ethos.local',
+    email: 'demo-sarah@credo.local',
     display_name: 'Sarah Chen',
     handle: 'sarah-chen',
     headline: 'COO, Meridian Ventures',
@@ -17,7 +17,7 @@ const experts = [
     answer_limit: 3,
   },
   {
-    email: 'demo-marcus@ethos.local',
+    email: 'demo-marcus@credo.local',
     handle: 'marcus-reid',
     display_name: 'Marcus Reid',
     headline: 'VP Engineering, Lattice',
@@ -26,7 +26,7 @@ const experts = [
     answer_limit: 3,
   },
   {
-    email: 'demo-priya@ethos.local',
+    email: 'demo-priya@credo.local',
     handle: 'priya-kapoor',
     display_name: 'Priya Kapoor',
     headline: 'Founder & CEO, Tidal Health',
@@ -35,7 +35,7 @@ const experts = [
     answer_limit: 3,
   },
   {
-    email: 'demo-james@ethos.local',
+    email: 'demo-james@credo.local',
     handle: 'james-okonkwo',
     display_name: 'James Okonkwo',
     headline: 'Chief Strategy Officer, Redpoint Global',
@@ -44,7 +44,7 @@ const experts = [
     answer_limit: 3,
   },
   {
-    email: 'demo-elena@ethos.local',
+    email: 'demo-elena@credo.local',
     handle: 'elena-vasquez',
     display_name: 'Elena Vasquez',
     headline: 'Managing Director, First Round Capital',

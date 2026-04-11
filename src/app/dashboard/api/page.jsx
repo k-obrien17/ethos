@@ -36,7 +36,7 @@ export default async function ApiKeysPage() {
       <section className="bg-warm-50 rounded-lg border border-warm-200 p-5 space-y-4">
         <h2 className="text-sm font-semibold text-warm-900">API Endpoints</h2>
         <p className="text-xs text-warm-500">
-          Pass your key as <code className="bg-warm-100 px-1 py-0.5 rounded">Authorization: Bearer ethos_...</code>
+          Pass your key as <code className="bg-warm-100 px-1 py-0.5 rounded">Authorization: Bearer credo_...</code>
         </p>
         <div className="space-y-3 text-sm">
           <div>
